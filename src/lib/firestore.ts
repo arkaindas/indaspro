@@ -108,7 +108,7 @@ export async function listServices(categoryId?: string): Promise<Service[]> {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as Service);
 }
 
-export async function createBooking(data: Omit<Booking, 'id'>): Promise<string> {
+export async function createBooking(data: Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
   const ref = await addDoc(bookingsCol(), {
     ...data,
     createdAt: serverTimestamp(),
@@ -153,7 +153,7 @@ export async function listPendingBookings(limitCount = 20): Promise<Booking[]> {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as Booking);
 }
 
-export async function createReview(data: Omit<Review, 'id'>) {
+export async function createReview(data: Omit<Review, 'id' | 'createdAt'>) {
   return addDoc(reviewsCol(), { ...data, createdAt: serverTimestamp() });
 }
 

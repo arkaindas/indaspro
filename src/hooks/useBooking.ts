@@ -6,7 +6,7 @@ import type { Booking } from '@/types';
 export function useBooking() {
   const [submitting, setSubmitting] = useState(false);
 
-  const create = async (data: Omit<Booking, 'id'>): Promise<string | null> => {
+  const create = async (data: Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>): Promise<string | null> => {
     setSubmitting(true);
     try {
       const id = await createBooking(data);
