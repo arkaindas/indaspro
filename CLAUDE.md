@@ -371,7 +371,6 @@ export interface ProviderProfile {
   userId: string;
   name: string;
   phone: string;
-  aadhaarNumber: string;
   isVerified: boolean;
   verificationNote?: string;
   experienceYears: string;
@@ -380,9 +379,6 @@ export interface ProviderProfile {
   serviceTown: string;
   serviceAreas: string[];
   serviceRange: 'local_area' | 'full_town' | 'nearby_villages';
-  upiId: string;
-  bankAccountNo?: string;
-  bankIfsc?: string;
   isOnline: boolean;
   avgRating: number;
   totalJobs: number;
@@ -717,9 +713,10 @@ service cloud.firestore {
 - Multi-step form (only shown first time accessing provider mode):
   - Step 1: Category multi-select checkboxes + sub-services + experience years dropdown
   - Step 2: Service town + areas (tag input) + range radio (local/full town/villages)
-  - Step 3: Aadhaar number (12 digits, masked display) + UPI ID or bank details
+- No Aadhaar or bank/UPI collection in the pilot — identity verification is done in person, and provider payouts are handled manually/offline by the admin (see Settlements note below).
 - On submit: create providerProfiles/{uid} doc with isVerified=false
 - Show "যাচাই হচ্ছে, 24-48 ঘন্টায় জানানো হবে" message
+- Admin manually flips isVerified to true after in-person verification (see A2 Manage Users)
 
 ### P2: Provider Dashboard (`src/app/provider/page.tsx`)
 - Header: InitialsAvatar + name + large Online/Offline toggle (updates isOnline in Firestore)
@@ -753,6 +750,7 @@ service cloud.firestore {
 - Simple bar chart (can use recharts or a basic CSS bar chart)
 - Breakdown: total earnings - commission = net + cash collected vs UPI earned
 - Settlement history list
+- Note: since no UPI ID/bank details are collected from providers in the pilot, the net amount shown here is informational only — actual payouts are settled manually/offline by the admin (cash-in-hand or a side channel), tracked via the Settlements collection's `status` field.
 
 ### P7: Provider Profile (`src/app/provider/profile/page.tsx`)
 - Profile info + verified badge
@@ -760,7 +758,7 @@ service cloud.firestore {
 - Areas (edit)
 - Availability: day checkboxes + time range
 - Ratings summary + link to reviews
-- Payout info
+- Payout info: shows a note that payouts are handled manually/offline for the pilot (no UPI/bank info stored)
 - "কাস্টমার মোডে যান" switch button
 - Logout
 

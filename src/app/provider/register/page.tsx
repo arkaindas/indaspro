@@ -13,7 +13,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { createProviderProfile } from '@/lib/firestore';
 import { SERVICE_CATEGORIES, SERVICES } from '@/lib/constants';
 
-const STEPS = ['ক্যাটাগরি ও অভিজ্ঞতা', 'সেবার এলাকা', 'যাচাইকরণ ও পেমেন্ট'];
+const STEPS = ['ক্যাটাগরি ও অভিজ্ঞতা', 'সেবার এলাকা'];
 const EXPERIENCE_OPTIONS = ['০-১ বছর', '১-৩ বছর', '৩-৫ বছর', '৫+ বছর'];
 
 export default function ProviderRegisterPage() {
@@ -33,10 +33,6 @@ export default function ProviderRegisterPage() {
     'local_area'
   );
 
-  const [aadhaarNumber, setAadhaarNumber] = useState('');
-  const [upiId, setUpiId] = useState('');
-  const [bankAccountNo, setBankAccountNo] = useState('');
-  const [bankIfsc, setBankIfsc] = useState('');
   const [done, setDone] = useState(false);
 
   const toggleCategory = (id: string) => {
@@ -76,10 +72,7 @@ export default function ProviderRegisterPage() {
   };
 
   const handleSubmit = async () => {
-    if (aadhaarNumber.length !== 12 || (!upiId.trim() && !bankAccountNo.trim())) {
-      toast.error('সব তথ্য সঠিকভাবে পূরণ করুন');
-      return;
-    }
+    if (!validateStep()) return;
     if (!firebaseUser || !user) return;
     setSubmitting(true);
     try {
@@ -87,7 +80,6 @@ export default function ProviderRegisterPage() {
         userId: firebaseUser.uid,
         name: user.name,
         phone: user.phone,
-        aadhaarNumber,
         isVerified: false,
         experienceYears,
         categoryIds,
@@ -95,9 +87,6 @@ export default function ProviderRegisterPage() {
         serviceTown,
         serviceAreas,
         serviceRange,
-        upiId,
-        bankAccountNo: bankAccountNo || undefined,
-        bankIfsc: bankIfsc || undefined,
         isOnline: false,
         avgRating: 0,
         totalJobs: 0,
@@ -238,34 +227,6 @@ export default function ProviderRegisterPage() {
                   <RadioGroupItem value="nearby_villages" /> আশেপাশের গ্রাম
                 </label>
               </RadioGroup>
-            </div>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <div className="space-y-1.5">
-              <Label>আধার নম্বর</Label>
-              <Input
-                inputMode="numeric"
-                maxLength={12}
-                value={aadhaarNumber}
-                onChange={(e) => setAadhaarNumber(e.target.value.replace(/\D/g, '').slice(0, 12))}
-                placeholder="XXXX XXXX XXXX"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label>UPI আইডি</Label>
-              <Input value={upiId} onChange={(e) => setUpiId(e.target.value)} />
-            </div>
-            <p className="text-center text-xs text-muted-foreground">অথবা</p>
-            <div className="space-y-1.5">
-              <Label>ব্যাংক অ্যাকাউন্ট নম্বর</Label>
-              <Input value={bankAccountNo} onChange={(e) => setBankAccountNo(e.target.value)} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>IFSC কোড</Label>
-              <Input value={bankIfsc} onChange={(e) => setBankIfsc(e.target.value)} />
             </div>
           </>
         )}

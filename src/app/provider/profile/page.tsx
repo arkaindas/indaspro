@@ -87,7 +87,9 @@ export default function ProviderProfilePage() {
 
       <div className="mt-4 rounded-xl border bg-white p-4 text-sm">
         <p className="font-semibold">পেআউট তথ্য</p>
-        <p className="mt-1 text-muted-foreground">UPI: {profile.upiId || 'যুক্ত নেই'}</p>
+        <p className="mt-1 text-muted-foreground">
+          পাইলট পর্বে পেআউট সরাসরি/অফলাইনে দেওয়া হবে। বিস্তারিত জানতে সাপোর্টে যোগাযোগ করুন।
+        </p>
       </div>
 
       <div className="mt-5">

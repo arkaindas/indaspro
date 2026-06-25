@@ -34,7 +34,6 @@ export interface ProviderProfile {
   userId: string;
   name: string;
   phone: string;
-  aadhaarNumber: string;
   isVerified: boolean;
   verificationNote?: string;
   experienceYears: string;
@@ -43,9 +42,6 @@ export interface ProviderProfile {
   serviceTown: string;
   serviceAreas: string[];
   serviceRange: 'local_area' | 'full_town' | 'nearby_villages';
-  upiId: string;
-  bankAccountNo?: string;
-  bankIfsc?: string;
   isOnline: boolean;
   avgRating: number;
   totalJobs: number;

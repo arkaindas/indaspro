@@ -33,6 +33,16 @@ import type {
   PlatformConfig,
 } from '@/types';
 
+export function cleanData<T extends Record<string, unknown>>(data: T): T {
+  const result = {} as T;
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key) && data[key] !== undefined) {
+      result[key] = data[key];
+    }
+  }
+  return result;
+}
+
 export const usersCol = () => collection(db, 'users');
 export const userDoc = (uid: string) => doc(db, 'users', uid);
 export const addressesCol = (uid: string) => collection(db, 'users', uid, 'addresses');
@@ -54,14 +64,17 @@ export async function getUserById(uid: string): Promise<User | null> {
 
 export async function createUser(uid: string, data: Partial<User>) {
   await setDoc(userDoc(uid), {
-    ...data,
+    ...cleanData(data),
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
 }
 
 export async function updateUser(uid: string, data: Partial<User>) {
-  await updateDoc(userDoc(uid), { ...data, updatedAt: serverTimestamp() } as DocumentData);
+  await updateDoc(userDoc(uid), {
+    ...cleanData(data),
+    updatedAt: serverTimestamp(),
+  } as DocumentData);
 }
 
 export async function listAddresses(uid: string): Promise<Address[]> {
@@ -70,11 +83,11 @@ export async function listAddresses(uid: string): Promise<Address[]> {
 }
 
 export async function addAddress(uid: string, data: Omit<Address, 'id'>) {
-  return addDoc(addressesCol(uid), data);
+  return addDoc(addressesCol(uid), cleanData(data));
 }
 
 export async function updateAddress(uid: string, addressId: string, data: Partial<Address>) {
-  await updateDoc(doc(db, 'users', uid, 'addresses', addressId), data as DocumentData);
+  await updateDoc(doc(db, 'users', uid, 'addresses', addressId), cleanData(data) as DocumentData);
 }
 
 export async function deleteAddress(uid: string, addressId: string) {
@@ -88,14 +101,17 @@ export async function getProviderProfile(uid: string): Promise<ProviderProfile |
 
 export async function createProviderProfile(uid: string, data: Partial<ProviderProfile>) {
   await setDoc(providerProfileDoc(uid), {
-    ...data,
+    ...cleanData(data),
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
 }
 
 export async function updateProviderProfile(uid: string, data: Partial<ProviderProfile>) {
-  await updateDoc(providerProfileDoc(uid), { ...data, updatedAt: serverTimestamp() } as DocumentData);
+  await updateDoc(providerProfileDoc(uid), {
+    ...cleanData(data),
+    updatedAt: serverTimestamp(),
+  } as DocumentData);
 }
 
 export async function listAllUsers(): Promise<User[]> {
@@ -114,11 +130,11 @@ export async function listAllBookings(): Promise<Booking[]> {
 }
 
 export async function createServiceCategory(data: Omit<ServiceCategory, 'id'>) {
-  return addDoc(serviceCategoriesCol(), data);
+  return addDoc(serviceCategoriesCol(), cleanData(data));
 }
 
 export async function updateServiceCategory(id: string, data: Partial<ServiceCategory>) {
-  await updateDoc(doc(db, 'serviceCategories', id), data as DocumentData);
+  await updateDoc(doc(db, 'serviceCategories', id), cleanData(data) as DocumentData);
 }
 
 export async function deleteServiceCategory(id: string) {
@@ -126,11 +142,11 @@ export async function deleteServiceCategory(id: string) {
 }
 
 export async function createService(data: Omit<Service, 'id'>) {
-  return addDoc(servicesCol(), data);
+  return addDoc(servicesCol(), cleanData(data));
 }
 
 export async function updateService(id: string, data: Partial<Service>) {
-  await updateDoc(doc(db, 'services', id), data as DocumentData);
+  await updateDoc(doc(db, 'services', id), cleanData(data) as DocumentData);
 }
 
 export async function deleteService(id: string) {
@@ -138,11 +154,11 @@ export async function deleteService(id: string) {
 }
 
 export async function createCoupon(data: Omit<Coupon, 'id'>) {
-  return addDoc(couponsCol(), data);
+  return addDoc(couponsCol(), cleanData(data));
 }
 
 export async function updateCoupon(id: string, data: Partial<Coupon>) {
-  await updateDoc(doc(db, 'coupons', id), data as DocumentData);
+  await updateDoc(doc(db, 'coupons', id), cleanData(data) as DocumentData);
 }
 
 export async function deleteCoupon(id: string) {
@@ -150,15 +166,15 @@ export async function deleteCoupon(id: string) {
 }
 
 export async function createSettlement(data: Omit<Settlement, 'id'>) {
-  return addDoc(settlementsCol(), data);
+  return addDoc(settlementsCol(), cleanData(data));
 }
 
 export async function updateSettlement(id: string, data: Partial<Settlement>) {
-  await updateDoc(doc(db, 'settlements', id), data as DocumentData);
+  await updateDoc(doc(db, 'settlements', id), cleanData(data) as DocumentData);
 }
 
 export async function setPlatformConfig(data: Partial<PlatformConfig>) {
-  await setDoc(configDoc(), data, { merge: true });
+  await setDoc(configDoc(), cleanData(data), { merge: true });
 }
 
 export async function listServiceCategories(): Promise<ServiceCategory[]> {
@@ -174,7 +190,7 @@ export async function listServices(categoryId?: string): Promise<Service[]> {
 
 export async function createBooking(data: Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
   const ref = await addDoc(bookingsCol(), {
-    ...data,
+    ...cleanData(data),
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
@@ -187,7 +203,10 @@ export async function getBooking(id: string): Promise<Booking | null> {
 }
 
 export async function updateBooking(id: string, data: Partial<Booking>) {
-  await updateDoc(bookingDoc(id), { ...data, updatedAt: serverTimestamp() } as DocumentData);
+  await updateDoc(bookingDoc(id), {
+    ...cleanData(data),
+    updatedAt: serverTimestamp(),
+  } as DocumentData);
 }
 
 export function subscribeBooking(id: string, cb: (booking: Booking | null) => void): Unsubscribe {
@@ -218,7 +237,7 @@ export async function listPendingBookings(limitCount = 20): Promise<Booking[]> {
 }
 
 export async function createReview(data: Omit<Review, 'id' | 'createdAt'>) {
-  return addDoc(reviewsCol(), { ...data, createdAt: serverTimestamp() });
+  return addDoc(reviewsCol(), { ...cleanData(data), createdAt: serverTimestamp() });
 }
 
 export async function listProviderReviews(providerId: string): Promise<Review[]> {
