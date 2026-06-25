@@ -13,6 +13,7 @@ import {
   limit as fbLimit,
   onSnapshot,
   serverTimestamp,
+  deleteField,
   Timestamp,
   type DocumentData,
   type QueryConstraint,
@@ -95,6 +96,69 @@ export async function createProviderProfile(uid: string, data: Partial<ProviderP
 
 export async function updateProviderProfile(uid: string, data: Partial<ProviderProfile>) {
   await updateDoc(providerProfileDoc(uid), { ...data, updatedAt: serverTimestamp() } as DocumentData);
+}
+
+export async function listAllUsers(): Promise<User[]> {
+  const snap = await getDocs(usersCol());
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as User);
+}
+
+export async function listAllProviderProfiles(): Promise<ProviderProfile[]> {
+  const snap = await getDocs(providerProfilesCol());
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as ProviderProfile);
+}
+
+export async function listAllBookings(): Promise<Booking[]> {
+  const snap = await getDocs(query(bookingsCol(), orderBy('createdAt', 'desc')));
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as Booking);
+}
+
+export async function createServiceCategory(data: Omit<ServiceCategory, 'id'>) {
+  return addDoc(serviceCategoriesCol(), data);
+}
+
+export async function updateServiceCategory(id: string, data: Partial<ServiceCategory>) {
+  await updateDoc(doc(db, 'serviceCategories', id), data as DocumentData);
+}
+
+export async function deleteServiceCategory(id: string) {
+  await deleteDoc(doc(db, 'serviceCategories', id));
+}
+
+export async function createService(data: Omit<Service, 'id'>) {
+  return addDoc(servicesCol(), data);
+}
+
+export async function updateService(id: string, data: Partial<Service>) {
+  await updateDoc(doc(db, 'services', id), data as DocumentData);
+}
+
+export async function deleteService(id: string) {
+  await deleteDoc(doc(db, 'services', id));
+}
+
+export async function createCoupon(data: Omit<Coupon, 'id'>) {
+  return addDoc(couponsCol(), data);
+}
+
+export async function updateCoupon(id: string, data: Partial<Coupon>) {
+  await updateDoc(doc(db, 'coupons', id), data as DocumentData);
+}
+
+export async function deleteCoupon(id: string) {
+  await deleteDoc(doc(db, 'coupons', id));
+}
+
+export async function createSettlement(data: Omit<Settlement, 'id'>) {
+  return addDoc(settlementsCol(), data);
+}
+
+export async function updateSettlement(id: string, data: Partial<Settlement>) {
+  await updateDoc(doc(db, 'settlements', id), data as DocumentData);
+}
+
+export async function setPlatformConfig(data: Partial<PlatformConfig>) {
+  await setDoc(configDoc(), data, { merge: true });
 }
 
 export async function listServiceCategories(): Promise<ServiceCategory[]> {
@@ -187,4 +251,4 @@ export async function getPlatformConfig(): Promise<PlatformConfig | null> {
   return snap.exists() ? (snap.data() as PlatformConfig) : null;
 }
 
-export { Timestamp, serverTimestamp };
+export { Timestamp, serverTimestamp, deleteField };
