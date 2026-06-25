@@ -1,40 +1,66 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
-import { collection, query, where, onSnapshot, orderBy } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  orderBy,
+  getDocs,
+  documentId,
+} from "firebase/firestore";
 import { db } from "@/lib/firebase-client";
 import type { Provider } from "@/shared/types/provider";
 import type { Service } from "@/shared/types/service";
 
-export function useProvidersByCategory(categorySlug: string, area: string) {
+export function useProvidersByCategory(categorySlug: string) {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const constraints = [where("status", "==", "approved")];
-    if (area) constraints.push(where("area", "==", area));
+    // Query services first — only providers with services in this category should appear
+    const svcQuery = query(
+      collection(db, "services"),
+      where("categorySlug", "==", categorySlug),
+      where("isActive", "==", true)
+    );
 
-    const q = query(collection(db, "providers"), ...constraints);
+    const unsubscribe = onSnapshot(svcQuery, async (svcSnap) => {
+      const svcList = svcSnap.docs.map((d) => ({ id: d.id, ...d.data() } as Service));
+      const uniqueProviderIds = [...new Set(svcList.map((s) => s.providerId))];
 
-    const unsubscribe = onSnapshot(q, async (snap) => {
-      const providerList = snap.docs.map((d) => ({ uid: d.id, ...d.data() } as Provider));
-      setProviders(providerList);
-
-      if (providerList.length > 0) {
-        const providerIds = providerList.map((p) => p.uid);
-        const svcQuery = query(
-          collection(db, "services"),
-          where("categorySlug", "==", categorySlug),
-          where("providerId", "in", providerIds.slice(0, 10)),
-          where("isActive", "==", true)
-        );
-        const svcSnap = await import("firebase/firestore").then(({ getDocs }) => getDocs(svcQuery));
-        setServices(svcSnap.docs.map((d) => ({ id: d.id, ...d.data() } as Service)));
-      } else {
+      if (uniqueProviderIds.length === 0) {
+        setProviders([]);
         setServices([]);
+        setLoading(false);
+        return;
       }
 
+      // Fetch provider docs by ID — batch in groups of 30 (Firestore "in" limit)
+      const fetchBatch = (ids: string[]) =>
+        getDocs(query(collection(db, "providers"), where(documentId(), "in", ids)));
+
+      const results = await Promise.all(
+        Array.from({ length: Math.ceil(uniqueProviderIds.length / 30) }, (_, i) =>
+          fetchBatch(uniqueProviderIds.slice(i * 30, i * 30 + 30))
+        )
+      );
+
+      const allProviders: Provider[] = results.flatMap((snap) =>
+        snap.docs.map((d) => ({
+          uid: d.id,
+          ...(d.data() as Omit<Provider, "uid">),
+        }))
+      );
+
+      const filtered = allProviders.filter((p) => p.status === "approved");
+
+      setProviders(filtered);
+      // Only return services whose provider passed the filter
+      const filteredIds = new Set(filtered.map((p) => p.uid));
+      setServices(svcList.filter((s) => filteredIds.has(s.providerId)));
       setLoading(false);
     });
 

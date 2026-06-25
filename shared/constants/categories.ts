@@ -16,4 +16,7 @@ export const CATEGORIES: Category[] = [
   { slug: "gardener", name: "Gardener", nameBn: "মালী", icon: "🌿", order: 13, serviceCount: 0, searchTerms: ["gardener", "garden", "plant", "মালী", "বাগান", "গাছ"] },
   { slug: "driver", name: "Driver", nameBn: "ড্রাইভার", icon: "🚗", order: 14, serviceCount: 0, searchTerms: ["driver", "car", "driving", "ড্রাইভার", "গাড়ি", "চালক"] },
   { slug: "tailor", name: "Tailor", nameBn: "দর্জি", icon: "🧵", order: 15, serviceCount: 0, searchTerms: ["tailor", "stitching", "alteration", "দর্জি", "সেলাই", "জামা"] },
+  { slug: "house-rent", name: "House Rent", nameBn: "বাড়ি ভাড়া", icon: "🏠", order: 16, serviceCount: 0, searchTerms: ["house rent", "room", "flat", "apartment", "বাড়ি", "ভাড়া", "ফ্ল্যাট", "রুম"] },
+  { slug: "car-rent", name: "Car Rent", nameBn: "গাড়ি ভাড়া", icon: "🚗", order: 17, serviceCount: 0, searchTerms: ["car rent", "car hire", "rental", "গাড়ি ভাড়া", "গাড়ি"] },
+  { slug: "tree-pruner", name: "Tree Pruner", nameBn: "গাছ ছাঁটাই", icon: "🌳", order: 18, serviceCount: 0, searchTerms: ["tree", "pruner", "trimming", "cutting", "branches", "গাছ", "ছাঁটাই", "কাটা"] },
 ];

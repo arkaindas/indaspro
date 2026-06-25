@@ -1,19 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SearchBar } from "@/components/home/SearchBar";
-import { AreaSelector } from "@/components/home/AreaSelector";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { useLang } from "@/lib/lang-context";
 
 export default function HomePage() {
-  const [area, setArea] = useState(process.env.NEXT_PUBLIC_DEFAULT_AREA ?? "bankura");
   const router = useRouter();
   const { t } = useLang();
 
   const handleSearch = (query: string) => {
-    router.push(`/services/search?q=${encodeURIComponent(query)}&area=${area}`);
+    router.push(`/services/search?q=${encodeURIComponent(query)}`);
   };
 
   return (
@@ -25,9 +22,8 @@ export default function HomePage() {
         <p className="text-slate-500 text-sm sm:text-base">{t("app.taglineLong")}</p>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 mb-8 max-w-2xl mx-auto">
+      <div className="mb-8 max-w-xl mx-auto">
         <SearchBar onSearch={handleSearch} />
-        <AreaSelector value={area} onChange={setArea} />
       </div>
 
       <CategoryGrid />

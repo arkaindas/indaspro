@@ -18,7 +18,6 @@ import type { Service } from "@/shared/types/service";
 export function SearchResults() {
   const params = useSearchParams();
   const query_ = params.get("q") ?? "";
-  const area = params.get("area") ?? "";
   const { t } = useLang();
 
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -28,9 +27,9 @@ export function SearchResults() {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      const constraints = [where("status", "==", "approved")];
-      if (area) constraints.push(where("area", "==", area));
-      const provSnap = await getDocs(query(collection(db, "providers"), ...constraints));
+      const provSnap = await getDocs(
+        query(collection(db, "providers"), where("status", "==", "approved"))
+      );
       const allProviders = provSnap.docs.map((d) => ({ uid: d.id, ...d.data() } as Provider));
 
       const svcSnap = await getDocs(query(collection(db, "services"), where("isActive", "==", true)));
@@ -70,7 +69,7 @@ export function SearchResults() {
 
     if (query_) load();
     else setLoading(false);
-  }, [query_, area]);
+  }, [query_]);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">

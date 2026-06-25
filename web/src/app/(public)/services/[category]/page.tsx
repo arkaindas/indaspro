@@ -1,20 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ProviderList } from "@/components/providers/ProviderList";
 import { SkeletonGrid } from "@/components/common/SkeletonGrid";
-import { AreaSelector } from "@/components/home/AreaSelector";
 import { useProvidersByCategory } from "@/hooks/useProviders";
 import { useLang } from "@/lib/lang-context";
 import { CATEGORIES } from "@/shared/constants/categories";
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
-  const [area, setArea] = useState(process.env.NEXT_PUBLIC_DEFAULT_AREA ?? "bankura");
-  const { providers, services, loading } = useProvidersByCategory(category, area);
+  const { providers, services, loading } = useProvidersByCategory(category);
   const { lang } = useLang();
 
   const cat = CATEGORIES.find((c) => c.slug === category);
@@ -30,9 +27,6 @@ export default function CategoryPage() {
           <span>{cat?.icon}</span>
           {categoryName}
         </h1>
-        <div className="ml-auto">
-          <AreaSelector value={area} onChange={setArea} />
-        </div>
       </div>
 
       {loading ? (
