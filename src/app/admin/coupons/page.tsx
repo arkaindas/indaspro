@@ -19,6 +19,7 @@ import { DataTable, type DataTableColumn } from '@/components/admin/DataTable';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { listCoupons, createCoupon, updateCoupon, deleteCoupon, Timestamp } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Coupon } from '@/types';
 
 interface CouponFormState {
@@ -40,6 +41,7 @@ const EMPTY_FORM: CouponFormState = {
 };
 
 export default function AdminCouponsPage() {
+  const { t } = useLanguage();
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -89,22 +91,22 @@ export default function AdminCouponsPage() {
           applicableCategories: [],
         });
       }
-      toast.success('সংরক্ষিত হয়েছে');
+      toast.success(t('admin.saved'));
       setDialogOpen(false);
       load();
     } catch (err) {
       console.error(err);
-      toast.error('সংরক্ষণ করা যায়নি');
+      toast.error(t('admin.saveFailed'));
     }
   };
 
   const columns: DataTableColumn<Coupon>[] = [
-    { header: 'কোড', render: (c) => c.code },
-    { header: 'ছাড়', render: (c) => (c.discountType === 'percentage' ? `${c.discountValue}%` : formatPrice(c.discountValue)) },
-    { header: 'ব্যবহার', render: (c) => `${c.timesUsed}/${c.usageLimit}` },
-    { header: 'স্ট্যাটাস', render: (c) => <Badge variant={c.isActive ? 'success' : 'destructive'}>{c.isActive ? 'সক্রিয়' : 'নিষ্ক্রিয়'}</Badge> },
+    { header: t('admin.code'), render: (c) => c.code },
+    { header: t('customer.discount'), render: (c) => (c.discountType === 'percentage' ? `${c.discountValue}%` : formatPrice(c.discountValue)) },
+    { header: t('admin.usage'), render: (c) => `${c.timesUsed}/${c.usageLimit}` },
+    { header: t('common.status'), render: (c) => <Badge variant={c.isActive ? 'success' : 'destructive'}>{c.isActive ? t('common.active') : t('common.inactive')}</Badge> },
     {
-      header: 'অ্যাকশন',
+      header: t('common.action'),
       render: (c) => (
         <div className="flex gap-2">
           <button onClick={() => openEdit(c)}>
@@ -123,9 +125,9 @@ export default function AdminCouponsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">প্রোমোশন</h1>
+        <h1 className="text-xl font-bold">{t('admin.promotions')}</h1>
         <Button size="sm" onClick={openNew}>
-          <Plus className="mr-1 h-4 w-4" /> নতুন কুপন
+          <Plus className="mr-1 h-4 w-4" /> {t('admin.newCoupon')}
         </Button>
       </div>
       <DataTable columns={columns} rows={coupons} rowKey={(c) => c.id} />
@@ -133,31 +135,31 @@ export default function AdminCouponsPage() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>কুপন</DialogTitle>
+            <DialogTitle>{t('admin.couponDialogTitle')}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
-              <Label>কোড</Label>
+              <Label>{t('admin.code')}</Label>
               <Input value={form.code} onChange={(e) => setForm({ ...form, code: e.target.value })} />
             </div>
             <div className="space-y-1.5">
-              <Label>ছাড়ের ধরন</Label>
+              <Label>{t('admin.discountTypeLabel')}</Label>
               <RadioGroup
                 value={form.discountType}
                 onValueChange={(v) => setForm({ ...form, discountType: v as 'percentage' | 'flat' })}
                 className="flex gap-4"
               >
                 <label className="flex items-center gap-1.5 text-sm">
-                  <RadioGroupItem value="flat" /> ফ্ল্যাট
+                  <RadioGroupItem value="flat" /> {t('admin.flat')}
                 </label>
                 <label className="flex items-center gap-1.5 text-sm">
-                  <RadioGroupItem value="percentage" /> শতাংশ
+                  <RadioGroupItem value="percentage" /> {t('admin.percentage')}
                 </label>
               </RadioGroup>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label>ছাড়ের পরিমাণ</Label>
+                <Label>{t('admin.discountValueLabel')}</Label>
                 <Input
                   type="number"
                   value={form.discountValue}
@@ -165,7 +167,7 @@ export default function AdminCouponsPage() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>সর্বোচ্চ ছাড়</Label>
+                <Label>{t('admin.maxDiscountLabel')}</Label>
                 <Input
                   type="number"
                   value={form.maxDiscount}
@@ -174,7 +176,7 @@ export default function AdminCouponsPage() {
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label>ব্যবহারের সীমা</Label>
+              <Label>{t('admin.usageLimitLabel')}</Label>
               <Input
                 type="number"
                 value={form.usageLimit}
@@ -183,7 +185,7 @@ export default function AdminCouponsPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={handleSave}>সংরক্ষণ করুন</Button>
+            <Button onClick={handleSave}>{t('common.save')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

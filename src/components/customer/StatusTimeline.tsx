@@ -1,20 +1,23 @@
+'use client';
+
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface TimelineStep {
   key: string;
   label: string;
 }
 
-const STEPS: TimelineStep[] = [
-  { key: 'pending', label: 'বুকিং করা হয়েছে' },
-  { key: 'accepted', label: 'সেবাদাতা গ্রহণ করেছেন' },
-  { key: 'provider_on_way', label: 'সেবাদাতা আসছেন' },
-  { key: 'arrived', label: 'সেবাদাতা পৌঁছেছেন' },
-  { key: 'in_progress', label: 'কাজ চলছে' },
-  { key: 'completed', label: 'সম্পন্ন হয়েছে' },
-];
-
 export function StatusTimeline({ status }: { status: string }) {
+  const { t } = useLanguage();
+  const STEPS: TimelineStep[] = [
+    { key: 'pending', label: t('customer.timelinePending') },
+    { key: 'accepted', label: t('customer.timelineAccepted') },
+    { key: 'provider_on_way', label: t('customer.timelineOnWay') },
+    { key: 'arrived', label: t('customer.timelineArrived') },
+    { key: 'in_progress', label: t('customer.timelineInProgress') },
+    { key: 'completed', label: t('customer.timelineCompleted') },
+  ];
   const currentIndex = STEPS.findIndex((s) => s.key === status);
   const isCancelled = status === 'cancelled' || status === 'no_provider_found';
 
@@ -52,7 +55,7 @@ export function StatusTimeline({ status }: { status: string }) {
         );
       })}
       {isCancelled && (
-        <p className="text-sm font-semibold text-destructive">এই বুকিং বাতিল হয়েছে</p>
+        <p className="text-sm font-semibold text-destructive">{t('customer.bookingCancelledNote')}</p>
       )}
     </div>
   );

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking } from '@/types';
 
 interface RequestCardProps {
@@ -12,6 +13,7 @@ interface RequestCardProps {
 }
 
 export function RequestCard({ booking, onAccept, onDecline }: RequestCardProps) {
+  const { t } = useLanguage();
   const [secondsLeft, setSecondsLeft] = useState(120);
 
   useEffect(() => {
@@ -43,10 +45,10 @@ export function RequestCard({ booking, onAccept, onDecline }: RequestCardProps) 
       <p className="mt-2 font-semibold text-primary">{formatPrice(booking.total)}</p>
       <div className="mt-3 flex gap-2">
         <Button className="flex-1" onClick={() => onAccept(booking.id)} disabled={secondsLeft === 0}>
-          গ্রহণ করুন
+          {t('provider.accept')}
         </Button>
         <Button variant="outline" className="flex-1" onClick={() => onDecline(booking.id)}>
-          প্রত্যাখ্যান করুন
+          {t('provider.decline')}
         </Button>
       </div>
     </div>

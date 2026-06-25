@@ -6,7 +6,7 @@ import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Indaspro - আপনার ঘরের সেবা, এক ক্লিকে',
+  title: 'Indaspro',
   description: 'Hyperlocal home services marketplace for West Bengal',
   manifest: '/manifest.json',
 };

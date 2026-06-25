@@ -14,14 +14,13 @@ import { UpiQrPayment } from '@/components/customer/UpiQrPayment';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useAuth } from '@/hooks/useAuth';
 import { useBooking } from '@/hooks/useBooking';
+import { useLanguage } from '@/context/LanguageContext';
 import { listAddresses } from '@/lib/firestore';
 import { loadDraftServices, clearDraftServices } from '@/lib/draftBooking';
 import { formatPrice, generateOtp, generateBookingNumber } from '@/lib/utils';
 import { PLATFORM_FEE, TIME_SLOTS } from '@/lib/constants';
 import { getCouponByCode } from '@/lib/firestore';
 import type { Address, BookingAddress, BookingService } from '@/types';
-
-const STEPS = ['ঠিকানা', 'সময়', 'পেমেন্ট', 'পর্যালোচনা'];
 
 const EMPTY_ADDRESS: BookingAddress = {
   houseNo: '',
@@ -36,6 +35,9 @@ export default function NewBookingPage() {
   const { user, firebaseUser } = useAuth();
   const router = useRouter();
   const { create, submitting } = useBooking();
+  const { t } = useLanguage();
+
+  const STEPS = [t('customer.stepAddress'), t('customer.stepSchedule'), t('customer.stepPayment'), t('customer.stepReview')];
 
   const [step, setStep] = useState(0);
   const [services, setServices] = useState<BookingService[]>([]);
@@ -87,7 +89,7 @@ export default function NewBookingPage() {
     try {
       const coupon = await getCouponByCode(couponCode.trim());
       if (!coupon || !coupon.isActive) {
-        toast.error('কুপন কোড সঠিক নয়');
+        toast.error(t('customer.couponInvalid'));
         setDiscount(0);
         return;
       }
@@ -96,29 +98,29 @@ export default function NewBookingPage() {
           ? Math.min((subtotal * coupon.discountValue) / 100, coupon.maxDiscount)
           : coupon.discountValue;
       setDiscount(computed);
-      toast.success('কুপন প্রয়োগ হয়েছে');
+      toast.success(t('customer.couponApplied'));
     } catch (err) {
       console.error(err);
-      toast.error('কুপন প্রয়োগ করা যায়নি');
+      toast.error(t('customer.couponApplyFailed'));
     }
   };
 
   const validateStep = (): boolean => {
     if (step === 0) {
       if (!address.houseNo || !address.streetPara || !address.area || !address.town || !address.pinCode) {
-        toast.error('ঠিকানার সব তথ্য পূরণ করুন');
+        toast.error(t('customer.fillAddress'));
         return false;
       }
     }
     if (step === 1) {
       if (!needNow && (!scheduledDate || !scheduledSlot)) {
-        toast.error('তারিখ ও সময় নির্বাচন করুন');
+        toast.error(t('customer.selectDateTime'));
         return false;
       }
     }
     if (step === 2) {
       if (paymentMethod === 'upi' && !utr.trim()) {
-        toast.error('UTR নম্বর দিন');
+        toast.error(t('customer.enterUtr'));
         return false;
       }
     }
@@ -142,7 +144,7 @@ export default function NewBookingPage() {
       address,
       services,
       scheduledDate: needNow ? new Date().toISOString().slice(0, 10) : scheduledDate,
-      scheduledSlot: needNow ? 'এখনই' : slot?.labelBn || '',
+      scheduledSlot: needNow ? t('customer.needNow') : slot?.labelBn || '',
       customerNote: customerNote || undefined,
       otpCode: generateOtp(),
       subtotal,
@@ -200,7 +202,7 @@ export default function NewBookingPage() {
               <>
                 {savedAddresses.length > 0 && (
                   <div className="space-y-2">
-                    <Label>সংরক্ষিত ঠিকানা</Label>
+                    <Label>{t('customer.savedAddress')}</Label>
                     <RadioGroup
                       value={selectedAddressId}
                       onValueChange={(v) => {
@@ -228,7 +230,7 @@ export default function NewBookingPage() {
                         </label>
                       ))}
                       <label className="flex items-center gap-2 rounded-lg border p-3 text-sm font-medium">
-                        <RadioGroupItem value="new" /> নতুন ঠিকানা
+                        <RadioGroupItem value="new" /> {t('customer.newAddress')}
                       </label>
                     </RadioGroup>
                   </div>
@@ -254,7 +256,7 @@ export default function NewBookingPage() {
                 needNow ? 'border-primary bg-primary/5' : 'border-input'
               }`}
             >
-              এখনই চাই
+              {t('customer.needNow')}
             </button>
             <button
               onClick={() => setNeedNow(false)}
@@ -262,12 +264,12 @@ export default function NewBookingPage() {
                 !needNow ? 'border-primary bg-primary/5' : 'border-input'
               }`}
             >
-              তারিখ ও সময় নির্বাচন করুন
+              {t('customer.selectDateTime')}
             </button>
             {!needNow && (
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <Label>তারিখ নির্বাচন করুন</Label>
+                  <Label>{t('customer.selectDate')}</Label>
                   <Input
                     type="date"
                     min={new Date().toISOString().slice(0, 10)}
@@ -275,7 +277,7 @@ export default function NewBookingPage() {
                     onChange={(e) => setScheduledDate(e.target.value)}
                   />
                 </div>
-                <Label>সময় নির্বাচন করুন</Label>
+                <Label>{t('customer.selectSlot')}</Label>
                 <TimeSlotPicker value={scheduledSlot} onChange={setScheduledSlot} />
               </div>
             )}
@@ -290,10 +292,10 @@ export default function NewBookingPage() {
               className="flex gap-4"
             >
               <label className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 p-3 text-sm font-medium">
-                <RadioGroupItem value="cash" /> নগদ
+                <RadioGroupItem value="cash" /> {t('customer.cash')}
               </label>
               <label className="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 p-3 text-sm font-medium">
-                <RadioGroupItem value="upi" /> UPI
+                <RadioGroupItem value="upi" /> {t('customer.upi')}
               </label>
             </RadioGroup>
 
@@ -302,11 +304,11 @@ export default function NewBookingPage() {
             )}
 
             <div className="space-y-1.5">
-              <Label>কুপন কোড</Label>
+              <Label>{t('customer.couponCode')}</Label>
               <div className="flex gap-2">
                 <Input value={couponCode} onChange={(e) => setCouponCode(e.target.value)} />
                 <Button variant="outline" onClick={handleApplyCoupon}>
-                  প্রয়োগ করুন
+                  {t('customer.applyCoupon')}
                 </Button>
               </div>
             </div>
@@ -316,7 +318,7 @@ export default function NewBookingPage() {
         {step === 3 && (
           <div className="space-y-4">
             <div className="rounded-xl border bg-white p-4">
-              <p className="font-semibold">সেবা</p>
+              <p className="font-semibold">{t('customer.services')}</p>
               {services.map((s) => (
                 <div key={s.serviceId} className="flex justify-between py-1 text-sm">
                   <span>{s.nameBn}</span>
@@ -325,40 +327,40 @@ export default function NewBookingPage() {
               ))}
               <div className="mt-2 border-t pt-2 text-sm">
                 <div className="flex justify-between">
-                  <span>সাবটোটাল</span>
+                  <span>{t('customer.subtotal')}</span>
                   <span>{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>প্ল্যাটফর্ম ফি</span>
+                  <span>{t('customer.platformFee')}</span>
                   <span>{formatPrice(PLATFORM_FEE)}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-green-600">
-                    <span>ছাড়</span>
+                    <span>{t('customer.discount')}</span>
                     <span>-{formatPrice(discount)}</span>
                   </div>
                 )}
                 <div className="mt-1 flex justify-between font-bold">
-                  <span>সর্বমোট</span>
+                  <span>{t('customer.total')}</span>
                   <span>{formatPrice(total)}</span>
                 </div>
               </div>
             </div>
             <div className="rounded-xl border bg-white p-4 text-sm">
-              <p className="font-semibold">ঠিকানা</p>
+              <p className="font-semibold">{t('customer.stepAddress')}</p>
               <p className="mt-1 text-muted-foreground">
                 {address.houseNo}, {address.streetPara}, {address.landmark}, {address.area},{' '}
                 {address.town} - {address.pinCode}
               </p>
             </div>
             <div className="rounded-xl border bg-white p-4 text-sm">
-              <p className="font-semibold">সময়</p>
+              <p className="font-semibold">{t('customer.scheduleLabel')}</p>
               <p className="mt-1 text-muted-foreground">
-                {needNow ? 'এখনই চাই' : `${scheduledDate} · ${TIME_SLOTS.find((s) => s.id === scheduledSlot)?.labelBn}`}
+                {needNow ? t('customer.needNow') : `${scheduledDate} · ${TIME_SLOTS.find((s) => s.id === scheduledSlot)?.labelBn}`}
               </p>
             </div>
             <div className="space-y-1.5">
-              <Label>নোট (ঐচ্ছিক)</Label>
+              <Label>{t('customer.note')}</Label>
               <Input value={customerNote} onChange={(e) => setCustomerNote(e.target.value)} />
             </div>
           </div>
@@ -368,11 +370,11 @@ export default function NewBookingPage() {
       <div className="fixed inset-x-0 bottom-16 z-50 mx-auto max-w-md border-t bg-white p-4">
         {step < STEPS.length - 1 ? (
           <Button className="w-full" onClick={handleNext}>
-            পরের ধাপ
+            {t('common.next')}
           </Button>
         ) : (
           <Button className="w-full" onClick={handleConfirm} disabled={submitting}>
-            বুকিং নিশ্চিত করুন
+            {t('customer.confirmBooking')}
           </Button>
         )}
       </div>

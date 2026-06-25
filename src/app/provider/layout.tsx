@@ -5,17 +5,19 @@ import { useRouter } from 'next/navigation';
 import { BottomNav } from '@/components/shared/BottomNav';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useAuth } from '@/hooks/useAuth';
-
-const NAV_ITEMS = [
-  { href: '/provider', icon: '🏠', label: 'হোম' },
-  { href: '/provider/jobs', icon: '📋', label: 'কাজ' },
-  { href: '/provider/earnings', icon: '💰', label: 'আয়' },
-  { href: '/provider/profile', icon: '👤', label: 'প্রোফাইল' },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ProviderLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const { t } = useLanguage();
   const router = useRouter();
+
+  const NAV_ITEMS = [
+    { href: '/provider', icon: '🏠', label: t('common.home') },
+    { href: '/provider/jobs', icon: '📋', label: t('common.jobs') },
+    { href: '/provider/earnings', icon: '💰', label: t('common.earnings') },
+    { href: '/provider/profile', icon: '👤', label: t('common.profile') },
+  ];
 
   useEffect(() => {
     if (!loading && !user) {

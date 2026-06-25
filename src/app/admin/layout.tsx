@@ -6,9 +6,11 @@ import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useAuth } from '@/hooks/useAuth';
 import { signOut } from '@/lib/auth';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const { t } = useLanguage();
   const router = useRouter();
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <header className="flex items-center justify-end border-b bg-white px-6 py-3">
           <span className="mr-4 text-sm text-muted-foreground">{user.name}</span>
           <button onClick={handleLogout} className="text-sm font-medium text-destructive">
-            লগআউট
+            {t('common.logout')}
           </button>
         </header>
         <main className="p-6">{children}</main>

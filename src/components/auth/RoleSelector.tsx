@@ -1,4 +1,7 @@
+'use client';
+
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
 type Role = 'customer' | 'provider' | 'both';
 
@@ -7,13 +10,14 @@ interface RoleSelectorProps {
   onChange: (role: Role) => void;
 }
 
-const ROLES: { value: Role; icon: string; labelKey: string; label: string }[] = [
-  { value: 'customer', icon: '🧑', labelKey: 'roleCustomer', label: 'গ্রাহক' },
-  { value: 'provider', icon: '🛠️', labelKey: 'roleProvider', label: 'সেবাদাতা' },
-  { value: 'both', icon: '🤝', labelKey: 'roleBoth', label: 'উভয়' },
-];
-
 export function RoleSelector({ value, onChange }: RoleSelectorProps) {
+  const { t } = useLanguage();
+  const ROLES: { value: Role; icon: string; label: string }[] = [
+    { value: 'customer', icon: '🧑', label: t('auth.roleCustomer') },
+    { value: 'provider', icon: '🛠️', label: t('auth.roleProvider') },
+    { value: 'both', icon: '🤝', label: t('auth.roleBoth') },
+  ];
+
   return (
     <div className="grid grid-cols-3 gap-2">
       {ROLES.map((role) => (

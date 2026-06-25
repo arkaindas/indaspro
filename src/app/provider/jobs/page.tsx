@@ -8,10 +8,12 @@ import { EmptyState } from '@/components/shared/EmptyState';
 import { useAuth } from '@/hooks/useAuth';
 import { listProviderBookings } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking } from '@/types';
 
 export default function ProviderJobsPage() {
   const { firebaseUser } = useAuth();
+  const { t } = useLanguage();
   const router = useRouter();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +36,7 @@ export default function ProviderJobsPage() {
 
   const renderList = (list: Booking[]) =>
     list.length === 0 ? (
-      <EmptyState title="কোনো কাজ পাওয়া যায়নি" />
+      <EmptyState title={t('provider.noJobsFound')} />
     ) : (
       <div className="space-y-2">
         {list.map((b) => (
@@ -57,12 +59,12 @@ export default function ProviderJobsPage() {
 
   return (
     <div className="px-4 py-4">
-      <h1 className="mb-4 text-lg font-semibold">আমার কাজ</h1>
+      <h1 className="mb-4 text-lg font-semibold">{t('provider.myJobs')}</h1>
       <Tabs defaultValue="today">
         <TabsList className="w-full">
-          <TabsTrigger value="today">আজকের</TabsTrigger>
-          <TabsTrigger value="upcoming">আসন্ন</TabsTrigger>
-          <TabsTrigger value="completed">সম্পন্ন</TabsTrigger>
+          <TabsTrigger value="today">{t('provider.today')}</TabsTrigger>
+          <TabsTrigger value="upcoming">{t('provider.upcoming')}</TabsTrigger>
+          <TabsTrigger value="completed">{t('customer.completed')}</TabsTrigger>
         </TabsList>
         {loading ? (
           <LoadingSpinner />

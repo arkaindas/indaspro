@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ExtraChargeForm } from './ExtraChargeForm';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking } from '@/types';
 
 interface JobStepperProps {
@@ -17,6 +18,7 @@ interface JobStepperProps {
 }
 
 export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
+  const { t } = useLanguage();
   const [otpInput, setOtpInput] = useState('');
   const [showPayment, setShowPayment] = useState(false);
   const [extraOpen, setExtraOpen] = useState(false);
@@ -39,7 +41,7 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
       total: booking.total + amount,
     });
     if (ok) {
-      toast.success(`${itemName} যুক্ত হয়েছে`);
+      toast.success(t('provider.extraChargeAdded').replace('{item}', itemName));
       setExtraOpen(false);
     }
   };
@@ -50,7 +52,7 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
       paymentStatus: method === 'cash' ? 'paid' : 'verified',
       paymentMethod: method,
     });
-    if (ok) toast.success('সেবা সম্পন্ন হয়েছে');
+    if (ok) toast.success(t('provider.serviceCompleted'));
   };
 
   if (booking.status === 'accepted') {
@@ -58,7 +60,7 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
       <div className="space-y-4">
         <AddressBlock booking={booking} />
         <Button className="w-full" disabled={submitting} onClick={() => onUpdate({ status: 'provider_on_way' })}>
-          রওনা দিচ্ছি
+          {t('provider.headingThere')}
         </Button>
       </div>
     );
@@ -69,7 +71,7 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
       <div className="space-y-4">
         <AddressBlock booking={booking} />
         <Button className="w-full" disabled={submitting} onClick={() => onUpdate({ status: 'arrived' })}>
-          পৌঁছে গেছি
+          {t('provider.reached')}
         </Button>
       </div>
     );
@@ -78,7 +80,7 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
   if (booking.status === 'arrived') {
     return (
       <div className="space-y-4 text-center">
-        <p className="font-medium">গ্রাহকের কাছ থেকে OTP নিন</p>
+        <p className="font-medium">{t('provider.getOtpFromCustomer')}</p>
         <Input
           inputMode="numeric"
           maxLength={4}
@@ -91,13 +93,13 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
           disabled={submitting}
           onClick={() => {
             if (otpInput !== booking.otpCode) {
-              toast.error('ভুল OTP');
+              toast.error(t('provider.wrongOtp'));
               return;
             }
             onUpdate({ status: 'in_progress' });
           }}
         >
-          সেবা শুরু
+          {t('provider.startService')}
         </Button>
       </div>
     );
@@ -107,25 +109,25 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
     return (
       <div className="space-y-4">
         <div className="rounded-xl border bg-white p-4 text-center">
-          <p className="text-sm text-muted-foreground">সময় চলছে</p>
+          <p className="text-sm text-muted-foreground">{t('provider.timeElapsed')}</p>
           <p className="text-3xl font-bold">
             {mins}:{secs.toString().padStart(2, '0')}
           </p>
         </div>
         {booking.extraCharges > 0 && (
-          <p className="text-sm text-muted-foreground">অতিরিক্ত খরচ: {formatPrice(booking.extraCharges)}</p>
+          <p className="text-sm text-muted-foreground">{t('provider.extraCharge')}: {formatPrice(booking.extraCharges)}</p>
         )}
         <Button variant="outline" className="w-full" onClick={() => setExtraOpen(true)}>
-          অতিরিক্ত খরচ
+          {t('provider.extraCharge')}
         </Button>
         <Button className="w-full" onClick={() => setShowPayment(true)}>
-          সেবা সম্পন্ন
+          {t('provider.completeService')}
         </Button>
 
         <Dialog open={extraOpen} onOpenChange={setExtraOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>অতিরিক্ত খরচ</DialogTitle>
+              <DialogTitle>{t('provider.extraCharge')}</DialogTitle>
             </DialogHeader>
             <ExtraChargeForm onAdd={handleAddExtra} />
           </DialogContent>
@@ -138,26 +140,26 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
     return (
       <div className="space-y-4">
         <div className="rounded-xl border bg-white p-4">
-          <p className="font-semibold">পেমেন্ট বিবরণ</p>
+          <p className="font-semibold">{t('provider.paymentDetails')}</p>
           <div className="mt-2 space-y-1 text-sm">
             <div className="flex justify-between">
-              <span>সাবটোটাল</span>
+              <span>{t('customer.subtotal')}</span>
               <span>{formatPrice(booking.subtotal)}</span>
             </div>
             {booking.extraCharges > 0 && (
               <div className="flex justify-between">
-                <span>অতিরিক্ত খরচ</span>
+                <span>{t('provider.extraCharge')}</span>
                 <span>{formatPrice(booking.extraCharges)}</span>
               </div>
             )}
             <div className="flex justify-between font-bold">
-              <span>সর্বমোট</span>
+              <span>{t('customer.total')}</span>
               <span>{formatPrice(booking.total)}</span>
             </div>
           </div>
         </div>
         <Button className="w-full" disabled={submitting} onClick={() => handlePaymentConfirm('cash')}>
-          নগদ পেয়েছি
+          {t('provider.cashReceived')}
         </Button>
         <Button
           variant="outline"
@@ -165,17 +167,17 @@ export function JobStepper({ booking, onUpdate, submitting }: JobStepperProps) {
           disabled={submitting}
           onClick={() => handlePaymentConfirm('upi')}
         >
-          UPI প্রাপ্ত
+          {t('provider.upiReceived')}
         </Button>
       </div>
     );
   }
 
   if (booking.status === 'completed') {
-    return <p className="text-center font-medium text-green-600">এই কাজ সম্পন্ন হয়েছে</p>;
+    return <p className="text-center font-medium text-green-600">{t('provider.jobCompletedNote')}</p>;
   }
 
-  return <p className="text-center text-muted-foreground">এই বুকিং বাতিল হয়েছে</p>;
+  return <p className="text-center text-muted-foreground">{t('provider.bookingCancelledNote')}</p>;
 }
 
 function AddressBlock({ booking }: { booking: Booking }) {

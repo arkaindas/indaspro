@@ -75,6 +75,12 @@ function LoginPageInner() {
   }, [loading, firebaseUser, user]);
 
   useEffect(() => {
+    if (searchParams.get('role') === 'provider') {
+      setRole('provider');
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     if (step !== 'otp') return;
     setResendTimer(30);
     timerRef.current = setInterval(() => {
@@ -105,7 +111,7 @@ function LoginPageInner() {
 
   const handleSendOtp = async () => {
     if (phone.length !== 10) {
-      toast.error('সঠিক ১০ সংখ্যার নম্বর দিন');
+      toast.error(t('auth.invalidPhone'));
       return;
     }
     setSubmitting(true);
@@ -115,7 +121,7 @@ function LoginPageInner() {
       setStep('otp');
     } catch (err) {
       console.error(err);
-      toast.error('OTP পাঠানো যায়নি, আবার চেষ্টা করুন');
+      toast.error(t('auth.otpSendFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -123,7 +129,7 @@ function LoginPageInner() {
 
   const handleVerifyOtp = async () => {
     if (otp.length !== 6 || !confirmation) {
-      toast.error('৬ সংখ্যার OTP দিন');
+      toast.error(t('auth.invalidOtpLength'));
       return;
     }
     setSubmitting(true);
@@ -134,7 +140,7 @@ function LoginPageInner() {
       // the effect above re-evaluates the step once that resolves.
     } catch (err) {
       console.error(err);
-      toast.error('ভুল OTP, আবার চেষ্টা করুন');
+      toast.error(t('auth.wrongOtp'));
     } finally {
       setSubmitting(false);
     }
@@ -142,7 +148,7 @@ function LoginPageInner() {
 
   const handlePinLogin = async () => {
     if (pin.length !== 4 || !user) {
-      toast.error('৪ সংখ্যার PIN দিন');
+      toast.error(t('auth.invalidPinLength'));
       return;
     }
     setSubmitting(true);
@@ -178,11 +184,11 @@ function LoginPageInner() {
       await updateUser(firebaseUser.uid, { pinHash });
       await refreshUser();
       setForgotPinFlow(false);
-      toast.success('PIN পরিবর্তন হয়েছে');
+      toast.success(t('auth.pinChanged'));
       if (user) goHome(user.activeRole);
     } catch (err) {
       console.error(err);
-      toast.error('PIN পরিবর্তন করা যায়নি');
+      toast.error(t('auth.pinChangeFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -190,7 +196,7 @@ function LoginPageInner() {
 
   const handleRegister = async () => {
     if (!name.trim() || !role || regPin.length !== 4 || regPin !== regPinConfirm || !firebaseUser) {
-      toast.error('সব তথ্য সঠিকভাবে পূরণ করুন');
+      toast.error(t('auth.fillAllFields'));
       return;
     }
     setSubmitting(true);
@@ -215,7 +221,7 @@ function LoginPageInner() {
       goHome(activeRole);
     } catch (err) {
       console.error(err);
-      toast.error('রেজিস্ট্রেশন করা যায়নি, আবার চেষ্টা করুন');
+      toast.error(t('auth.registrationFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -236,7 +242,7 @@ function LoginPageInner() {
 
       {step === 'pin' && user && (
         <div className="mt-10 space-y-5 text-center">
-          <p className="text-sm text-muted-foreground">স্বাগতম, {user.name}</p>
+          <p className="text-sm text-muted-foreground">{t('auth.welcomeBack').replace('{name}', user.name)}</p>
           <Label className="block">{t('auth.enterPin')}</Label>
           <PinInput value={pin} onChange={setPin} />
           <Button className="w-full" onClick={handlePinLogin} disabled={submitting}>

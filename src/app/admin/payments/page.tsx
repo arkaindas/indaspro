@@ -7,9 +7,11 @@ import { DataTable, type DataTableColumn } from '@/components/admin/DataTable';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { listAllBookings, updateBooking } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking } from '@/types';
 
 export default function AdminPaymentsPage() {
+  const { t } = useLanguage();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,47 +29,47 @@ export default function AdminPaymentsPage() {
   const handleVerify = async (id: string) => {
     try {
       await updateBooking(id, { paymentStatus: 'verified' });
-      toast.success('পেমেন্ট যাচাই হয়েছে');
+      toast.success(t('admin.paymentVerified'));
       load();
     } catch (err) {
       console.error(err);
-      toast.error('যাচাই করা যায়নি');
+      toast.error(t('admin.verifyFailed'));
     }
   };
 
   const columns: DataTableColumn<Booking>[] = [
-    { header: 'বুকিং নম্বর', render: (b) => b.bookingNumber },
-    { header: 'গ্রাহক', render: (b) => b.customerName },
+    { header: t('admin.bookingNumber'), render: (b) => b.bookingNumber },
+    { header: t('admin.customer'), render: (b) => b.customerName },
     { header: 'UTR', render: (b) => b.paymentUtr || '-' },
-    { header: 'পরিমাণ', render: (b) => formatPrice(b.total) },
+    { header: t('admin.amount'), render: (b) => formatPrice(b.total) },
     {
-      header: 'অ্যাকশন',
+      header: t('common.action'),
       render: (b) => (
         <Button size="sm" onClick={() => handleVerify(b.id)}>
-          যাচাই করুন
+          {t('admin.verify')}
         </Button>
       ),
     },
   ];
 
   const verifiedColumns: DataTableColumn<Booking>[] = [
-    { header: 'বুকিং নম্বর', render: (b) => b.bookingNumber },
-    { header: 'গ্রাহক', render: (b) => b.customerName },
+    { header: t('admin.bookingNumber'), render: (b) => b.bookingNumber },
+    { header: t('admin.customer'), render: (b) => b.customerName },
     { header: 'UTR', render: (b) => b.paymentUtr || '-' },
-    { header: 'পরিমাণ', render: (b) => formatPrice(b.total) },
+    { header: t('admin.amount'), render: (b) => formatPrice(b.total) },
   ];
 
   if (loading) return <LoadingSpinner />;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold">পেমেন্ট যাচাইকরণ</h1>
+      <h1 className="text-xl font-bold">{t('admin.paymentVerification')}</h1>
       <section>
-        <h2 className="mb-2 font-semibold">অপেক্ষমান যাচাইকরণ</h2>
-        <DataTable columns={columns} rows={pending} rowKey={(b) => b.id} emptyMessage="কোনো অপেক্ষমান পেমেন্ট নেই" />
+        <h2 className="mb-2 font-semibold">{t('admin.pendingPayments')}</h2>
+        <DataTable columns={columns} rows={pending} rowKey={(b) => b.id} emptyMessage={t('admin.noPendingPayments')} />
       </section>
       <section>
-        <h2 className="mb-2 font-semibold">যাচাইকৃত</h2>
+        <h2 className="mb-2 font-semibold">{t('admin.verifiedPayments')}</h2>
         <DataTable columns={verifiedColumns} rows={verified} rowKey={(b) => b.id} />
       </section>
     </div>

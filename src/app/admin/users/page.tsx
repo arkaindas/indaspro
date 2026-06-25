@@ -12,9 +12,11 @@ import {
   listAllProviderProfiles,
   updateProviderProfile,
 } from '@/lib/firestore';
+import { useLanguage } from '@/context/LanguageContext';
 import type { ProviderProfile, User } from '@/types';
 
 export default function AdminUsersPage() {
+  const { t } = useLanguage();
   const [users, setUsers] = useState<User[]>([]);
   const [providers, setProviders] = useState<ProviderProfile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,39 +47,39 @@ export default function AdminUsersPage() {
   const handleVerify = async (uid: string, isVerified: boolean) => {
     try {
       await updateProviderProfile(uid, { isVerified });
-      toast.success(isVerified ? 'যাচাই সম্পন্ন' : 'প্রত্যাখ্যান করা হয়েছে');
+      toast.success(isVerified ? t('admin.verifiedSuccess') : t('admin.rejected'));
       load();
     } catch (err) {
       console.error(err);
-      toast.error('আপডেট করা যায়নি');
+      toast.error(t('admin.updateFailed'));
     }
   };
 
   const userColumns: DataTableColumn<User>[] = [
-    { header: 'নাম', render: (u) => u.name },
-    { header: 'ফোন', render: (u) => u.phone },
-    { header: 'রোল', render: (u) => u.roles.join(', ') },
-    { header: 'শহর', render: (u) => u.town || '-' },
+    { header: t('common.name'), render: (u) => u.name },
+    { header: t('common.phone'), render: (u) => u.phone },
+    { header: t('common.role'), render: (u) => u.roles.join(', ') },
+    { header: t('common.town'), render: (u) => u.town || '-' },
     {
-      header: 'স্ট্যাটাস',
-      render: (u) => <Badge variant={u.isActive ? 'success' : 'destructive'}>{u.isActive ? 'সক্রিয়' : 'নিষ্ক্রিয়'}</Badge>,
+      header: t('common.status'),
+      render: (u) => <Badge variant={u.isActive ? 'success' : 'destructive'}>{u.isActive ? t('common.active') : t('common.inactive')}</Badge>,
     },
   ];
 
   const providerColumns: DataTableColumn<ProviderProfile>[] = [
-    { header: 'নাম', render: (p) => p.name },
-    { header: 'ফোন', render: (p) => p.phone },
-    { header: 'শহর', render: (p) => p.serviceTown },
-    { header: 'অভিজ্ঞতা', render: (p) => p.experienceYears },
+    { header: t('common.name'), render: (p) => p.name },
+    { header: t('common.phone'), render: (p) => p.phone },
+    { header: t('common.town'), render: (p) => p.serviceTown },
+    { header: t('admin.experience'), render: (p) => p.experienceYears },
     {
-      header: 'অ্যাকশন',
+      header: t('common.action'),
       render: (p) => (
         <div className="flex gap-2">
           <Button size="sm" onClick={() => handleVerify(p.userId, true)}>
-            যাচাই করুন
+            {t('admin.verify')}
           </Button>
           <Button size="sm" variant="outline" onClick={() => handleVerify(p.userId, false)}>
-            প্রত্যাখ্যান করুন
+            {t('admin.reject')}
           </Button>
         </div>
       ),
@@ -88,21 +90,21 @@ export default function AdminUsersPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold">ব্যবহারকারী</h1>
+      <h1 className="text-xl font-bold">{t('admin.users')}</h1>
 
       {pendingProviders.length > 0 && (
         <section>
-          <h2 className="mb-2 font-semibold">সেবাদাতা যাচাইকরণ</h2>
+          <h2 className="mb-2 font-semibold">{t('admin.providerVerification')}</h2>
           <DataTable columns={providerColumns} rows={pendingProviders} rowKey={(p) => p.id} />
         </section>
       )}
 
       <section>
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="font-semibold">সব ব্যবহারকারী</h2>
+          <h2 className="font-semibold">{t('admin.allUsers')}</h2>
           <Input
             className="w-64"
-            placeholder="নাম বা ফোন খুঁজুন"
+            placeholder={t('admin.searchNameOrPhone')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

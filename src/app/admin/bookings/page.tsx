@@ -9,6 +9,7 @@ import { DataTable, type DataTableColumn } from '@/components/admin/DataTable';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { listAllBookings, updateBooking, deleteField } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking } from '@/types';
 
 const STATUS_OPTIONS = [
@@ -24,6 +25,7 @@ const STATUS_OPTIONS = [
 ];
 
 export default function AdminBookingsPage() {
+  const { t } = useLanguage();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -52,11 +54,11 @@ export default function AdminBookingsPage() {
   const handleCancel = async (id: string) => {
     try {
       await updateBooking(id, { status: 'cancelled', cancelledBy: 'admin' });
-      toast.success('বুকিং বাতিল হয়েছে');
+      toast.success(t('admin.bookingCancelled'));
       load();
     } catch (err) {
       console.error(err);
-      toast.error('বাতিল করা যায়নি');
+      toast.error(t('admin.cancelFailed'));
     }
   };
 
@@ -68,34 +70,34 @@ export default function AdminBookingsPage() {
         providerName: deleteField() as unknown as undefined,
         providerPhone: deleteField() as unknown as undefined,
       });
-      toast.success('পুনরায় বরাদ্দের জন্য পাঠানো হয়েছে');
+      toast.success(t('admin.reassignSent'));
       load();
     } catch (err) {
       console.error(err);
-      toast.error('করা যায়নি');
+      toast.error(t('admin.reassignFailed'));
     }
   };
 
   const columns: DataTableColumn<Booking>[] = [
-    { header: 'বুকিং নম্বর', render: (b) => b.bookingNumber },
-    { header: 'গ্রাহক', render: (b) => b.customerName },
-    { header: 'সেবাদাতা', render: (b) => b.providerName || '-' },
-    { header: 'সেবা', render: (b) => b.services.map((s) => s.nameBn).join(', ') },
-    { header: 'তারিখ', render: (b) => b.scheduledDate },
-    { header: 'মোট', render: (b) => formatPrice(b.total) },
-    { header: 'স্ট্যাটাস', render: (b) => <Badge>{b.status}</Badge> },
+    { header: t('admin.bookingNumber'), render: (b) => b.bookingNumber },
+    { header: t('admin.customer'), render: (b) => b.customerName },
+    { header: t('admin.provider'), render: (b) => b.providerName || '-' },
+    { header: t('admin.servicesLabel'), render: (b) => b.services.map((s) => s.nameBn).join(', ') },
+    { header: t('admin.date'), render: (b) => b.scheduledDate },
+    { header: t('admin.totalLabel'), render: (b) => formatPrice(b.total) },
+    { header: t('common.status'), render: (b) => <Badge>{b.status}</Badge> },
     {
-      header: 'অ্যাকশন',
+      header: t('common.action'),
       render: (b) => (
         <div className="flex gap-2">
           {b.providerId && !['completed', 'cancelled'].includes(b.status) && (
             <Button size="sm" variant="outline" onClick={() => handleUnassign(b.id)}>
-              পুনরায় বরাদ্দ
+              {t('admin.reassignAction')}
             </Button>
           )}
           {!['completed', 'cancelled'].includes(b.status) && (
             <Button size="sm" variant="destructive" onClick={() => handleCancel(b.id)}>
-              বাতিল
+              {t('admin.cancelAction')}
             </Button>
           )}
         </div>
@@ -107,11 +109,11 @@ export default function AdminBookingsPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-bold">বুকিং</h1>
+      <h1 className="text-xl font-bold">{t('admin.bookings')}</h1>
       <div className="flex gap-2">
         <Input
           className="w-64"
-          placeholder="বুকিং নম্বর বা নাম খুঁজুন"
+          placeholder={t('admin.searchBookingOrName')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />

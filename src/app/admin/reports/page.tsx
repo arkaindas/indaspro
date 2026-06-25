@@ -8,6 +8,7 @@ import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { listAllBookings, listAllProviderProfiles } from '@/lib/firestore';
 import { SERVICE_CATEGORIES, SERVICES } from '@/lib/constants';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking, ProviderProfile } from '@/types';
 
 interface ProviderLeaderboardRow {
@@ -18,6 +19,7 @@ interface ProviderLeaderboardRow {
 }
 
 export default function AdminReportsPage() {
+  const { t } = useLanguage();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [providers, setProviders] = useState<ProviderProfile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,30 +76,30 @@ export default function AdminReportsPage() {
   );
 
   const leaderboardColumns: DataTableColumn<ProviderLeaderboardRow>[] = [
-    { header: 'সেবাদাতা', render: (r) => r.providerName },
-    { header: 'মোট কাজ', render: (r) => r.totalJobs },
-    { header: 'রেটিং', render: (r) => r.avgRating.toFixed(1) },
-    { header: 'মোট আয়', render: (r) => formatPrice(r.totalEarnings) },
+    { header: t('admin.provider'), render: (r) => r.providerName },
+    { header: t('admin.totalJobsCol'), render: (r) => r.totalJobs },
+    { header: t('admin.ratingCol'), render: (r) => r.avgRating.toFixed(1) },
+    { header: t('admin.amount'), render: (r) => formatPrice(r.totalEarnings) },
   ];
 
   if (loading) return <LoadingSpinner />;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold">রিপোর্ট</h1>
+      <h1 className="text-xl font-bold">{t('admin.reports')}</h1>
 
       <div className="rounded-xl border bg-white p-4">
-        <h2 className="mb-3 font-semibold">বুকিং ট্রেন্ড (৭ দিন)</h2>
+        <h2 className="mb-3 font-semibold">{t('admin.bookingTrend7d')}</h2>
         <RevenueTrend data={bookingTrend} />
       </div>
 
       <div className="rounded-xl border bg-white p-4">
-        <h2 className="mb-3 font-semibold">ক্যাটাগরি ব্রেকডাউন</h2>
+        <h2 className="mb-3 font-semibold">{t('admin.categoryBreakdown')}</h2>
         <BookingStatusPie data={categoryBreakdown} />
       </div>
 
       <div>
-        <h2 className="mb-2 font-semibold">সেবাদাতা লিডারবোর্ড</h2>
+        <h2 className="mb-2 font-semibold">{t('admin.providerLeaderboard')}</h2>
         <DataTable columns={leaderboardColumns} rows={leaderboard} rowKey={(r) => r.providerName} />
       </div>
     </div>

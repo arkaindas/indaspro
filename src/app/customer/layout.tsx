@@ -5,16 +5,18 @@ import { useRouter } from 'next/navigation';
 import { BottomNav } from '@/components/shared/BottomNav';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useAuth } from '@/hooks/useAuth';
-
-const NAV_ITEMS = [
-  { href: '/customer', icon: '🏠', label: 'হোম' },
-  { href: '/customer/bookings', icon: '📋', label: 'বুকিং' },
-  { href: '/customer/profile', icon: '👤', label: 'প্রোফাইল' },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const { t } = useLanguage();
   const router = useRouter();
+
+  const NAV_ITEMS = [
+    { href: '/customer', icon: '🏠', label: t('common.home') },
+    { href: '/customer/bookings', icon: '📋', label: t('common.bookings') },
+    { href: '/customer/profile', icon: '👤', label: t('common.profile') },
+  ];
 
   useEffect(() => {
     if (!loading && !user) {

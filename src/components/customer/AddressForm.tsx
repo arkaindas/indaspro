@@ -1,15 +1,10 @@
+'use client';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useLanguage } from '@/context/LanguageContext';
 import type { BookingAddress } from '@/types';
-
-const LANDMARK_SUGGESTIONS = [
-  'স্কুলের পাশে',
-  'মন্দিরের পাশে',
-  'বাজারের কাছে',
-  'বাসস্ট্যান্ডের কাছে',
-  'হাসপাতালের পাশে',
-];
 
 interface AddressFormProps {
   value: BookingAddress;
@@ -19,6 +14,14 @@ interface AddressFormProps {
 }
 
 export function AddressForm({ value, onChange, label, onLabelChange }: AddressFormProps) {
+  const { t } = useLanguage();
+  const LANDMARK_SUGGESTIONS = [
+    t('customer.landmarkSchool'),
+    t('customer.landmarkTemple'),
+    t('customer.landmarkMarket'),
+    t('customer.landmarkBusStand'),
+    t('customer.landmarkHospital'),
+  ];
   const update = (field: keyof BookingAddress, val: string) => {
     onChange({ ...value, [field]: val });
   };
@@ -26,19 +29,19 @@ export function AddressForm({ value, onChange, label, onLabelChange }: AddressFo
   return (
     <div className="space-y-4">
       <div className="space-y-1.5">
-        <Label>বাড়ি/ফ্ল্যাট নম্বর</Label>
+        <Label>{t('customer.houseNo')}</Label>
         <Input value={value.houseNo} onChange={(e) => update('houseNo', e.target.value)} />
       </div>
       <div className="space-y-1.5">
-        <Label>রাস্তা/পাড়া</Label>
+        <Label>{t('customer.streetPara')}</Label>
         <Input value={value.streetPara} onChange={(e) => update('streetPara', e.target.value)} />
       </div>
       <div className="space-y-1.5">
-        <Label>ল্যান্ডমার্ক</Label>
+        <Label>{t('customer.landmark')}</Label>
         <Input
           value={value.landmark}
           onChange={(e) => update('landmark', e.target.value)}
-          placeholder="যেমন: মন্দিরের পাশে"
+          placeholder={t('customer.landmarkPlaceholder')}
         />
         <div className="flex flex-wrap gap-2 pt-1">
           {LANDMARK_SUGGESTIONS.map((s) => (
@@ -54,16 +57,16 @@ export function AddressForm({ value, onChange, label, onLabelChange }: AddressFo
         </div>
       </div>
       <div className="space-y-1.5">
-        <Label>এলাকা</Label>
+        <Label>{t('customer.area')}</Label>
         <Input value={value.area} onChange={(e) => update('area', e.target.value)} />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <Label>শহর</Label>
+          <Label>{t('customer.town')}</Label>
           <Input value={value.town} onChange={(e) => update('town', e.target.value)} />
         </div>
         <div className="space-y-1.5">
-          <Label>পিন কোড</Label>
+          <Label>{t('customer.pinCode')}</Label>
           <Input
             inputMode="numeric"
             maxLength={6}
@@ -73,20 +76,20 @@ export function AddressForm({ value, onChange, label, onLabelChange }: AddressFo
         </div>
       </div>
       <div className="space-y-1.5">
-        <Label>ঠিকানার ধরন</Label>
+        <Label>{t('customer.addressLabel')}</Label>
         <RadioGroup
           value={label}
           onValueChange={(v) => onLabelChange(v as 'home' | 'office' | 'other')}
           className="flex gap-4"
         >
           <label className="flex items-center gap-1.5 text-sm">
-            <RadioGroupItem value="home" /> বাড়ি
+            <RadioGroupItem value="home" /> {t('customer.labelHome')}
           </label>
           <label className="flex items-center gap-1.5 text-sm">
-            <RadioGroupItem value="office" /> অফিস
+            <RadioGroupItem value="office" /> {t('customer.labelOffice')}
           </label>
           <label className="flex items-center gap-1.5 text-sm">
-            <RadioGroupItem value="other" /> অন্যান্য
+            <RadioGroupItem value="other" /> {t('customer.labelOther')}
           </label>
         </RadioGroup>
       </div>

@@ -1,20 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/utils';
 import type { Booking } from '@/types';
 import { BOOKING_STATUS } from '@/lib/constants';
-
-const STATUS_LABEL: Record<string, string> = {
-  [BOOKING_STATUS.PENDING]: 'সেবাদাতা খোঁজা হচ্ছে',
-  [BOOKING_STATUS.ACCEPTED]: 'গৃহীত হয়েছে',
-  [BOOKING_STATUS.PROVIDER_ON_WAY]: 'আসছে',
-  [BOOKING_STATUS.ARRIVED]: 'পৌঁছেছে',
-  [BOOKING_STATUS.IN_PROGRESS]: 'কাজ চলছে',
-  [BOOKING_STATUS.COMPLETED]: 'সম্পন্ন',
-  [BOOKING_STATUS.CANCELLED]: 'বাতিল',
-  [BOOKING_STATUS.NO_PROVIDER]: 'সেবাদাতা পাওয়া যায়নি',
-};
+import { useLanguage } from '@/context/LanguageContext';
 
 const STATUS_VARIANT: Record<string, 'default' | 'secondary' | 'destructive' | 'success' | 'warning'> = {
   [BOOKING_STATUS.PENDING]: 'warning',
@@ -32,6 +24,17 @@ interface BookingCardProps {
 }
 
 export function BookingCard({ booking }: BookingCardProps) {
+  const { t } = useLanguage();
+  const STATUS_LABEL: Record<string, string> = {
+    [BOOKING_STATUS.PENDING]: t('customer.statusPending'),
+    [BOOKING_STATUS.ACCEPTED]: t('customer.statusAccepted'),
+    [BOOKING_STATUS.PROVIDER_ON_WAY]: t('customer.statusOnWay'),
+    [BOOKING_STATUS.ARRIVED]: t('customer.statusArrived'),
+    [BOOKING_STATUS.IN_PROGRESS]: t('customer.statusInProgress'),
+    [BOOKING_STATUS.COMPLETED]: t('customer.statusCompleted'),
+    [BOOKING_STATUS.CANCELLED]: t('customer.statusCancelled'),
+    [BOOKING_STATUS.NO_PROVIDER]: t('customer.statusNoProvider'),
+  };
   const serviceNames = booking.services.map((s) => s.nameBn).join(', ');
 
   return (
@@ -44,7 +47,7 @@ export function BookingCard({ booking }: BookingCardProps) {
             {booking.scheduledDate} · {booking.scheduledSlot}
           </p>
           {booking.providerName && (
-            <p className="mt-1 text-sm text-muted-foreground">সেবাদাতা: {booking.providerName}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{t('customer.providerLabel')}: {booking.providerName}</p>
           )}
         </div>
         <Badge variant={STATUS_VARIANT[booking.status] || 'default'}>
@@ -55,11 +58,11 @@ export function BookingCard({ booking }: BookingCardProps) {
         <span className="font-semibold">{formatPrice(booking.total)}</span>
         <div className="flex gap-2">
           <Button asChild size="sm" variant="outline">
-            <Link href={`/customer/booking/${booking.id}`}>বিস্তারিত</Link>
+            <Link href={`/customer/booking/${booking.id}`}>{t('common.viewDetails')}</Link>
           </Button>
           {booking.status === BOOKING_STATUS.COMPLETED && (
             <Button asChild size="sm">
-              <Link href={`/customer/review/${booking.id}`}>রিভিউ দিন</Link>
+              <Link href={`/customer/review/${booking.id}`}>{t('common.giveReview')}</Link>
             </Button>
           )}
         </div>

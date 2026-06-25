@@ -12,12 +12,14 @@ import { useAuth } from '@/hooks/useAuth';
 import { getBooking, createReview, getProviderProfile, updateProviderProfile } from '@/lib/firestore';
 import { REVIEW_TAGS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking } from '@/types';
 
 export default function ReviewPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState(5);
@@ -57,11 +59,11 @@ export default function ReviewPage() {
         await updateProviderProfile(booking.providerId, { avgRating: Number(newAvg.toFixed(2)) });
       }
 
-      toast.success('ধন্যবাদ! আপনার রিভিউ জমা হয়েছে');
+      toast.success(t('customer.reviewSubmitted'));
       router.push('/customer/bookings');
     } catch (err) {
       console.error(err);
-      toast.error('রিভিউ জমা দেওয়া যায়নি');
+      toast.error(t('customer.reviewSubmitFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -78,7 +80,7 @@ export default function ReviewPage() {
   if (!booking) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        বুকিং পাওয়া যায়নি
+        {t('customer.noBookingFound')}
       </div>
     );
   }
@@ -89,7 +91,7 @@ export default function ReviewPage() {
         <button onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />
         </button>
-        <h1 className="text-lg font-semibold">রিভিউ দিন</h1>
+        <h1 className="text-lg font-semibold">{t('common.giveReview')}</h1>
       </header>
 
       <div className="text-center">
@@ -117,14 +119,14 @@ export default function ReviewPage() {
 
       <div className="mt-6">
         <Textarea
-          placeholder="মন্তব্য লিখুন (ঐচ্ছিক)"
+          placeholder={t('customer.writeComment')}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
       </div>
 
       <Button className="mt-6 w-full" onClick={handleSubmit} disabled={submitting}>
-        জমা দিন
+        {t('customer.submitReview')}
       </Button>
     </div>
   );

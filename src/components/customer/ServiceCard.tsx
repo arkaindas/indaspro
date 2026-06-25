@@ -1,5 +1,8 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface ServiceCardProps {
   nameBn: string;
@@ -18,12 +21,13 @@ export function ServiceCard({
   selected,
   onToggle,
 }: ServiceCardProps) {
+  const { t } = useLanguage();
   return (
     <div className="flex items-start justify-between gap-3 rounded-xl border bg-white p-4 shadow-sm">
       <div className="flex-1">
         <p className="font-semibold">{nameBn}</p>
         <p className="mt-0.5 text-sm text-muted-foreground">{descriptionBn}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{durationMinutes} মিনিট</p>
+        <p className="mt-1 text-sm text-muted-foreground">{durationMinutes} {t('common.minutes')}</p>
         <p className="mt-1 font-semibold text-primary">{formatPrice(basePrice)}</p>
       </div>
       <Button
@@ -32,7 +36,7 @@ export function ServiceCard({
         onClick={onToggle}
         className="shrink-0"
       >
-        {selected ? '✓ যোগ হয়েছে' : 'যোগ করুন'}
+        {selected ? `✓ ${t('customer.addedLabel')}` : t('customer.addService')}
       </Button>
     </div>
   );

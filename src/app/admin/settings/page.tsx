@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { getPlatformConfig, setPlatformConfig } from '@/lib/firestore';
 import { COMMISSION_PERCENT, PLATFORM_FEE, UPI_ID } from '@/lib/constants';
+import { useLanguage } from '@/context/LanguageContext';
 import type { PlatformConfig } from '@/types';
 
 const DEFAULT_CONFIG: PlatformConfig = {
@@ -22,6 +23,7 @@ const DEFAULT_CONFIG: PlatformConfig = {
 };
 
 export default function AdminSettingsPage() {
+  const { t } = useLanguage();
   const [config, setConfig] = useState<PlatformConfig>(DEFAULT_CONFIG);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -47,10 +49,10 @@ export default function AdminSettingsPage() {
         .map((t) => t.trim())
         .filter(Boolean);
       await setPlatformConfig({ ...config, serviceTowns });
-      toast.success('সেটিংস সংরক্ষিত হয়েছে');
+      toast.success(t('admin.settingsSaved'));
     } catch (err) {
       console.error(err);
-      toast.error('সংরক্ষণ করা যায়নি');
+      toast.error(t('admin.saveFailed'));
     } finally {
       setSaving(false);
     }
@@ -60,10 +62,10 @@ export default function AdminSettingsPage() {
 
   return (
     <div className="max-w-xl space-y-5">
-      <h1 className="text-xl font-bold">প্ল্যাটফর্ম সেটিংস</h1>
+      <h1 className="text-xl font-bold">{t('admin.platformSettings')}</h1>
 
       <div className="space-y-1.5">
-        <Label>কমিশন (%)</Label>
+        <Label>{t('admin.commissionPercentLabel')}</Label>
         <Input
           type="number"
           value={config.commissionPercent}
@@ -72,7 +74,7 @@ export default function AdminSettingsPage() {
       </div>
 
       <div className="space-y-1.5">
-        <Label>প্ল্যাটফর্ম ফি (₹)</Label>
+        <Label>{t('admin.platformFeeLabel')}</Label>
         <Input
           type="number"
           value={config.platformFee}
@@ -81,17 +83,17 @@ export default function AdminSettingsPage() {
       </div>
 
       <div className="space-y-1.5">
-        <Label>UPI আইডি</Label>
+        <Label>{t('admin.upiIdLabel')}</Label>
         <Input value={config.upiId} onChange={(e) => setConfig({ ...config, upiId: e.target.value })} />
       </div>
 
       <div className="space-y-1.5">
-        <Label>সেবার শহর (কমা দিয়ে আলাদা করুন)</Label>
+        <Label>{t('admin.serviceTownsLabel')}</Label>
         <Input value={townsInput} onChange={(e) => setTownsInput(e.target.value)} />
       </div>
 
       <div className="space-y-1.5">
-        <Label>বাতিল ফি (₹)</Label>
+        <Label>{t('admin.cancellationFeeLabel')}</Label>
         <Input
           type="number"
           value={config.cancellationFee}
@@ -100,7 +102,7 @@ export default function AdminSettingsPage() {
       </div>
 
       <div className="space-y-1.5">
-        <Label>রেফারেল রিওয়ার্ড (₹)</Label>
+        <Label>{t('admin.referralRewardLabel')}</Label>
         <Input
           type="number"
           value={config.referralReward}
@@ -109,7 +111,7 @@ export default function AdminSettingsPage() {
       </div>
 
       <div className="space-y-1.5">
-        <Label>সাপোর্ট ফোন</Label>
+        <Label>{t('admin.supportPhoneLabel')}</Label>
         <Input
           value={config.supportPhone}
           onChange={(e) => setConfig({ ...config, supportPhone: e.target.value })}
@@ -117,7 +119,7 @@ export default function AdminSettingsPage() {
       </div>
 
       <div className="space-y-1.5">
-        <Label>সাপোর্ট ইমেল</Label>
+        <Label>{t('admin.supportEmailLabel')}</Label>
         <Input
           value={config.supportEmail}
           onChange={(e) => setConfig({ ...config, supportEmail: e.target.value })}
@@ -125,7 +127,7 @@ export default function AdminSettingsPage() {
       </div>
 
       <Button onClick={handleSave} disabled={saving}>
-        সংরক্ষণ করুন
+        {t('common.save')}
       </Button>
     </div>
   );

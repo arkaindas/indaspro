@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { createBooking, updateBooking, getBooking } from '@/lib/firestore';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking } from '@/types';
 
 export function useBooking() {
+  const { t } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
 
   const create = async (data: Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>): Promise<string | null> => {
@@ -13,7 +15,7 @@ export function useBooking() {
       return id;
     } catch (err) {
       console.error(err);
-      toast.error('বুকিং তৈরি করা যায়নি, আবার চেষ্টা করুন');
+      toast.error(t('customer.bookingCreateFailed'));
       return null;
     } finally {
       setSubmitting(false);
@@ -27,7 +29,7 @@ export function useBooking() {
       return true;
     } catch (err) {
       console.error(err);
-      toast.error('আপডেট করা যায়নি, আবার চেষ্টা করুন');
+      toast.error(t('customer.bookingUpdateFailed'));
       return false;
     } finally {
       setSubmitting(false);
@@ -39,7 +41,7 @@ export function useBooking() {
       return await getBooking(id);
     } catch (err) {
       console.error(err);
-      toast.error('বুকিং লোড করা যায়নি');
+      toast.error(t('customer.bookingLoadFailed'));
       return null;
     }
   };

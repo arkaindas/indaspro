@@ -6,12 +6,14 @@ import { JobStepper } from '@/components/provider/JobStepper';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useRealtimeBooking } from '@/hooks/useRealtimeBooking';
 import { useBooking } from '@/hooks/useBooking';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ActiveJobPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const { booking, loading } = useRealtimeBooking(params.id);
   const { update, submitting } = useBooking();
+  const { t } = useLanguage();
 
   if (loading) {
     return (
@@ -24,7 +26,7 @@ export default function ActiveJobPage() {
   if (!booking) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        বুকিং পাওয়া যায়নি
+        {t('customer.noBookingFound')}
       </div>
     );
   }

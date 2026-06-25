@@ -3,9 +3,11 @@ import toast from 'react-hot-toast';
 import { getProviderProfile, updateProviderProfile } from '@/lib/firestore';
 import type { ProviderProfile } from '@/types';
 import { useAuthContext } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function useProvider() {
   const { firebaseUser } = useAuthContext();
+  const { t } = useLanguage();
   const [profile, setProfile] = useState<ProviderProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,7 +34,7 @@ export function useProvider() {
       setProfile((prev) => (prev ? { ...prev, isOnline } : prev));
     } catch (err) {
       console.error(err);
-      toast.error('স্ট্যাটাস পরিবর্তন করা যায়নি');
+      toast.error(t('provider.statusChangeFailed'));
     }
   };
 

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { getBooking } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking } from '@/types';
 
 export default function BookingConfirmPage() {
@@ -21,6 +22,7 @@ export default function BookingConfirmPage() {
 function BookingConfirmInner() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  const { t } = useLanguage();
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -46,23 +48,25 @@ function BookingConfirmInner() {
   if (!booking) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        বুকিং পাওয়া যায়নি
+        {t('customer.noBookingFound')}
       </div>
     );
   }
 
   const message = encodeURIComponent(
-    `আমি Indaspro-তে ${booking.services.map((s) => s.nameBn).join(', ')} বুক করেছি। বুকিং নম্বর: ${booking.bookingNumber}`
+    t('customer.whatsappBookingShare')
+      .replace('{services}', booking.services.map((s) => s.nameBn).join(', '))
+      .replace('{bookingNumber}', booking.bookingNumber)
   );
 
   return (
     <div className="flex flex-col items-center px-5 pt-10 text-center">
       <CheckCircle2 className="h-20 w-20 animate-checkmark text-green-500" />
-      <h1 className="mt-4 text-xl font-bold">আপনার বুকিং সফল!</h1>
-      <p className="mt-1 text-sm font-medium text-blue-600">সেবাদাতা খোঁজা হচ্ছে...</p>
+      <h1 className="mt-4 text-xl font-bold">{t('customer.bookingSuccess')}</h1>
+      <p className="mt-1 text-sm font-medium text-blue-600">{t('customer.findingProvider')}</p>
 
       <div className="mt-6 w-full rounded-xl border bg-white p-4 text-left">
-        <p className="text-xs text-muted-foreground">বুকিং নম্বর</p>
+        <p className="text-xs text-muted-foreground">{t('admin.bookingNumber')}</p>
         <p className="font-semibold">{booking.bookingNumber}</p>
         <div className="mt-3 border-t pt-3">
           {booking.services.map((s) => (
@@ -80,10 +84,10 @@ function BookingConfirmInner() {
             {booking.address.houseNo}, {booking.address.streetPara}, {booking.address.area},{' '}
             {booking.address.town}
           </p>
-          <p>পেমেন্ট: {booking.paymentMethod === 'cash' ? 'নগদ' : 'UPI'}</p>
+          <p>{t('customer.paymentMethod')}: {booking.paymentMethod === 'cash' ? t('customer.cash') : t('customer.upi')}</p>
         </div>
         <div className="mt-3 flex justify-between border-t pt-3 font-bold">
-          <span>সর্বমোট</span>
+          <span>{t('customer.total')}</span>
           <span>{formatPrice(booking.total)}</span>
         </div>
       </div>
@@ -94,13 +98,13 @@ function BookingConfirmInner() {
           className="w-full"
           onClick={() => window.open(`https://wa.me/?text=${message}`, '_blank')}
         >
-          💬 হোয়াটসঅ্যাপে শেয়ার করুন
+          💬 {t('common.shareWhatsapp')}
         </Button>
         <Button asChild className="w-full">
-          <Link href={`/customer/booking/${booking.id}`}>বুকিং দেখুন</Link>
+          <Link href={`/customer/booking/${booking.id}`}>{t('customer.viewBooking')}</Link>
         </Button>
         <Button asChild variant="ghost" className="w-full">
-          <Link href="/customer">হোমে ফিরুন</Link>
+          <Link href="/customer">{t('customer.backToHome')}</Link>
         </Button>
       </div>
     </div>

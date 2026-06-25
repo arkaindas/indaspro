@@ -1,8 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import { SERVICE_CATEGORIES, SERVICES } from '@/lib/constants';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function ServiceGrid() {
+  const { t } = useLanguage();
   return (
     <div className="grid grid-cols-2 gap-3 px-5 py-6">
       {SERVICE_CATEGORIES.sort((a, b) => a.sortOrder - b.sortOrder).map((cat) => {
@@ -18,7 +22,7 @@ export function ServiceGrid() {
             <span className="text-3xl">{cat.icon}</span>
             <span className="text-sm font-semibold">{cat.nameBn}</span>
             <span className="text-xs text-muted-foreground">
-              {formatPrice(minPrice)} থেকে
+              {t('common.priceFrom')} {formatPrice(minPrice)}
             </span>
           </Link>
         );

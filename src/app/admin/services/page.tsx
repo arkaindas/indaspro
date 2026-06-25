@@ -26,6 +26,7 @@ import {
   deleteService,
 } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Service, ServiceCategory } from '@/types';
 
 const EMPTY_CATEGORY: Omit<ServiceCategory, 'id'> = {
@@ -47,6 +48,7 @@ const EMPTY_SERVICE: Omit<Service, 'id'> = {
 };
 
 export default function AdminServicesPage() {
+  const { t } = useLanguage();
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -89,12 +91,12 @@ export default function AdminServicesPage() {
       } else {
         await createServiceCategory(catForm);
       }
-      toast.success('সংরক্ষিত হয়েছে');
+      toast.success(t('admin.saved'));
       setCatDialogOpen(false);
       load();
     } catch (err) {
       console.error(err);
-      toast.error('সংরক্ষণ করা যায়নি');
+      toast.error(t('admin.saveFailed'));
     }
   };
 
@@ -117,21 +119,21 @@ export default function AdminServicesPage() {
       } else {
         await createService(svcForm);
       }
-      toast.success('সংরক্ষিত হয়েছে');
+      toast.success(t('admin.saved'));
       setSvcDialogOpen(false);
       load();
     } catch (err) {
       console.error(err);
-      toast.error('সংরক্ষণ করা যায়নি');
+      toast.error(t('admin.saveFailed'));
     }
   };
 
   const categoryColumns: DataTableColumn<ServiceCategory>[] = [
-    { header: 'আইকন', render: (c) => c.icon },
-    { header: 'নাম', render: (c) => c.nameBn },
-    { header: 'ক্রম', render: (c) => c.sortOrder },
+    { header: t('common.icon'), render: (c) => c.icon },
+    { header: t('common.name'), render: (c) => c.nameBn },
+    { header: t('common.sortOrder'), render: (c) => c.sortOrder },
     {
-      header: 'অ্যাকশন',
+      header: t('common.action'),
       render: (c) => (
         <div className="flex gap-2">
           <button onClick={() => openEditCategory(c)}>
@@ -146,12 +148,12 @@ export default function AdminServicesPage() {
   ];
 
   const serviceColumns: DataTableColumn<Service>[] = [
-    { header: 'নাম', render: (s) => s.nameBn },
-    { header: 'ক্যাটাগরি', render: (s) => categories.find((c) => c.id === s.categoryId)?.nameBn || s.categoryId },
-    { header: 'দাম', render: (s) => formatPrice(s.basePrice) },
-    { header: 'সময়', render: (s) => `${s.durationMinutes} মিনিট` },
+    { header: t('common.name'), render: (s) => s.nameBn },
+    { header: t('admin.categories'), render: (s) => categories.find((c) => c.id === s.categoryId)?.nameBn || s.categoryId },
+    { header: t('common.price'), render: (s) => formatPrice(s.basePrice) },
+    { header: t('customer.scheduleLabel'), render: (s) => `${s.durationMinutes} ${t('common.minutes')}` },
     {
-      header: 'অ্যাকশন',
+      header: t('common.action'),
       render: (s) => (
         <div className="flex gap-2">
           <button onClick={() => openEditService(s)}>
@@ -171,9 +173,9 @@ export default function AdminServicesPage() {
     <div className="space-y-8">
       <section>
         <div className="mb-2 flex items-center justify-between">
-          <h1 className="text-xl font-bold">ক্যাটাগরি</h1>
+          <h1 className="text-xl font-bold">{t('admin.categories')}</h1>
           <Button size="sm" onClick={openNewCategory}>
-            <Plus className="mr-1 h-4 w-4" /> নতুন
+            <Plus className="mr-1 h-4 w-4" /> {t('common.new')}
           </Button>
         </div>
         <DataTable columns={categoryColumns} rows={categories} rowKey={(c) => c.id} />
@@ -181,9 +183,9 @@ export default function AdminServicesPage() {
 
       <section>
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="text-xl font-bold">সেবা</h2>
+          <h2 className="text-xl font-bold">{t('admin.services2')}</h2>
           <Button size="sm" onClick={openNewService}>
-            <Plus className="mr-1 h-4 w-4" /> নতুন
+            <Plus className="mr-1 h-4 w-4" /> {t('common.new')}
           </Button>
         </div>
         <DataTable columns={serviceColumns} rows={services} rowKey={(s) => s.id} />
@@ -192,23 +194,23 @@ export default function AdminServicesPage() {
       <Dialog open={catDialogOpen} onOpenChange={setCatDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>ক্যাটাগরি</DialogTitle>
+            <DialogTitle>{t('admin.categories')}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
-              <Label>আইকন</Label>
+              <Label>{t('common.icon')}</Label>
               <Input value={catForm.icon} onChange={(e) => setCatForm({ ...catForm, icon: e.target.value })} />
             </div>
             <div className="space-y-1.5">
-              <Label>নাম (বাংলা)</Label>
+              <Label>{t('admin.nameBnField')}</Label>
               <Input value={catForm.nameBn} onChange={(e) => setCatForm({ ...catForm, nameBn: e.target.value })} />
             </div>
             <div className="space-y-1.5">
-              <Label>নাম (English)</Label>
+              <Label>{t('admin.nameEnField')}</Label>
               <Input value={catForm.nameEn} onChange={(e) => setCatForm({ ...catForm, nameEn: e.target.value })} />
             </div>
             <div className="space-y-1.5">
-              <Label>ক্রম</Label>
+              <Label>{t('common.sortOrder')}</Label>
               <Input
                 type="number"
                 value={catForm.sortOrder}
@@ -217,7 +219,7 @@ export default function AdminServicesPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={saveCategory}>সংরক্ষণ করুন</Button>
+            <Button onClick={saveCategory}>{t('common.save')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -225,17 +227,17 @@ export default function AdminServicesPage() {
       <Dialog open={svcDialogOpen} onOpenChange={setSvcDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>সেবা</DialogTitle>
+            <DialogTitle>{t('admin.services2')}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
-              <Label>ক্যাটাগরি</Label>
+              <Label>{t('admin.categories')}</Label>
               <select
                 className="flex h-11 w-full rounded-lg border border-input bg-background px-3 text-sm"
                 value={svcForm.categoryId}
                 onChange={(e) => setSvcForm({ ...svcForm, categoryId: e.target.value })}
               >
-                <option value="">নির্বাচন করুন</option>
+                <option value="">{t('common.selectOption')}</option>
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.nameBn}
@@ -244,15 +246,15 @@ export default function AdminServicesPage() {
               </select>
             </div>
             <div className="space-y-1.5">
-              <Label>নাম (বাংলা)</Label>
+              <Label>{t('admin.nameBnField')}</Label>
               <Input value={svcForm.nameBn} onChange={(e) => setSvcForm({ ...svcForm, nameBn: e.target.value })} />
             </div>
             <div className="space-y-1.5">
-              <Label>নাম (English)</Label>
+              <Label>{t('admin.nameEnField')}</Label>
               <Input value={svcForm.nameEn} onChange={(e) => setSvcForm({ ...svcForm, nameEn: e.target.value })} />
             </div>
             <div className="space-y-1.5">
-              <Label>বিবরণ</Label>
+              <Label>{t('admin.descriptionField')}</Label>
               <Input
                 value={svcForm.descriptionBn}
                 onChange={(e) => setSvcForm({ ...svcForm, descriptionBn: e.target.value })}
@@ -260,7 +262,7 @@ export default function AdminServicesPage() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label>দাম (₹)</Label>
+                <Label>{t('admin.priceField')}</Label>
                 <Input
                   type="number"
                   value={svcForm.basePrice}
@@ -268,7 +270,7 @@ export default function AdminServicesPage() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>সময় (মিনিট)</Label>
+                <Label>{t('admin.durationField')}</Label>
                 <Input
                   type="number"
                   value={svcForm.durationMinutes}
@@ -278,7 +280,7 @@ export default function AdminServicesPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={saveService}>সংরক্ষণ করুন</Button>
+            <Button onClick={saveService}>{t('common.save')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

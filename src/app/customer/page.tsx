@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/context/LanguageContext';
 import { SERVICE_CATEGORIES } from '@/lib/constants';
 import { listCustomerBookings } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
@@ -18,6 +19,7 @@ const ACTIVE_STATUSES = ['pending', 'accepted', 'provider_on_way', 'arrived', 'i
 
 export default function CustomerHomePage() {
   const { user, firebaseUser } = useAuth();
+  const { t } = useLanguage();
   const router = useRouter();
   const [search, setSearch] = useState('');
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -42,7 +44,7 @@ export default function CustomerHomePage() {
     <div>
       <header className="flex items-center justify-between bg-white px-4 py-4">
         <div>
-          <p className="text-xs text-muted-foreground">📍 {user?.town || 'শহর নির্বাচন করুন'}</p>
+          <p className="text-xs text-muted-foreground">📍 {user?.town || t('customer.selectTown')}</p>
           <p className="text-lg font-bold text-primary">Indaspro</p>
         </div>
         <button className="relative rounded-full bg-muted p-2">
@@ -55,7 +57,7 @@ export default function CustomerHomePage() {
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             className="pl-9"
-            placeholder="কী সেবা দরকার?"
+            placeholder={t('customer.whatServiceNeeded')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -71,19 +73,19 @@ export default function CustomerHomePage() {
               href={`/customer/booking/${activeBooking.id}`}
               className="mx-4 mb-3 block rounded-xl border border-blue-200 bg-blue-50 p-3"
             >
-              <p className="text-xs font-medium text-blue-700">চলমান বুকিং</p>
+              <p className="text-xs font-medium text-blue-700">{t('customer.activeBooking')}</p>
               <p className="text-sm font-semibold">
                 {activeBooking.services.map((s) => s.nameBn).join(', ')}
               </p>
               {activeBooking.providerName && (
-                <p className="text-xs text-muted-foreground">সেবাদাতা: {activeBooking.providerName}</p>
+                <p className="text-xs text-muted-foreground">{t('customer.providerLabel')}: {activeBooking.providerName}</p>
               )}
             </Link>
           )}
 
           {completedBookings.length > 0 && (
             <div className="mb-3 px-4">
-              <p className="mb-2 text-sm font-semibold">আবার বুক করুন</p>
+              <p className="mb-2 text-sm font-semibold">{t('customer.quickRebook')}</p>
               <div className="flex gap-3 overflow-x-auto pb-1">
                 {completedBookings.map((b) => (
                   <div key={b.id} className="min-w-[160px] rounded-xl border bg-white p-3">
@@ -99,7 +101,7 @@ export default function CustomerHomePage() {
                         router.push('/customer/booking/new');
                       }}
                     >
-                      আবার বুক
+                      {t('common.rebook')}
                     </Button>
                   </div>
                 ))}

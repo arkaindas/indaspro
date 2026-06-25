@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface ExtraChargeFormProps {
   onAdd: (itemName: string, quantity: number, price: number) => void;
 }
 
 export function ExtraChargeForm({ onAdd }: ExtraChargeFormProps) {
+  const { t } = useLanguage();
   const [itemName, setItemName] = useState('');
   const [quantity, setQuantity] = useState('1');
   const [price, setPrice] = useState('');
@@ -27,12 +29,12 @@ export function ExtraChargeForm({ onAdd }: ExtraChargeFormProps) {
   return (
     <div className="space-y-3">
       <div className="space-y-1.5">
-        <Label>সামগ্রীর নাম</Label>
+        <Label>{t('provider.itemNameLabel')}</Label>
         <Input value={itemName} onChange={(e) => setItemName(e.target.value)} />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <Label>পরিমাণ</Label>
+          <Label>{t('provider.quantityLabel')}</Label>
           <Input
             inputMode="numeric"
             value={quantity}
@@ -40,7 +42,7 @@ export function ExtraChargeForm({ onAdd }: ExtraChargeFormProps) {
           />
         </div>
         <div className="space-y-1.5">
-          <Label>দাম (₹)</Label>
+          <Label>{t('provider.priceLabel')}</Label>
           <Input
             inputMode="numeric"
             value={price}
@@ -49,7 +51,7 @@ export function ExtraChargeForm({ onAdd }: ExtraChargeFormProps) {
         </div>
       </div>
       <Button className="w-full" onClick={handleAdd}>
-        যুক্ত করুন
+        {t('common.add')}
       </Button>
     </div>
   );

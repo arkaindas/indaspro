@@ -33,9 +33,9 @@ export function HeroSection() {
           asChild
           size="lg"
           variant="outline"
-          className="border-white text-white hover:bg-white/10"
+          className="bg-transparent border-white text-white hover:bg-white/10"
         >
-          <Link href="/login?provider=1">{t('common.joinAsProvider')}</Link>
+          <Link href="/login?role=provider">{t('common.joinAsProvider')}</Link>
         </Button>
       </div>
     </div>

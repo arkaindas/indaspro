@@ -8,11 +8,13 @@ import { EmptyState } from '@/components/shared/EmptyState';
 import { SERVICE_CATEGORIES, SERVICES } from '@/lib/constants';
 import { formatPrice } from '@/lib/utils';
 import { saveDraftServices } from '@/lib/draftBooking';
+import { useLanguage } from '@/context/LanguageContext';
 import type { BookingService } from '@/types';
 
 export default function ServiceCategoryPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const { t } = useLanguage();
   const category = SERVICE_CATEGORIES.find((c) => c.id === params.id);
   const services = useMemo(() => SERVICES.filter((s) => s.categoryId === params.id), [params.id]);
   const [selected, setSelected] = useState<Record<string, BookingService>>({});
@@ -46,11 +48,11 @@ export default function ServiceCategoryPage() {
         <button onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />
         </button>
-        <h1 className="text-lg font-semibold">{category?.nameBn || 'সেবা'}</h1>
+        <h1 className="text-lg font-semibold">{category?.nameBn || t('customer.services')}</h1>
       </header>
 
       <div className="space-y-3 px-4">
-        {services.length === 0 && <EmptyState title="কোনো সেবা পাওয়া যায়নি" />}
+        {services.length === 0 && <EmptyState title={t('customer.noServicesFound')} />}
         {services.map((svc) => (
           <ServiceCard
             key={svc.id}
@@ -71,9 +73,11 @@ export default function ServiceCategoryPage() {
             className="flex w-full items-center justify-between rounded-lg bg-primary px-4 py-3 font-semibold text-primary-foreground"
           >
             <span>
-              {selectedList.length} সেবা — {formatPrice(total)}
+              {t('customer.servicesCountAmount')
+                .replace('{count}', String(selectedList.length))
+                .replace('{amount}', formatPrice(total))}
             </span>
-            <span>এগিয়ে যান →</span>
+            <span>{t('customer.proceedArrow')}</span>
           </button>
         </div>
       )}

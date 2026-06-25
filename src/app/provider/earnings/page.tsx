@@ -7,14 +7,23 @@ import { EmptyState } from '@/components/shared/EmptyState';
 import { useAuth } from '@/hooks/useAuth';
 import { listProviderBookings, listSettlements } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking, Settlement } from '@/types';
 
 type Range = 'today' | 'week' | 'month';
 
-const DAY_LABELS = ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহ', 'শুক্র', 'শনি'];
-
 export default function ProviderEarningsPage() {
   const { firebaseUser } = useAuth();
+  const { t } = useLanguage();
+  const DAY_LABELS = [
+    t('provider.daySun'),
+    t('provider.dayMon'),
+    t('provider.dayTue'),
+    t('provider.dayWed'),
+    t('provider.dayThu'),
+    t('provider.dayFri'),
+    t('provider.daySat'),
+  ];
   const [range, setRange] = useState<Range>('week');
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [settlements, setSettlements] = useState<Settlement[]>([]);
@@ -48,7 +57,7 @@ export default function ProviderEarningsPage() {
       });
     }
     return Array.from({ length: 4 }).map((_, i) => ({
-      label: `সপ্তাহ ${i + 1}`,
+      label: t('provider.weekN').replace('{n}', String(i + 1)),
       amount: bookings
         .filter((b) => {
           const d = b.completedAt?.toDate ? b.completedAt.toDate() : null;
@@ -58,7 +67,7 @@ export default function ProviderEarningsPage() {
         })
         .reduce((sum, b) => sum + b.providerEarnings, 0),
     }));
-  }, [bookings, range]);
+  }, [bookings, range, DAY_LABELS, t]);
 
   const totals = useMemo(() => {
     const cash = bookings
@@ -74,7 +83,7 @@ export default function ProviderEarningsPage() {
 
   return (
     <div className="px-4 py-4">
-      <h1 className="mb-4 text-lg font-semibold">আয়</h1>
+      <h1 className="mb-4 text-lg font-semibold">{t('common.earnings')}</h1>
 
       <div className="mb-4 flex gap-2">
         {(['today', 'week', 'month'] as Range[]).map((r) => (
@@ -85,7 +94,7 @@ export default function ProviderEarningsPage() {
               range === r ? 'border-primary bg-primary/5 text-primary' : 'border-input'
             }`}
           >
-            {r === 'today' ? 'আজ' : r === 'week' ? 'সপ্তাহ' : 'মাস'}
+            {r === 'today' ? t('provider.today') : r === 'week' ? t('provider.week') : t('provider.month')}
           </button>
         ))}
       </div>
@@ -100,31 +109,31 @@ export default function ProviderEarningsPage() {
 
           <div className="mt-4 rounded-xl border bg-white p-4 text-sm">
             <div className="flex justify-between py-1">
-              <span>মোট আয়</span>
+              <span>{t('provider.totalEarnings')}</span>
               <span>{formatPrice(totals.totalEarnings)}</span>
             </div>
             <div className="flex justify-between py-1 text-destructive">
-              <span>কমিশন</span>
+              <span>{t('provider.commission')}</span>
               <span>-{formatPrice(totals.commission)}</span>
             </div>
             <div className="flex justify-between border-t py-1 font-bold">
-              <span>নেট আয়</span>
+              <span>{t('provider.netEarnings')}</span>
               <span>{formatPrice(totals.net)}</span>
             </div>
             <div className="mt-2 flex justify-between border-t py-1">
-              <span>নগদ সংগৃহীত</span>
+              <span>{t('provider.cashCollected')}</span>
               <span>{formatPrice(totals.cash)}</span>
             </div>
             <div className="flex justify-between py-1">
-              <span>UPI আয়</span>
+              <span>{t('provider.upiEarned')}</span>
               <span>{formatPrice(totals.upi)}</span>
             </div>
           </div>
 
           <div className="mt-6">
-            <h2 className="mb-2 font-semibold">সেটেলমেন্ট ইতিহাস</h2>
+            <h2 className="mb-2 font-semibold">{t('provider.settlementHistory')}</h2>
             {settlements.length === 0 ? (
-              <EmptyState title="কোনো সেটেলমেন্ট নেই" />
+              <EmptyState title={t('provider.noSettlements')} />
             ) : (
               <div className="space-y-2">
                 {settlements.map((s) => (
@@ -140,7 +149,7 @@ export default function ProviderEarningsPage() {
                         s.status === 'settled' ? 'text-green-600' : 'text-amber-600'
                       }`}
                     >
-                      {s.status === 'settled' ? 'সম্পন্ন' : 'অপেক্ষমান'}
+                      {s.status === 'settled' ? t('provider.settled') : t('provider.settlementPending')}
                     </span>
                   </div>
                 ))}

@@ -82,12 +82,12 @@ export default function CustomerProfilePage() {
           isDefault: addresses.length === 0,
         });
       }
-      toast.success('ঠিকানা সংরক্ষিত হয়েছে');
+      toast.success(t('customer.addressSaved'));
       setDialogOpen(false);
       loadAddresses();
     } catch (err) {
       console.error(err);
-      toast.error('সংরক্ষণ করা যায়নি');
+      toast.error(t('common.saveFailedGeneric'));
     }
   };
 
@@ -98,7 +98,7 @@ export default function CustomerProfilePage() {
       loadAddresses();
     } catch (err) {
       console.error(err);
-      toast.error('মুছে ফেলা যায়নি');
+      toast.error(t('common.deleteFailed'));
     }
   };
 
@@ -184,13 +184,13 @@ export default function CustomerProfilePage() {
           onClick={() =>
             window.open(
               `https://wa.me/?text=${encodeURIComponent(
-                `Indaspro-তে যোগ দিন এবং রেফারেল কোড ${user.referralCode} ব্যবহার করুন!`
+                t('customer.whatsappReferralShare').replace('{code}', user.referralCode)
               )}`,
               '_blank'
             )
           }
         >
-          💬 শেয়ার করুন
+          💬 {t('customer.shareButton')}
         </Button>
       </div>
 

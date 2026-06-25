@@ -10,6 +10,7 @@ import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { useAuth } from '@/hooks/useAuth';
 import { useProvider } from '@/hooks/useProvider';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   listPendingBookings,
   listProviderBookings,
@@ -22,6 +23,7 @@ import type { Booking } from '@/types';
 export default function ProviderDashboardPage() {
   const { user, firebaseUser } = useAuth();
   const { profile, loading: profileLoading, toggleOnline } = useProvider();
+  const { t } = useLanguage();
   const router = useRouter();
 
   const [pending, setPending] = useState<Booking[]>([]);
@@ -92,11 +94,11 @@ export default function ProviderDashboardPage() {
         providerPhone: user.phone,
       });
       setPending((prev) => prev.filter((b) => b.id !== id));
-      toast.success('বুকিং গ্রহণ করা হয়েছে');
+      toast.success(t('provider.bookingAccepted'));
       router.push(`/provider/job/${id}`);
     } catch (err) {
       console.error(err);
-      toast.error('গ্রহণ করা যায়নি');
+      toast.error(t('provider.acceptedFailed'));
     }
   };
 
@@ -120,7 +122,7 @@ export default function ProviderDashboardPage() {
           <div>
             <p className="font-semibold">{user?.name}</p>
             {!profile.isVerified && (
-              <p className="text-xs font-medium text-amber-600">যাচাই হচ্ছে</p>
+              <p className="text-xs font-medium text-amber-600">{t('provider.verifying')}</p>
             )}
           </div>
         </div>
@@ -132,11 +134,11 @@ export default function ProviderDashboardPage() {
       ) : (
         <>
           <section className="mt-6">
-            <h2 className="mb-2 font-semibold">নতুন অনুরোধ</h2>
+            <h2 className="mb-2 font-semibold">{t('provider.newRequests')}</h2>
             {!profile.isOnline ? (
-              <EmptyState title="অনলাইন হয়ে অনুরোধ দেখুন" />
+              <EmptyState title={t('provider.goOnlineToSeeRequests')} />
             ) : pending.length === 0 ? (
-              <EmptyState title="কোনো নতুন অনুরোধ নেই" />
+              <EmptyState title={t('provider.noNewRequests')} />
             ) : (
               <div className="space-y-3">
                 {pending.map((b) => (
@@ -147,9 +149,9 @@ export default function ProviderDashboardPage() {
           </section>
 
           <section className="mt-6">
-            <h2 className="mb-2 font-semibold">আজকের সময়সূচি</h2>
+            <h2 className="mb-2 font-semibold">{t('provider.todaySchedule')}</h2>
             {todaySchedule.length === 0 ? (
-              <EmptyState title="আজ কোনো কাজ নির্ধারিত নেই" />
+              <EmptyState title={t('provider.noJobsToday')} />
             ) : (
               <div className="space-y-2">
                 {todaySchedule.map((b) => (
@@ -169,18 +171,18 @@ export default function ProviderDashboardPage() {
           </section>
 
           <section className="mt-6">
-            <h2 className="mb-2 font-semibold">আয়ের সংক্ষিপ্তসার</h2>
+            <h2 className="mb-2 font-semibold">{t('provider.earningsSnapshot')}</h2>
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-lg border bg-white p-3 text-center">
-                <p className="text-xs text-muted-foreground">আজ</p>
+                <p className="text-xs text-muted-foreground">{t('provider.today')}</p>
                 <p className="font-bold">{formatPrice(earnings.today)}</p>
               </div>
               <div className="rounded-lg border bg-white p-3 text-center">
-                <p className="text-xs text-muted-foreground">সপ্তাহ</p>
+                <p className="text-xs text-muted-foreground">{t('provider.week')}</p>
                 <p className="font-bold">{formatPrice(earnings.week)}</p>
               </div>
               <div className="rounded-lg border bg-white p-3 text-center">
-                <p className="text-xs text-muted-foreground">মাস</p>
+                <p className="text-xs text-muted-foreground">{t('provider.month')}</p>
                 <p className="font-bold">{formatPrice(earnings.month)}</p>
               </div>
             </div>

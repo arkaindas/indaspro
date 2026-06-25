@@ -14,6 +14,7 @@ import {
   updateSettlement,
 } from '@/lib/firestore';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 import type { Booking, ProviderProfile, Settlement } from '@/types';
 
 interface ProviderSummary {
@@ -26,6 +27,7 @@ interface ProviderSummary {
 }
 
 export default function AdminSettlementsPage() {
+  const { t } = useLanguage();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [providers, setProviders] = useState<ProviderProfile[]>([]);
   const [settlements, setSettlements] = useState<Settlement[]>([]);
@@ -81,55 +83,55 @@ export default function AdminSettlementsPage() {
         netAmount: summary.netAmount,
         status: 'pending',
       });
-      toast.success('সেটেলমেন্ট তৈরি হয়েছে');
+      toast.success(t('admin.settlementCreated'));
       load();
     } catch (err) {
       console.error(err);
-      toast.error('তৈরি করা যায়নি');
+      toast.error(t('admin.createFailed'));
     }
   };
 
   const handleMarkSettled = async (id: string) => {
     try {
       await updateSettlement(id, { status: 'settled' });
-      toast.success('সেটেলড চিহ্নিত হয়েছে');
+      toast.success(t('admin.markSettledSuccess'));
       load();
     } catch (err) {
       console.error(err);
-      toast.error('করা যায়নি');
+      toast.error(t('admin.reassignFailed'));
     }
   };
 
   const summaryColumns: DataTableColumn<ProviderSummary>[] = [
-    { header: 'সেবাদাতা', render: (s) => s.providerName },
-    { header: 'নগদ সংগৃহীত', render: (s) => formatPrice(s.totalCashCollected) },
-    { header: 'UPI আয়', render: (s) => formatPrice(s.totalUpiEarned) },
-    { header: 'কমিশন', render: (s) => formatPrice(s.commissionOwed) },
-    { header: 'নেট', render: (s) => formatPrice(s.netAmount) },
+    { header: t('admin.provider'), render: (s) => s.providerName },
+    { header: t('provider.cashCollected'), render: (s) => formatPrice(s.totalCashCollected) },
+    { header: t('provider.upiEarned'), render: (s) => formatPrice(s.totalUpiEarned) },
+    { header: t('provider.commission'), render: (s) => formatPrice(s.commissionOwed) },
+    { header: t('provider.netEarnings'), render: (s) => formatPrice(s.netAmount) },
     {
-      header: 'অ্যাকশন',
+      header: t('common.action'),
       render: (s) => (
         <Button size="sm" onClick={() => handleCreateSettlement(s)}>
-          সেটেলমেন্ট তৈরি করুন
+          {t('admin.createSettlement')}
         </Button>
       ),
     },
   ];
 
   const settlementColumns: DataTableColumn<Settlement>[] = [
-    { header: 'সেবাদাতা', render: (s) => s.providerName },
-    { header: 'মেয়াদ', render: (s) => `${s.periodStart} - ${s.periodEnd}` },
-    { header: 'নেট', render: (s) => formatPrice(s.netAmount) },
+    { header: t('admin.provider'), render: (s) => s.providerName },
+    { header: t('customer.scheduleLabel'), render: (s) => `${s.periodStart} - ${s.periodEnd}` },
+    { header: t('provider.netEarnings'), render: (s) => formatPrice(s.netAmount) },
     {
-      header: 'স্ট্যাটাস',
+      header: t('common.status'),
       render: (s) => <Badge variant={s.status === 'settled' ? 'success' : 'warning'}>{s.status}</Badge>,
     },
     {
-      header: 'অ্যাকশন',
+      header: t('common.action'),
       render: (s) =>
         s.status === 'pending' ? (
           <Button size="sm" onClick={() => handleMarkSettled(s.id)}>
-            সেটেলড চিহ্নিত করুন
+            {t('admin.markSettled')}
           </Button>
         ) : (
           '-'
@@ -141,13 +143,13 @@ export default function AdminSettlementsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold">সেটেলমেন্ট</h1>
+      <h1 className="text-xl font-bold">{t('admin.settlements')}</h1>
       <section>
-        <h2 className="mb-2 font-semibold">এই মাসের সারাংশ</h2>
+        <h2 className="mb-2 font-semibold">{t('admin.monthSummary')}</h2>
         <DataTable columns={summaryColumns} rows={summaries} rowKey={(s) => s.providerId} />
       </section>
       <section>
-        <h2 className="mb-2 font-semibold">সেটেলমেন্ট তালিকা</h2>
+        <h2 className="mb-2 font-semibold">{t('admin.settlementsList')}</h2>
         <DataTable columns={settlementColumns} rows={settlements} rowKey={(s) => s.id} />
       </section>
     </div>

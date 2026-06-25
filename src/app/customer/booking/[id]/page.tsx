@@ -18,6 +18,7 @@ import { InitialsAvatar } from '@/components/shared/InitialsAvatar';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useRealtimeBooking } from '@/hooks/useRealtimeBooking';
 import { useBooking } from '@/hooks/useBooking';
+import { useLanguage } from '@/context/LanguageContext';
 import { formatPrice } from '@/lib/utils';
 import { CANCEL_REASONS_CUSTOMER } from '@/lib/constants';
 
@@ -26,6 +27,7 @@ export default function BookingDetailPage() {
   const router = useRouter();
   const { booking, loading } = useRealtimeBooking(params.id);
   const { update, submitting } = useBooking();
+  const { t } = useLanguage();
   const [cancelOpen, setCancelOpen] = useState(false);
   const [reason, setReason] = useState(CANCEL_REASONS_CUSTOMER[0]);
 
@@ -37,7 +39,7 @@ export default function BookingDetailPage() {
       cancellationReason: reason,
     });
     if (ok) {
-      toast.success('বুকিং বাতিল হয়েছে');
+      toast.success(t('customer.cancellationConfirmed'));
       setCancelOpen(false);
     }
   };
@@ -53,7 +55,7 @@ export default function BookingDetailPage() {
   if (!booking) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        বুকিং পাওয়া যায়নি
+        {t('customer.noBookingFound')}
       </div>
     );
   }
@@ -75,7 +77,7 @@ export default function BookingDetailPage() {
 
       {booking.status === 'arrived' && (
         <div className="mb-4 rounded-xl border-2 border-dashed border-primary bg-primary/5 p-4 text-center">
-          <p className="text-sm font-medium">{booking.otpCode ? 'সেবাদাতাকে এই কোড বলুন' : ''}</p>
+          <p className="text-sm font-medium">{booking.otpCode ? t('customer.tellProviderCode') : ''}</p>
           <p className="mt-1 text-4xl font-bold tracking-widest text-primary">{booking.otpCode}</p>
         </div>
       )}
@@ -110,7 +112,7 @@ export default function BookingDetailPage() {
       )}
 
       <div className="mb-4 rounded-xl border bg-white p-4">
-        <p className="font-semibold">সেবা</p>
+        <p className="font-semibold">{t('customer.services')}</p>
         {booking.services.map((s) => (
           <div key={s.serviceId} className="flex justify-between py-1 text-sm">
             <span>{s.nameBn}</span>
@@ -118,13 +120,13 @@ export default function BookingDetailPage() {
           </div>
         ))}
         <div className="mt-2 flex justify-between border-t pt-2 font-bold">
-          <span>সর্বমোট</span>
+          <span>{t('customer.total')}</span>
           <span>{formatPrice(booking.total)}</span>
         </div>
       </div>
 
       <div className="mb-4 rounded-xl border bg-white p-4 text-sm text-muted-foreground">
-        <p className="font-semibold text-foreground">ঠিকানা</p>
+        <p className="font-semibold text-foreground">{t('customer.stepAddress')}</p>
         <p className="mt-1">
           {booking.address.houseNo}, {booking.address.streetPara}, {booking.address.landmark},{' '}
           {booking.address.area}, {booking.address.town} - {booking.address.pinCode}
@@ -133,14 +135,14 @@ export default function BookingDetailPage() {
 
       {canCancel && (
         <Button variant="destructive" className="w-full" onClick={() => setCancelOpen(true)}>
-          বুকিং বাতিল করুন
+          {t('customer.cancelBooking')}
         </Button>
       )}
 
       <Dialog open={cancelOpen} onOpenChange={setCancelOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>বাতিলের কারণ</DialogTitle>
+            <DialogTitle>{t('customer.cancelReason')}</DialogTitle>
           </DialogHeader>
           <RadioGroup value={reason} onValueChange={setReason} className="gap-3">
             {CANCEL_REASONS_CUSTOMER.map((r) => (
@@ -151,7 +153,7 @@ export default function BookingDetailPage() {
           </RadioGroup>
           <DialogFooter>
             <Button variant="destructive" onClick={handleCancel} disabled={submitting}>
-              নিশ্চিত করুন
+              {t('customer.confirmCancel')}
             </Button>
           </DialogFooter>
         </DialogContent>

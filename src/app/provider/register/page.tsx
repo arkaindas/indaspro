@@ -12,13 +12,19 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useAuth } from '@/hooks/useAuth';
 import { createProviderProfile } from '@/lib/firestore';
 import { SERVICE_CATEGORIES, SERVICES } from '@/lib/constants';
-
-const STEPS = ['ক্যাটাগরি ও অভিজ্ঞতা', 'সেবার এলাকা'];
-const EXPERIENCE_OPTIONS = ['০-১ বছর', '১-৩ বছর', '৩-৫ বছর', '৫+ বছর'];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ProviderRegisterPage() {
   const { firebaseUser, user, refreshUser } = useAuth();
   const router = useRouter();
+  const { t } = useLanguage();
+  const STEPS = [t('provider.registrationStep1'), t('provider.registrationStep2')];
+  const EXPERIENCE_OPTIONS = [
+    t('provider.exp0to1'),
+    t('provider.exp1to3'),
+    t('provider.exp3to5'),
+    t('provider.exp5plus'),
+  ];
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
@@ -56,11 +62,11 @@ export default function ProviderRegisterPage() {
 
   const validateStep = (): boolean => {
     if (step === 0 && categoryIds.length === 0) {
-      toast.error('অন্তত একটি ক্যাটাগরি নির্বাচন করুন');
+      toast.error(t('provider.selectAtLeastOneCategory'));
       return false;
     }
     if (step === 1 && (!serviceTown.trim() || serviceAreas.length === 0)) {
-      toast.error('শহর ও এলাকা পূরণ করুন');
+      toast.error(t('provider.fillTownAndArea'));
       return false;
     }
     return true;
@@ -99,7 +105,7 @@ export default function ProviderRegisterPage() {
       setDone(true);
     } catch (err) {
       console.error(err);
-      toast.error('রেজিস্ট্রেশন করা যায়নি');
+      toast.error(t('auth.registrationFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -109,9 +115,9 @@ export default function ProviderRegisterPage() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
         <span className="text-4xl">🛠️</span>
-        <h1 className="mt-3 text-lg font-bold">যাচাই হচ্ছে, ২৪-৪৮ ঘন্টায় জানানো হবে</h1>
+        <h1 className="mt-3 text-lg font-bold">{t('provider.verificationPending')}</h1>
         <Button className="mt-6 w-full" onClick={() => router.push('/provider')}>
-          ড্যাশবোর্ডে যান
+          {t('provider.goToDashboard')}
         </Button>
       </div>
     );
@@ -130,7 +136,7 @@ export default function ProviderRegisterPage() {
         {step === 0 && (
           <>
             <div className="space-y-2">
-              <Label>ক্যাটাগরি নির্বাচন করুন</Label>
+              <Label>{t('provider.selectCategoriesLabel')}</Label>
               {SERVICE_CATEGORIES.map((cat) => (
                 <label key={cat.id} className="flex items-center gap-2 rounded-lg border p-3 text-sm">
                   <Checkbox
@@ -146,7 +152,7 @@ export default function ProviderRegisterPage() {
 
             {categoryIds.length > 0 && (
               <div className="space-y-2">
-                <Label>সেবা নির্বাচন করুন</Label>
+                <Label>{t('provider.selectServicesLabel')}</Label>
                 {SERVICES.filter((s) => categoryIds.includes(s.categoryId)).map((svc) => (
                   <label key={svc.id} className="flex items-center gap-2 rounded-lg border p-3 text-sm">
                     <Checkbox
@@ -160,7 +166,7 @@ export default function ProviderRegisterPage() {
             )}
 
             <div className="space-y-2">
-              <Label>অভিজ্ঞতা (বছর)</Label>
+              <Label>{t('provider.experienceYears')}</Label>
               <RadioGroup value={experienceYears} onValueChange={setExperienceYears} className="gap-2">
                 {EXPERIENCE_OPTIONS.map((opt) => (
                   <label key={opt} className="flex items-center gap-2 text-sm">
@@ -175,11 +181,11 @@ export default function ProviderRegisterPage() {
         {step === 1 && (
           <>
             <div className="space-y-1.5">
-              <Label>সেবার শহর</Label>
+              <Label>{t('provider.serviceTown')}</Label>
               <Input value={serviceTown} onChange={(e) => setServiceTown(e.target.value)} />
             </div>
             <div className="space-y-1.5">
-              <Label>সেবার এলাকা</Label>
+              <Label>{t('provider.serviceAreas')}</Label>
               <div className="flex gap-2">
                 <Input
                   value={areaInput}
@@ -190,10 +196,10 @@ export default function ProviderRegisterPage() {
                       addArea();
                     }
                   }}
-                  placeholder="এলাকার নাম লিখে Enter দিন"
+                  placeholder={t('provider.addAreaPlaceholder')}
                 />
                 <Button variant="outline" onClick={addArea}>
-                  যুক্ত করুন
+                  {t('common.add')}
                 </Button>
               </div>
               <div className="flex flex-wrap gap-2 pt-1">
@@ -211,20 +217,20 @@ export default function ProviderRegisterPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>সেবার পরিসীমা</Label>
+              <Label>{t('provider.serviceRange')}</Label>
               <RadioGroup
                 value={serviceRange}
                 onValueChange={(v) => setServiceRange(v as typeof serviceRange)}
                 className="gap-2"
               >
                 <label className="flex items-center gap-2 text-sm">
-                  <RadioGroupItem value="local_area" /> স্থানীয় এলাকা
+                  <RadioGroupItem value="local_area" /> {t('provider.localArea')}
                 </label>
                 <label className="flex items-center gap-2 text-sm">
-                  <RadioGroupItem value="full_town" /> সম্পূর্ণ শহর
+                  <RadioGroupItem value="full_town" /> {t('provider.fullTown')}
                 </label>
                 <label className="flex items-center gap-2 text-sm">
-                  <RadioGroupItem value="nearby_villages" /> আশেপাশের গ্রাম
+                  <RadioGroupItem value="nearby_villages" /> {t('provider.nearbyVillages')}
                 </label>
               </RadioGroup>
             </div>
@@ -235,11 +241,11 @@ export default function ProviderRegisterPage() {
       <div className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md border-t bg-white p-4">
         {step < STEPS.length - 1 ? (
           <Button className="w-full" onClick={handleNext}>
-            পরের ধাপ
+            {t('common.next')}
           </Button>
         ) : (
           <Button className="w-full" onClick={handleSubmit} disabled={submitting}>
-            জমা দিন
+            {t('common.submit')}
           </Button>
         )}
       </div>

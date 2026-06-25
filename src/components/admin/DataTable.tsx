@@ -1,4 +1,7 @@
+'use client';
+
 import type { ReactNode } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface DataTableColumn<T> {
   header: string;
@@ -13,10 +16,11 @@ interface DataTableProps<T> {
 }
 
 export function DataTable<T>({ columns, rows, rowKey, emptyMessage }: DataTableProps<T>) {
+  const { t } = useLanguage();
   if (rows.length === 0) {
     return (
       <div className="rounded-xl border bg-white p-8 text-center text-sm text-muted-foreground">
-        {emptyMessage || 'কোনো তথ্য পাওয়া যায়নি'}
+        {emptyMessage || t('common.noData')}
       </div>
     );
   }

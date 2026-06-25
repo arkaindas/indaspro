@@ -14,21 +14,23 @@ import {
   Settings,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const NAV_ITEMS = [
-  { href: '/admin', label: 'ড্যাশবোর্ড', icon: LayoutDashboard },
-  { href: '/admin/users', label: 'ব্যবহারকারী', icon: Users },
-  { href: '/admin/services', label: 'সেবা', icon: Wrench },
-  { href: '/admin/bookings', label: 'বুকিং', icon: ClipboardList },
-  { href: '/admin/payments', label: 'পেমেন্ট', icon: Wallet },
-  { href: '/admin/settlements', label: 'সেটেলমেন্ট', icon: Banknote },
-  { href: '/admin/coupons', label: 'প্রোমোশন', icon: Tag },
-  { href: '/admin/reports', label: 'রিপোর্ট', icon: BarChart3 },
-  { href: '/admin/settings', label: 'সেটিংস', icon: Settings },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const { t } = useLanguage();
+
+  const NAV_ITEMS = [
+    { href: '/admin', label: t('admin.dashboard'), icon: LayoutDashboard },
+    { href: '/admin/users', label: t('admin.users'), icon: Users },
+    { href: '/admin/services', label: t('admin.services'), icon: Wrench },
+    { href: '/admin/bookings', label: t('admin.bookings'), icon: ClipboardList },
+    { href: '/admin/payments', label: t('admin.payments'), icon: Wallet },
+    { href: '/admin/settlements', label: t('admin.settlements'), icon: Banknote },
+    { href: '/admin/coupons', label: t('admin.coupons'), icon: Tag },
+    { href: '/admin/reports', label: t('admin.reports'), icon: BarChart3 },
+    { href: '/admin/settings', label: t('admin.settings'), icon: Settings },
+  ];
 
   return (
     <aside className="hidden h-screen w-60 flex-col border-r bg-white md:flex">
