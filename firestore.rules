@@ -2,76 +2,32 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    match /users/{userId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth.uid == userId;
-
-      match /addresses/{addressId} {
-        allow read, write: if request.auth.uid == userId;
-      }
-      match /notifications/{notifId} {
-        allow read: if request.auth.uid == userId;
-        allow write: if request.auth != null;
-      }
-    }
-
-    match /providerProfiles/{userId} {
-      allow read: if request.auth != null;
-      allow create: if request.auth.uid == userId;
-      allow update: if request.auth.uid == userId || isAdmin();
-    }
-
-    match /serviceCategories/{doc} {
+    match /categories/{categoryId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if false;
     }
 
-    match /services/{doc} {
+    match /providers/{providerId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow create: if request.auth != null && request.auth.uid == providerId;
+      allow update: if request.auth != null && (
+        request.auth.uid == providerId ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+      allow delete: if false;
     }
 
-    match /bookings/{bookingId} {
-      allow read: if request.auth != null
-                  && (resource.data.customerId == request.auth.uid
-                      || resource.data.providerId == request.auth.uid
-                      || isAdmin());
-      allow create: if request.auth != null;
-      allow update: if request.auth != null
-                    && (resource.data.customerId == request.auth.uid
-                        || resource.data.providerId == request.auth.uid
-                        || isAdmin());
-
-      match /extras/{extraId} {
-        allow read, write: if request.auth != null;
-      }
-    }
-
-    match /reviews/{reviewId} {
+    match /services/{serviceId} {
       allow read: if true;
       allow create: if request.auth != null
-                    && request.resource.data.customerId == request.auth.uid;
+        && request.resource.data.providerId == request.auth.uid;
+      allow update, delete: if request.auth != null
+        && resource.data.providerId == request.auth.uid;
     }
 
-    match /coupons/{doc} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    match /settlements/{doc} {
-      allow read: if request.auth != null
-                  && (resource.data.providerId == request.auth.uid || isAdmin());
-      allow write: if isAdmin();
-    }
-
-    match /config/{doc} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    function isAdmin() {
-      return request.auth != null
-             && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.hasAny(['admin']);
+    match /admins/{adminId} {
+      allow read: if request.auth != null && request.auth.uid == adminId;
+      allow write: if false;
     }
   }
 }

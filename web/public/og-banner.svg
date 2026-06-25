@@ -1,0 +1,8 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#2563EB"/>
+  <rect x="60" y="60" width="1080" height="510" rx="24" fill="#1D4ED8"/>
+  <text x="600" y="240" font-family="Inter, Arial, sans-serif" font-size="96" font-weight="700" fill="white" text-anchor="middle">Indaspro</text>
+  <text x="600" y="330" font-family="Inter, Arial, sans-serif" font-size="40" fill="#93C5FD" text-anchor="middle">Home services at your doorstep</text>
+  <text x="600" y="420" font-family="Inter, Arial, sans-serif" font-size="28" fill="#BFDBFE" text-anchor="middle">Find trusted electricians, plumbers &amp; more near you</text>
+  <text x="600" y="510" font-family="Inter, Arial, sans-serif" font-size="24" fill="#60A5FA" text-anchor="middle">⚡ 🔧 🪚 🎨 🧹 ❄️ 🔌</text>
+</svg>
