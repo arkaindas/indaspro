@@ -65,7 +65,7 @@ export function useProvidersByCategory(categorySlug: string) {
     });
 
     return unsubscribe;
-  }, [categorySlug, area]);
+  }, [categorySlug]);
 
   return { providers, services, loading };
 }
