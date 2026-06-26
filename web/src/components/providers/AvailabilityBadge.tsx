@@ -5,9 +5,9 @@ interface AvailabilityBadgeProps {
 }
 
 const statusConfig = {
-  available: { dot: "bg-green-500", text: "provider.available" },
-  busy: { dot: "bg-amber-500", text: "provider.busy" },
-  offline: { dot: "bg-slate-400", text: "provider.offline" },
+  available: { dot: "#48BB78", text: "provider.available" },
+  busy:      { dot: "#ECC94B", text: "provider.busy" },
+  offline:   { dot: "#A0AEC0", text: "provider.offline" },
 };
 
 export function AvailabilityBadge({ status }: AvailabilityBadgeProps) {
@@ -15,8 +15,8 @@ export function AvailabilityBadge({ status }: AvailabilityBadgeProps) {
   const config = statusConfig[status];
 
   return (
-    <span className="flex items-center gap-1.5 text-xs font-medium text-slate-600">
-      <span className={`w-2 h-2 rounded-full ${config.dot}`} />
+    <span className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "var(--neu-text-muted)" }}>
+      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: config.dot, boxShadow: `0 0 4px ${config.dot}` }} />
       {t(config.text)}
     </span>
   );

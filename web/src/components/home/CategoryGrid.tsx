@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useLang } from "@/lib/lang-context";
@@ -15,10 +15,14 @@ export function CategoryGrid() {
           key={cat.slug}
           href={`/services/${cat.slug}`}
           onClick={() => trackEvent({ name: "category_tapped", params: { categorySlug: cat.slug } })}
-          className="flex flex-col items-center gap-2 p-3 bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all group"
+          className="neu-subtle flex flex-col items-center gap-2 p-3 transition-all duration-200 group hover:neu-raised"
+          style={{ background: "#E8EDF2", borderRadius: "16px" }}
         >
           <span className="text-3xl">{cat.icon}</span>
-          <span className="text-xs font-medium text-slate-700 text-center group-hover:text-blue-600 leading-tight">
+          <span
+            className="text-xs font-medium text-center leading-tight transition-colors duration-200 group-hover:opacity-90"
+            style={{ color: "var(--neu-text)" }}
+          >
             {lang === "bn" ? cat.nameBn : cat.name}
           </span>
         </Link>

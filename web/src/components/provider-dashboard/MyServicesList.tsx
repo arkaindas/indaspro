@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
@@ -36,17 +36,16 @@ export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
     }
   }
 
-  if (loading) {
-    return <div className="text-center py-8 text-slate-400">{t("common.loading")}</div>;
-  }
+  if (loading) return <div className="text-center py-8" style={{ color: "var(--neu-text-muted)" }}>{t("common.loading")}</div>;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4">
+    <div className="neu-raised p-4" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-slate-800">{t("dashboard.myServices")}</h3>
+        <h3 className="font-semibold" style={{ color: "var(--neu-text)" }}>{t("dashboard.myServices")}</h3>
         <button
           onClick={() => { setShowAddForm(true); setEditingService(null); }}
-          className="flex items-center gap-1.5 text-sm bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-semibold text-white px-3 py-1.5 transition-all active:scale-95"
+          style={{ background: "var(--neu-accent)", borderRadius: "12px", boxShadow: "4px 4px 8px #3d6be0, -2px -2px 6px #5789ff" }}
         >
           <Plus size={15} />
           {t("dashboard.addService")}
@@ -54,7 +53,7 @@ export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
       </div>
 
       {(showAddForm && !editingService) && (
-        <div className="mb-4 p-4 border border-slate-200 rounded-xl bg-slate-50">
+        <div className="neu-pressed mb-4 p-4" style={{ background: "#E8EDF2", borderRadius: "12px" }}>
           <ServiceForm
             categorySlug={categorySlug}
             onSuccess={() => setShowAddForm(false)}
@@ -64,12 +63,12 @@ export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
       )}
 
       {services.length === 0 && !showAddForm && (
-        <p className="text-slate-500 text-sm py-4 text-center">{t("dashboard.noServices")}</p>
+        <p className="text-sm py-4 text-center" style={{ color: "var(--neu-text-muted)" }}>{t("dashboard.noServices")}</p>
       )}
 
       <div className="space-y-3">
         {services.map((svc) => (
-          <div key={svc.id} className="border border-slate-100 rounded-xl p-3">
+          <div key={svc.id} className="neu-subtle p-3" style={{ background: "#E8EDF2", borderRadius: "12px" }}>
             {editingService?.id === svc.id ? (
               <ServiceForm
                 categorySlug={categorySlug}
@@ -80,10 +79,10 @@ export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
             ) : (
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-slate-900 truncate">{svc.title}</p>
-                  {svc.subcategory && <p className="text-xs text-blue-600 mt-0.5">{svc.subcategory}</p>}
-                  {svc.description && <p className="text-sm text-slate-500 mt-0.5 line-clamp-2">{svc.description}</p>}
-                  <p className="text-sm font-semibold text-slate-900 mt-1">
+                  <p className="font-medium truncate" style={{ color: "var(--neu-text)" }}>{svc.title}</p>
+                  {svc.subcategory && <p className="text-xs mt-0.5" style={{ color: "var(--neu-accent)" }}>{svc.subcategory}</p>}
+                  {svc.description && <p className="text-sm mt-0.5 line-clamp-2" style={{ color: "var(--neu-text-muted)" }}>{svc.description}</p>}
+                  <p className="text-sm font-semibold mt-1" style={{ color: "var(--neu-text)" }}>
                     {svc.priceType === "negotiable"
                       ? t("pricing.negotiable")
                       : `${formatPrice(svc.price)}${svc.priceType === "hourly" ? t("pricing.hourly") : ""}`}
@@ -92,16 +91,18 @@ export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
                 <div className="flex gap-2 flex-shrink-0">
                   <button
                     onClick={() => { setEditingService(svc); setShowAddForm(false); }}
-                    className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                    className="neu-subtle w-8 h-8 flex items-center justify-center rounded-xl transition-all active:neu-pressed"
+                    style={{ color: "var(--neu-accent)" }}
                   >
-                    <Pencil size={16} />
+                    <Pencil size={15} />
                   </button>
                   <button
                     onClick={() => handleDelete(svc.id)}
                     disabled={deleting === svc.id}
-                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                    className="neu-subtle w-8 h-8 flex items-center justify-center rounded-xl transition-all active:neu-pressed disabled:opacity-50"
+                    style={{ color: "var(--neu-danger)" }}
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={15} />
                   </button>
                 </div>
               </div>

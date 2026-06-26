@@ -32,12 +32,12 @@ interface AnalyticsData {
 
 // ── skeleton ──────────────────────────────────────────────────────────────────
 function Skeleton({ className }: { className: string }) {
-  return <div className={`bg-slate-200 rounded-xl animate-pulse ${className}`} />;
+  return <div className={`neu-skeleton rounded-xl ${className}`} />;
 }
 
 function ChartSkeleton() {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-5">
+    <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
       <Skeleton className="h-5 w-40 mb-4" />
       <Skeleton className="h-48 w-full" />
     </div>
@@ -47,16 +47,13 @@ function ChartSkeleton() {
 // ── summary card ──────────────────────────────────────────────────────────────
 function SummaryCard({ label, value, icon, color }: { label: string; value: number; icon: string; color: string }) {
   return (
-    <div
-      className="bg-white rounded-2xl border border-slate-100 p-5 flex items-center gap-4"
-      style={{ boxShadow: "4px 4px 10px #d1d9e6, -4px -4px 10px #ffffff" }}
-    >
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0`} style={{ background: `${color}18` }}>
+    <div className="neu-raised p-5 flex items-center gap-4" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+      <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style={{ background: `${color}18` }}>
         {icon}
       </div>
       <div>
-        <p className="text-3xl font-bold text-slate-900">{value}</p>
-        <p className="text-sm text-slate-500 mt-0.5">{label}</p>
+        <p className="text-3xl font-bold" style={{ color: "var(--neu-text)" }}>{value}</p>
+        <p className="text-sm mt-0.5" style={{ color: "var(--neu-text-muted)" }}>{label}</p>
       </div>
     </div>
   );
@@ -91,12 +88,13 @@ export function AnalyticsDashboard() {
   if (state === "idle") {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
-        <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-3xl">📊</div>
+        <div className="neu-subtle w-16 h-16 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#E8EDF2" }}>📊</div>
         <div className="text-center">
-          <p className="text-slate-500 text-sm mb-4">Click to load analytics data</p>
+          <p className="text-sm mb-4" style={{ color: "var(--neu-text-muted)" }}>Click to load analytics data</p>
           <button
             onClick={loadData}
-            className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors"
+            className="px-6 py-2.5 font-semibold text-white transition-all active:scale-95"
+            style={{ background: "var(--neu-accent)", borderRadius: "12px", boxShadow: "4px 4px 8px #3d6be0, -2px -2px 6px #5789ff" }}
           >
             Show Analytics
           </button>
@@ -110,10 +108,11 @@ export function AnalyticsDashboard() {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-3">
         <span className="text-4xl">⚠️</span>
-        <p className="text-red-600 text-sm">{errorMsg}</p>
+        <p className="text-sm" style={{ color: "var(--neu-danger)" }}>{errorMsg}</p>
         <button
           onClick={loadData}
-          className="px-5 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition-colors"
+          className="px-5 py-2 text-sm font-semibold text-white transition-all active:scale-95"
+          style={{ background: "var(--neu-accent)", borderRadius: "12px", boxShadow: "4px 4px 8px #3d6be0, -2px -2px 6px #5789ff" }}
         >
           Retry
         </button>
@@ -180,7 +179,8 @@ export function AnalyticsDashboard() {
       <div className="flex justify-end mb-5">
         <button
           onClick={loadData}
-          className="flex items-center gap-2 px-4 py-2 text-sm border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 transition-colors"
+          className="neu-subtle flex items-center gap-2 px-4 py-2 text-sm transition-all active:neu-pressed"
+          style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px" }}
         >
           🔄 Refresh
         </button>
@@ -198,10 +198,10 @@ export function AnalyticsDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         {/* 1. services by category */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-5" style={{ boxShadow: "2px 2px 8px #d1d9e6, -2px -2px 8px #ffffff" }}>
-          <p className="font-semibold text-slate-800 mb-4">Services by Category</p>
+        <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+          <p className="font-semibold mb-4" style={{ color: "var(--neu-text)" }}>Services by Category</p>
           {categoryData.length === 0 ? (
-            <p className="text-slate-400 text-sm text-center py-12">No services yet</p>
+            <p className="text-sm text-center py-12" style={{ color: "var(--neu-text-muted)" }}>No services yet</p>
           ) : (
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={categoryData} margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
@@ -220,10 +220,10 @@ export function AnalyticsDashboard() {
         </div>
 
         {/* 2. providers by status */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-5" style={{ boxShadow: "2px 2px 8px #d1d9e6, -2px -2px 8px #ffffff" }}>
-          <p className="font-semibold text-slate-800 mb-4">Providers by Status</p>
+        <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+          <p className="font-semibold mb-4" style={{ color: "var(--neu-text)" }}>Providers by Status</p>
           {statusData.length === 0 ? (
-            <p className="text-slate-400 text-sm text-center py-12">No providers yet</p>
+            <p className="text-sm text-center py-12" style={{ color: "var(--neu-text-muted)" }}>No providers yet</p>
           ) : (
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
@@ -238,10 +238,10 @@ export function AnalyticsDashboard() {
         </div>
 
         {/* 3. providers by area */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-5" style={{ boxShadow: "2px 2px 8px #d1d9e6, -2px -2px 8px #ffffff" }}>
-          <p className="font-semibold text-slate-800 mb-4">Providers by Area</p>
+        <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+          <p className="font-semibold mb-4" style={{ color: "var(--neu-text)" }}>Providers by Area</p>
           {areaData.length === 0 ? (
-            <p className="text-slate-400 text-sm text-center py-12">No area data yet</p>
+            <p className="text-sm text-center py-12" style={{ color: "var(--neu-text-muted)" }}>No area data yet</p>
           ) : (
             <ResponsiveContainer width="100%" height={Math.max(180, areaData.length * 36)}>
               <BarChart data={areaData} layout="vertical" margin={{ top: 0, right: 10, left: 10, bottom: 0 }}>
@@ -257,11 +257,11 @@ export function AnalyticsDashboard() {
         </div>
 
         {/* 4. availability (approved only) */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-5" style={{ boxShadow: "2px 2px 8px #d1d9e6, -2px -2px 8px #ffffff" }}>
-          <p className="font-semibold text-slate-800 mb-1">Availability Status</p>
-          <p className="text-xs text-slate-400 mb-3">Approved providers only</p>
+        <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+          <p className="font-semibold mb-1" style={{ color: "var(--neu-text)" }}>Availability Status</p>
+          <p className="text-xs mb-3" style={{ color: "var(--neu-text-muted)" }}>Approved providers only</p>
           {availData.length === 0 ? (
-            <p className="text-slate-400 text-sm text-center py-12">No approved providers yet</p>
+            <p className="text-sm text-center py-12" style={{ color: "var(--neu-text-muted)" }}>No approved providers yet</p>
           ) : (
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>

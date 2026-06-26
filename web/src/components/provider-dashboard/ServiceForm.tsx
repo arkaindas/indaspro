@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
@@ -20,6 +20,9 @@ interface ServiceFormProps {
   onCancel: () => void;
 }
 
+const inputCls = "neu-pressed w-full px-3 py-2.5 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#4A7CFF]";
+const inputStyle = { background: "#E8EDF2", borderRadius: "12px", border: "none", color: "var(--neu-text)" };
+
 export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: ServiceFormProps) {
   const { user } = useAuth();
   const { t } = useLang();
@@ -28,9 +31,7 @@ export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: 
   const [subcategory, setSubcategory] = useState(initialData?.subcategory ?? "");
   const [description, setDescription] = useState(initialData?.description ?? "");
   const [price, setPrice] = useState(String(initialData?.price ?? ""));
-  const [priceType, setPriceType] = useState<"fixed" | "hourly" | "negotiable">(
-    initialData?.priceType ?? "fixed"
-  );
+  const [priceType, setPriceType] = useState<"fixed" | "hourly" | "negotiable">(initialData?.priceType ?? "fixed");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -47,10 +48,7 @@ export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: 
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           ...(isEdit && { serviceId: initialData!.id }),
-          categorySlug,
-          subcategory,
-          title,
-          description,
+          categorySlug, subcategory, title, description,
           price: parseInt(price, 10) || 0,
           priceType,
         }),
@@ -70,61 +68,39 @@ export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: 
   return (
     <div className="space-y-3">
       {cat && (
-        <div className="flex items-center gap-2 text-sm font-medium text-slate-600 mb-2">
+        <div className="flex items-center gap-2 text-sm font-medium mb-2" style={{ color: "var(--neu-text-muted)" }}>
           <span>{cat.icon}</span> {cat.name}
         </div>
       )}
-      <input
-        type="text"
-        value={subcategory}
-        onChange={(e) => setSubcategory(e.target.value)}
-        placeholder="Subcategory (e.g. Wiring, Plumbing)"
-        className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder={t("onboarding.serviceTitle")}
-        className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder={t("onboarding.serviceDescription")}
-        rows={3}
-        className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-      />
+      <input type="text" value={subcategory} onChange={(e) => setSubcategory(e.target.value)}
+        placeholder="Subcategory (e.g. Wiring, Plumbing)" className={inputCls} style={inputStyle} />
+      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
+        placeholder={t("onboarding.serviceTitle")} className={inputCls} style={inputStyle} />
+      <textarea value={description} onChange={(e) => setDescription(e.target.value)}
+        placeholder={t("onboarding.serviceDescription")} rows={3}
+        className={`${inputCls} resize-none`} style={inputStyle} />
       <div className="flex gap-2">
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder={t("onboarding.servicePrice")}
-          className="flex-1 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <select
-          value={priceType}
-          onChange={(e) => setPriceType(e.target.value as "fixed" | "hourly" | "negotiable")}
-          className="flex-1 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
+        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)}
+          placeholder={t("onboarding.servicePrice")} className={`${inputCls} flex-1`} style={inputStyle} />
+        <select value={priceType} onChange={(e) => setPriceType(e.target.value as "fixed" | "hourly" | "negotiable")}
+          className={`${inputCls} flex-1`} style={inputStyle}>
           <option value="fixed">{t("pricing.fixed")}</option>
           <option value="hourly">{t("pricing.hourly")}</option>
           <option value="negotiable">{t("pricing.negotiable")}</option>
         </select>
       </div>
 
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {error && <p className="text-sm" style={{ color: "var(--neu-danger)" }}>{error}</p>}
 
       <div className="flex gap-2 pt-2">
-        <button onClick={onCancel} className="flex-1 border border-slate-200 text-slate-700 py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-sm">
+        <button onClick={onCancel}
+          className="neu-subtle flex-1 py-2.5 text-sm transition-all active:neu-pressed"
+          style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
           {t("common.cancel")}
         </button>
-        <button
-          onClick={handleSave}
-          disabled={!title.trim() || saving}
-          className="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors text-sm"
-        >
+        <button onClick={handleSave} disabled={!title.trim() || saving}
+          className="flex-1 py-2.5 text-sm font-semibold text-white transition-all active:scale-95 disabled:opacity-50"
+          style={{ background: "var(--neu-accent)", borderRadius: "12px", boxShadow: "4px 4px 8px #3d6be0, -2px -2px 6px #5789ff" }}>
           {saving ? t("common.loading") : t("common.save")}
         </button>
       </div>

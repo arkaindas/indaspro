@@ -2,31 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── design tokens ─────────────────────────────────────────────────────────── */
 :root {
-  --color-primary: #2563EB;
-  --color-primary-dark: #1D4ED8;
-  --color-secondary: #059669;
-  --color-warning: #D97706;
-  --color-danger: #DC2626;
-  --color-background: #F8FAFC;
-  --color-card: #FFFFFF;
-  --color-text-primary: #0F172A;
-  --color-text-secondary: #64748B;
-  --color-border: #E2E8F0;
+  --neu-bg:          #E8EDF2;
+  --neu-text:        #2D3748;
+  --neu-text-muted:  #718096;
+  --neu-accent:      #4A7CFF;
+  --neu-success:     #48BB78;
+  --neu-warning:     #ECC94B;
+  --neu-danger:      #F56565;
+
+  /* legacy — keep for any unreached usages */
+  --color-primary:        #4A7CFF;
+  --color-primary-dark:   #3d6be0;
+  --color-secondary:      #48BB78;
+  --color-warning:        #ECC94B;
+  --color-danger:         #F56565;
+  --color-background:     #E8EDF2;
+  --color-text-primary:   #2D3748;
+  --color-text-secondary: #718096;
 }
 
+/* ── neumorphic shadow utilities ────────────────────────────────────────────── */
+.neu-raised {
+  box-shadow: 8px 8px 16px #c8cdd2, -8px -8px 16px #ffffff;
+}
+.neu-pressed {
+  box-shadow: inset 4px 4px 8px #c8cdd2, inset -4px -4px 8px #ffffff;
+}
+.neu-subtle {
+  box-shadow: 4px 4px 8px #c8cdd2, -4px -4px 8px #ffffff;
+}
+
+/* mobile — halve shadow values */
+@media (max-width: 768px) {
+  .neu-raised  { box-shadow: 4px 4px 8px #c8cdd2,  -4px -4px 8px #ffffff; }
+  .neu-pressed { box-shadow: inset 2px 2px 4px #c8cdd2, inset -2px -2px 4px #ffffff; }
+  .neu-subtle  { box-shadow: 2px 2px 6px #c8cdd2,  -2px -2px 6px #ffffff; }
+}
+
+/* ── skeleton shimmer ───────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.neu-skeleton {
+  background: linear-gradient(90deg, #d1d9e0 0%, #e8edf2 50%, #d1d9e0 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  box-shadow: 2px 2px 6px #c8cdd2, -2px -2px 6px #ffffff;
+}
+
+/* ── base ────────────────────────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
+  background: #E8EDF2;
+  color: #2D3748;
   font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
 }

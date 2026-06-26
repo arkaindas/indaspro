@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
@@ -9,11 +9,11 @@ import { AvatarWithFallback } from "@/components/providers/AvatarWithFallback";
 import { AvailabilityBadge } from "@/components/providers/AvailabilityBadge";
 import type { Provider } from "@/shared/types/provider";
 
-const statusColors: Record<string, string> = {
-  approved: "bg-green-100 text-green-700",
-  pending_approval: "bg-amber-100 text-amber-700",
-  rejected: "bg-red-100 text-red-700",
-  pending_profile: "bg-slate-100 text-slate-600",
+const statusColors: Record<string, { bg: string; text: string }> = {
+  approved:        { bg: "#dcfce7", text: "#166534" },
+  pending_approval:{ bg: "#fef9c3", text: "#854d0e" },
+  rejected:        { bg: "#fee2e2", text: "#991b1b" },
+  pending_profile: { bg: "#f1f5f9", text: "#475569" },
 };
 
 export function AllProviders() {
@@ -44,7 +44,6 @@ export function AllProviders() {
         body: JSON.stringify({ providerId: provider.uid }),
       });
       if (!res.ok) throw new Error((await res.json()).error ?? "Failed");
-      // Optimistic removal — real-time listener will also update
       setProviders((prev) => prev.filter((p) => p.uid !== provider.uid));
     } catch (err) {
       alert(err instanceof Error ? err.message : "Failed to remove provider");
@@ -55,18 +54,22 @@ export function AllProviders() {
 
   const filtered = filter === "all" ? providers : providers.filter((p) => p.status === filter);
 
-  if (loading) return <div className="text-center py-8 text-slate-400">{t("common.loading")}</div>;
+  if (loading) return <div className="text-center py-8" style={{ color: "var(--neu-text-muted)" }}>{t("common.loading")}</div>;
 
   return (
     <div>
+      {/* filter chips */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {["all", "approved", "pending_approval", "rejected"].map((s) => (
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
-              filter === s ? "bg-blue-600 text-white border-blue-600" : "border-slate-200 text-slate-600 hover:bg-slate-50"
-            }`}
+            className="px-3 py-1.5 text-sm font-medium transition-all duration-200"
+            style={
+              filter === s
+                ? { background: "var(--neu-accent)", color: "#ffffff", borderRadius: "12px", boxShadow: "4px 4px 8px #3d6be0, -2px -2px 6px #5789ff" }
+                : { background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px #c8cdd2, -4px -4px 8px #ffffff" }
+            }
           >
             {s === "all" ? "All" : t(`admin.${s === "approved" ? "approved" : s === "rejected" ? "rejected" : "pending"}`)}
             {" "}({s === "all" ? providers.length : providers.filter((p) => p.status === s).length})
@@ -76,25 +79,29 @@ export function AllProviders() {
 
       <div className="space-y-2">
         {filtered.map((p) => (
-          <div key={p.uid} className="bg-white rounded-xl border border-slate-200 p-3 flex items-center gap-3">
+          <div key={p.uid} className="neu-subtle p-3 flex items-center gap-3 transition-all" style={{ background: "#E8EDF2", borderRadius: "12px" }}>
             <AvatarWithFallback photoURL={p.photoURL} name={p.displayName} size="sm" />
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <p className="font-medium text-slate-900 text-sm">{p.displayName}</p>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${statusColors[p.status]}`}>
+              <div className="flex items-center gap-2 flex-wrap">
+                <p className="font-medium text-sm" style={{ color: "var(--neu-text)" }}>{p.displayName}</p>
+                <span
+                  className="text-xs px-2 py-0.5 rounded-full"
+                  style={{ background: statusColors[p.status]?.bg ?? "#f1f5f9", color: statusColors[p.status]?.text ?? "#475569" }}
+                >
                   {p.status.replace("_", " ")}
                 </span>
                 {p.source === "seeded" && (
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">{t("admin.seeded")}</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#ede9fe", color: "#5b21b6" }}>{t("admin.seeded")}</span>
                 )}
               </div>
-              <p className="text-xs text-slate-500">{p.phone} • {p.area}</p>
+              <p className="text-xs" style={{ color: "var(--neu-text-muted)" }}>{p.phone}</p>
             </div>
             {p.status === "approved" && <AvailabilityBadge status={p.availability} />}
             <button
               onClick={() => handleRemove(p)}
               disabled={removing === p.uid}
-              className="ml-2 px-3 py-1.5 text-xs font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 disabled:opacity-50 transition-colors flex-shrink-0"
+              className="ml-2 px-3 py-1.5 text-xs font-semibold text-white flex-shrink-0 transition-all active:scale-95 disabled:opacity-50"
+              style={{ background: "var(--neu-danger)", borderRadius: "12px", boxShadow: "3px 3px 6px #d94f4f, -2px -2px 4px #ff7b7b" }}
             >
               {removing === p.uid ? "Removing…" : "Remove"}
             </button>

@@ -22,37 +22,41 @@ export default function AdminPage() {
     if (!loading && !isAdmin) router.push("/");
   }, [isAdmin, loading, router]);
 
-  if (loading) return <div className="flex items-center justify-center min-h-64 text-slate-400">{t("common.loading")}</div>;
+  if (loading) return <div className="flex items-center justify-center min-h-64" style={{ color: "var(--neu-text-muted)" }}>{t("common.loading")}</div>;
   if (!isAdmin) return null;
 
   const tabs: { key: Tab; label: string }[] = [
-    { key: "pending", label: t("admin.pending") },
-    { key: "all", label: t("admin.allProviders") },
-    { key: "seed", label: t("admin.seedProvider") },
+    { key: "pending",   label: t("admin.pending") },
+    { key: "all",       label: t("admin.allProviders") },
+    { key: "seed",      label: t("admin.seedProvider") },
     { key: "analytics", label: "Analytics" },
   ];
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-slate-900 mb-5">{t("admin.title")}</h1>
+      <h1 className="text-2xl font-bold mb-5" style={{ color: "var(--neu-text)" }}>{t("admin.title")}</h1>
 
-      <div className="flex gap-1 mb-6 bg-slate-100 p-1 rounded-xl w-fit">
+      {/* tab bar */}
+      <div className="flex gap-2 mb-6 flex-wrap">
         {tabs.map((tabItem) => (
           <button
             key={tabItem.key}
             onClick={() => setTab(tabItem.key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              tab === tabItem.key ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-800"
-            }`}
+            className="px-4 py-2 text-sm font-medium transition-all duration-200"
+            style={
+              tab === tabItem.key
+                ? { background: "#E8EDF2", color: "var(--neu-text)", borderRadius: "12px", boxShadow: "inset 4px 4px 8px #c8cdd2, inset -4px -4px 8px #ffffff" }
+                : { background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px #c8cdd2, -4px -4px 8px #ffffff" }
+            }
           >
             {tabItem.label}
           </button>
         ))}
       </div>
 
-      {tab === "pending" && <PendingProviders />}
-      {tab === "all" && <AllProviders />}
-      {tab === "seed" && <SeedProviderForm />}
+      {tab === "pending"   && <PendingProviders />}
+      {tab === "all"       && <AllProviders />}
+      {tab === "seed"      && <SeedProviderForm />}
       {tab === "analytics" && <AnalyticsDashboard />}
     </div>
   );

@@ -27,6 +27,7 @@ export function ProviderDetailClient({ provider, services }: Props) {
     trackEvent({ name: "provider_viewed", params: { providerId: provider.uid, categorySlug } });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provider.uid]);
+
   const cat = CATEGORIES.find((c) => c.slug === categorySlug);
   const categoryName = cat ? (lang === "bn" ? cat.nameBn : cat.name) : "";
 
@@ -37,23 +38,24 @@ export function ProviderDetailClient({ provider, services }: Props) {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
-      <Link href="/" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-700 mb-6 text-sm">
+      <Link href="/" className="inline-flex items-center gap-1.5 mb-6 text-sm transition-opacity hover:opacity-70" style={{ color: "var(--neu-text-muted)" }}>
         <ArrowLeft size={16} />
         {t("common.back")}
       </Link>
 
-      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+      {/* main card */}
+      <div className="neu-raised" style={{ background: "#E8EDF2", borderRadius: "20px", overflow: "hidden" }}>
         <div className="p-6">
           <div className="flex items-start gap-4 mb-6">
             <AvatarWithFallback photoURL={provider.photoURL} name={provider.displayName} size="lg" />
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-slate-900">{provider.displayName}</h1>
-              {categoryName && <p className="text-slate-500 mt-0.5">{categoryName}</p>}
+              <h1 className="text-2xl font-bold" style={{ color: "var(--neu-text)" }}>{provider.displayName}</h1>
+              {categoryName && <p className="mt-0.5" style={{ color: "var(--neu-text-muted)" }}>{categoryName}</p>}
               <div className="mt-2">
                 <AvailabilityBadge status={provider.availability} />
               </div>
               {provider.address && (
-                <p className="text-sm text-slate-500 mt-2 flex items-start gap-1">
+                <p className="text-sm mt-2 flex items-start gap-1" style={{ color: "var(--neu-text-muted)" }}>
                   <span>📍</span>
                   {provider.address}
                 </p>
@@ -65,7 +67,8 @@ export function ProviderDetailClient({ provider, services }: Props) {
             <a
               href={`tel:${provider.phone}`}
               onClick={() => trackEvent({ name: "call_tapped", params: { providerId: provider.uid } })}
-              className="flex items-center justify-center gap-2 flex-1 bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+              className="flex items-center justify-center gap-2 flex-1 py-3 font-semibold text-white transition-all active:scale-95"
+              style={{ background: "var(--neu-accent)", borderRadius: "50px", boxShadow: "4px 4px 8px #3d6be0, -2px -2px 6px #5789ff" }}
             >
               <Phone size={18} />
               {t("provider.call")}
@@ -75,7 +78,8 @@ export function ProviderDetailClient({ provider, services }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent({ name: "whatsapp_tapped", params: { providerId: provider.uid } })}
-              className="flex items-center justify-center gap-2 flex-1 bg-green-500 text-white py-3 rounded-xl font-medium hover:bg-green-600 transition-colors"
+              className="flex items-center justify-center gap-2 flex-1 py-3 font-semibold text-white transition-all active:scale-95"
+              style={{ background: "#25D366", borderRadius: "50px", boxShadow: "4px 4px 8px #1db352, -2px -2px 6px #2df572" }}
             >
               💬 {t("provider.whatsapp")}
             </a>
@@ -89,24 +93,33 @@ export function ProviderDetailClient({ provider, services }: Props) {
         </div>
 
         {services.length > 0 && (
-          <div className="border-t border-slate-100">
+          <div style={{ borderTop: "1px solid #d1d9e0" }}>
             <div className="px-6 py-4">
-              <h2 className="font-semibold text-slate-800 mb-3">{t("provider.services")}</h2>
+              <h2 className="font-semibold mb-3" style={{ color: "var(--neu-text)" }}>{t("provider.services")}</h2>
               <div className="space-y-3">
                 {services.map((svc) => (
-                  <div key={svc.id} className="flex items-start justify-between gap-4 py-3 border-b border-slate-50 last:border-0">
+                  <div key={svc.id} className="flex items-start justify-between gap-4 py-3" style={{ borderBottom: "1px solid #d1d9e0" }}>
                     <div className="flex-1">
-                      <p className="font-medium text-slate-900">{svc.title}</p>
-                      {svc.description && <p className="text-sm text-slate-500 mt-0.5">{svc.description}</p>}
-                      {svc.subcategory && <span className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full mt-1 inline-block">{svc.subcategory}</span>}
+                      <p className="font-medium" style={{ color: "var(--neu-text)" }}>{svc.title}</p>
+                      {svc.description && <p className="text-sm mt-0.5" style={{ color: "var(--neu-text-muted)" }}>{svc.description}</p>}
+                      {svc.subcategory && (
+                        <span
+                          className="text-xs px-2 py-0.5 rounded-full mt-1 inline-block"
+                          style={{ background: "#eff6ff", color: "var(--neu-accent)" }}
+                        >
+                          {svc.subcategory}
+                        </span>
+                      )}
                     </div>
                     <div className="text-right flex-shrink-0">
                       {svc.priceType === "negotiable" ? (
-                        <span className="text-slate-500 text-sm">{t("pricing.negotiable")}</span>
+                        <span className="text-sm" style={{ color: "var(--neu-text-muted)" }}>{t("pricing.negotiable")}</span>
                       ) : (
-                        <span className="font-semibold text-slate-900">
+                        <span className="font-semibold" style={{ color: "var(--neu-text)" }}>
                           {formatPrice(svc.price)}
-                          {svc.priceType === "hourly" && <span className="text-slate-500 font-normal text-sm">{t("pricing.hourly")}</span>}
+                          {svc.priceType === "hourly" && (
+                            <span className="font-normal text-sm" style={{ color: "var(--neu-text-muted)" }}>{t("pricing.hourly")}</span>
+                          )}
                         </span>
                       )}
                     </div>

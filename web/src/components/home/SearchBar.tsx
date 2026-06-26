@@ -39,7 +39,6 @@ export function SearchBar({ onSearch }: SearchBarProps) {
     return () => clearTimeout(timer);
   }, [inputValue]);
 
-  // Build and show suggestions when debounced value changes
   useEffect(() => {
     if (debouncedValue.length < 3) {
       setSuggestions([]);
@@ -49,7 +48,6 @@ export function SearchBar({ onSearch }: SearchBarProps) {
 
     const q = debouncedValue.toLowerCase();
 
-    // Category suggestions — local, instant
     const categorySugs: Suggestion[] = CATEGORIES
       .filter((cat) =>
         cat.name.toLowerCase().includes(q) ||
@@ -65,7 +63,6 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         href: `/services/${cat.slug}`,
       }));
 
-    // Show category results immediately while Firestore loads
     setSuggestions(categorySugs);
     if (categorySugs.length > 0) setShowDropdown(true);
 
@@ -81,7 +78,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
 
         if (controller.signal.aborted) return;
 
-        const providerSugs: Suggestion[] = (providerSnap.docs as typeof providerSnap.docs)
+        const providerSugs: Suggestion[] = providerSnap.docs
           .filter((d) => {
             const data = d.data() as Provider;
             return (
@@ -92,31 +89,18 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           .slice(0, 3)
           .map((d) => {
             const data = d.data() as Provider;
-            return {
-              type: "provider" as const,
-              label: data.displayName,
-              sublabel: data.address,
-              href: `/provider/${d.id}`,
-            };
+            return { type: "provider" as const, label: data.displayName, sublabel: data.address, href: `/provider/${d.id}` };
           });
 
-        const serviceSugs: Suggestion[] = (svcSnap.docs as typeof svcSnap.docs)
+        const serviceSugs: Suggestion[] = svcSnap.docs
           .filter((d) => {
             const data = d.data() as Service;
-            return (
-              data.title?.toLowerCase().includes(q) ||
-              data.subcategory?.toLowerCase().includes(q)
-            );
+            return data.title?.toLowerCase().includes(q) || data.subcategory?.toLowerCase().includes(q);
           })
           .slice(0, 2)
           .map((d) => {
             const data = d.data() as Service;
-            return {
-              type: "service" as const,
-              label: data.title,
-              sublabel: data.providerName,
-              href: `/provider/${data.providerId}`,
-            };
+            return { type: "service" as const, label: data.title, sublabel: data.providerName, href: `/provider/${data.providerId}` };
           });
 
         const seenHrefs = new Set(providerSugs.map((s) => s.href));
@@ -125,7 +109,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         setSuggestions(combined);
         setShowDropdown(combined.length > 0);
       } catch {
-        // Firestore unavailable — category suggestions already set
+        // category suggestions already set
       } finally {
         setFetching(false);
       }
@@ -135,7 +119,6 @@ export function SearchBar({ onSearch }: SearchBarProps) {
     return () => controller.abort();
   }, [debouncedValue, lang]);
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -149,10 +132,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      trackEvent({
-        name: "search_performed",
-        params: { query: inputValue, language: lang, resultsCount: suggestions.length },
-      });
+      trackEvent({ name: "search_performed", params: { query: inputValue, language: lang, resultsCount: suggestions.length } });
       setShowDropdown(false);
       onSearch(inputValue.trim());
     }
@@ -171,8 +151,9 @@ export function SearchBar({ onSearch }: SearchBarProps) {
     <div ref={containerRef} className="relative w-full max-w-xl mx-auto">
       <form onSubmit={handleSubmit} className="relative">
         <Search
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-          size={20}
+          className="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none"
+          size={18}
+          style={{ color: "var(--neu-text-muted)" }}
         />
         <input
           type="text"
@@ -181,18 +162,23 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
           onKeyDown={(e) => e.key === "Escape" && setShowDropdown(false)}
           placeholder={t("search.placeholder")}
-          className="w-full pl-12 pr-10 py-3.5 text-base rounded-2xl border border-slate-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           autoComplete="off"
+          className="neu-pressed w-full pl-12 pr-10 py-3.5 text-base transition-all focus:outline-none focus:ring-2"
+          style={{
+            background: "#E8EDF2",
+            borderRadius: "50px",
+            border: "none",
+            color: "var(--neu-text)",
+            // @ts-ignore
+            "--tw-ring-color": "var(--neu-accent)",
+          }}
         />
         {inputValue && (
           <button
             type="button"
-            onClick={() => {
-              setInputValue("");
-              setSuggestions([]);
-              setShowDropdown(false);
-            }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+            onClick={() => { setInputValue(""); setSuggestions([]); setShowDropdown(false); }}
+            className="absolute right-5 top-1/2 -translate-y-1/2 transition-opacity hover:opacity-70"
+            style={{ color: "var(--neu-text-muted)" }}
           >
             <X size={16} />
           </button>
@@ -200,10 +186,13 @@ export function SearchBar({ onSearch }: SearchBarProps) {
       </form>
 
       {showDropdown && (
-        <div className="absolute top-full mt-2 w-full bg-white rounded-2xl shadow-lg border border-slate-100 z-50 overflow-hidden">
+        <div
+          className="neu-raised absolute top-full mt-3 w-full z-50 overflow-hidden"
+          style={{ background: "#E8EDF2", borderRadius: "20px" }}
+        >
           {categorySuggestions.length > 0 && (
             <div>
-              <p className="px-4 pt-3 pb-1 text-xs font-semibold text-slate-400 uppercase tracking-wide">
+              <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--neu-text-muted)" }}>
                 Categories
               </p>
               {categorySuggestions.map((s, i) => (
@@ -211,14 +200,13 @@ export function SearchBar({ onSearch }: SearchBarProps) {
                   key={i}
                   type="button"
                   onClick={() => handleSuggestionClick(s)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-blue-50 text-left transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-all hover:opacity-80"
+                  style={{ background: "transparent" }}
                 >
                   <span className="text-xl w-8 text-center">{s.icon}</span>
                   <div>
-                    <p className="text-sm font-medium text-slate-900">{s.label}</p>
-                    {s.sublabel && (
-                      <p className="text-xs text-slate-400">{s.sublabel}</p>
-                    )}
+                    <p className="text-sm font-medium" style={{ color: "var(--neu-text)" }}>{s.label}</p>
+                    {s.sublabel && <p className="text-xs" style={{ color: "var(--neu-text-muted)" }}>{s.sublabel}</p>}
                   </div>
                 </button>
               ))}
@@ -226,8 +214,8 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           )}
 
           {otherSuggestions.length > 0 && (
-            <div className={categorySuggestions.length > 0 ? "border-t border-slate-100" : ""}>
-              <p className="px-4 pt-3 pb-1 text-xs font-semibold text-slate-400 uppercase tracking-wide">
+            <div className={categorySuggestions.length > 0 ? "border-t border-[#d1d9e0]" : ""}>
+              <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--neu-text-muted)" }}>
                 Providers
               </p>
               {otherSuggestions.map((s, i) => (
@@ -235,16 +223,17 @@ export function SearchBar({ onSearch }: SearchBarProps) {
                   key={i}
                   type="button"
                   onClick={() => handleSuggestionClick(s)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-blue-50 text-left transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-all hover:opacity-80"
                 >
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-sm font-semibold flex-shrink-0">
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0"
+                    style={{ background: "var(--neu-accent)", color: "#ffffff", opacity: 0.85 }}
+                  >
                     {s.label[0]?.toUpperCase()}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-slate-900 truncate">{s.label}</p>
-                    {s.sublabel && (
-                      <p className="text-xs text-slate-400 truncate">{s.sublabel}</p>
-                    )}
+                    <p className="text-sm font-medium truncate" style={{ color: "var(--neu-text)" }}>{s.label}</p>
+                    {s.sublabel && <p className="text-xs truncate" style={{ color: "var(--neu-text-muted)" }}>{s.sublabel}</p>}
                   </div>
                 </button>
               ))}
@@ -252,7 +241,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           )}
 
           {fetching && suggestions.length === 0 && (
-            <p className="px-4 py-3 text-sm text-slate-400">Searching...</p>
+            <p className="px-4 py-3 text-sm" style={{ color: "var(--neu-text-muted)" }}>Searching…</p>
           )}
         </div>
       )}
