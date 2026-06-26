@@ -4,18 +4,16 @@ import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
 import { CATEGORIES } from "@/shared/constants/categories";
-import { PILOT_AREAS } from "@/shared/constants/areas";
 import { normalizePhone } from "@/shared/utils/phone";
 
 export function SeedProviderForm() {
   const { user } = useAuth();
-  const { lang, t } = useLang();
+  const { t } = useLang();
 
   const [form, setForm] = useState({
     displayName: "",
     phone: "",
     whatsapp: "",
-    area: "bankura",
     address: "",
     categorySlug: "electrician",
   });
@@ -43,7 +41,7 @@ export function SeedProviderForm() {
       });
       if (!res.ok) throw new Error((await res.json()).error ?? t("common.error"));
       setSuccess(true);
-      setForm({ displayName: "", phone: "", whatsapp: "", area: "bankura", address: "", categorySlug: "electrician" });
+      setForm({ displayName: "", phone: "", whatsapp: "", address: "", categorySlug: "electrician" });
       setServices([{ title: "", price: "", priceType: "fixed" }]);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("common.error"));
@@ -66,10 +64,6 @@ export function SeedProviderForm() {
         <input type="text" value={form.displayName} onChange={(e) => update("displayName", e.target.value)} placeholder="Full Name" className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         <input type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="Phone (10 digits)" className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         <input type="tel" value={form.whatsapp} onChange={(e) => update("whatsapp", e.target.value)} placeholder="WhatsApp (leave blank if same)" className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-
-        <select value={form.area} onChange={(e) => update("area", e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-          {PILOT_AREAS.map((a) => <option key={a.slug} value={a.slug}>{lang === "bn" ? a.nameBn : a.name}</option>)}
-        </select>
 
         <input type="text" value={form.address} onChange={(e) => update("address", e.target.value)} placeholder="Full address" className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
 

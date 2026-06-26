@@ -10,10 +10,10 @@ import { formatPrice } from "@/shared/utils/price";
 import type { Service } from "@/shared/types/service";
 
 interface MyServicesListProps {
-  categorySlug: string;
+  categorySlug?: string;
 }
 
-export function MyServicesList({ categorySlug }: MyServicesListProps) {
+export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
   const { user } = useAuth();
   const { t } = useLang();
   const { services, loading } = useProviderServices(user?.uid ?? "");

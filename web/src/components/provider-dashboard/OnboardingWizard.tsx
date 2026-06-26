@@ -6,7 +6,6 @@ import { useAuth } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
 import { validateIndianPhone, normalizePhone } from "@/shared/utils/phone";
 import { CATEGORIES } from "@/shared/constants/categories";
-import { PILOT_AREAS } from "@/shared/constants/areas";
 import { trackEvent } from "@/lib/analytics";
 
 interface ServiceInput {
@@ -32,7 +31,6 @@ export function OnboardingWizard() {
   const [services, setServices] = useState<ServiceInput[]>([
     { title: "", description: "", price: "", priceType: "fixed", subcategory: "" },
   ]);
-  const [area, setArea] = useState(process.env.NEXT_PUBLIC_DEFAULT_AREA ?? "bankura");
   const [address, setAddress] = useState("");
   const [pinCode, setPinCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -57,7 +55,6 @@ export function OnboardingWizard() {
           displayName: name,
           phone: normalizePhone(phone),
           whatsapp: sameAsPhone ? normalizePhone(phone) : normalizePhone(whatsapp),
-          area,
           address,
           pinCode: pinCode || null,
           categorySlug: selectedCategory,
@@ -303,18 +300,6 @@ export function OnboardingWizard() {
           <p className="text-slate-500 text-sm mb-6">{t("onboarding.step4Subtitle")}</p>
 
           <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">{t("onboarding.selectArea")}</label>
-              <select
-                value={area}
-                onChange={(e) => setArea(e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {PILOT_AREAS.map((a) => (
-                  <option key={a.slug} value={a.slug}>{lang === "bn" ? a.nameBn : a.name}</option>
-                ))}
-              </select>
-            </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">{t("onboarding.addressLabel")}</label>
               <textarea

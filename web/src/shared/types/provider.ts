@@ -8,7 +8,7 @@ export interface Provider {
   email: string;
   photoURL: string | null;
   address: string;
-  area: string;
+  area?: string;
   pinCode: string | null;
   status: "pending_profile" | "pending_approval" | "approved" | "rejected";
   availability: "available" | "busy" | "offline";

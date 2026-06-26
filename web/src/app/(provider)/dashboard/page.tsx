@@ -53,7 +53,7 @@ export default function DashboardPage() {
             current={provider.availability}
             onUpdate={(status) => setProvider((p) => p ? { ...p, availability: status } : p)}
           />
-          <MyServicesList categorySlug={provider.area} />
+          <MyServicesList />
         </div>
       )}
     </div>

@@ -15,9 +15,9 @@ export async function POST(req: NextRequest) {
     const uid = decoded.uid;
 
     const body = await req.json();
-    const { displayName, phone, whatsapp, area, address, pinCode, categorySlug, services, termsAcceptedAt } = body;
+    const { displayName, phone, whatsapp, address, pinCode, categorySlug, services, termsAcceptedAt } = body;
 
-    if (!displayName || !phone || !area || !address || !categorySlug) {
+    if (!displayName || !phone || !address || !categorySlug) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
       whatsapp,
       email: decoded.email ?? "",
       photoURL: decoded.picture ?? null,
-      area,
       address,
       pinCode: pinCode ?? null,
       status: "pending_approval",
@@ -83,7 +82,7 @@ export async function POST(req: NextRequest) {
         const { adminMessaging } = await import("@/lib/firebase-admin");
         await adminMessaging().sendEachForMulticast({
           tokens,
-          notification: { title: "New provider registration", body: `${displayName} from ${area} has registered` },
+          notification: { title: "New provider registration", body: `${displayName} has registered` },
         });
       }
     } catch {
