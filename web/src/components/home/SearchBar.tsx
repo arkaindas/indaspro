@@ -165,7 +165,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           autoComplete="off"
           className="neu-pressed w-full pl-12 pr-10 py-3.5 text-base transition-all focus:outline-none focus:ring-2"
           style={{
-            background: "#E8EDF2",
+            background: "var(--neu-bg)",
             borderRadius: "50px",
             border: "none",
             color: "var(--neu-text)",
@@ -188,7 +188,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
       {showDropdown && (
         <div
           className="neu-raised absolute top-full mt-3 w-full z-50 overflow-hidden"
-          style={{ background: "#E8EDF2", borderRadius: "20px" }}
+          style={{ background: "var(--neu-bg)", borderRadius: "20px" }}
         >
           {categorySuggestions.length > 0 && (
             <div>
@@ -214,7 +214,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           )}
 
           {otherSuggestions.length > 0 && (
-            <div className={categorySuggestions.length > 0 ? "border-t border-[#d1d9e0]" : ""}>
+            <div style={categorySuggestions.length > 0 ? { borderTop: "1px solid var(--neu-divider)" } : {}}>
               <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--neu-text-muted)" }}>
                 Providers
               </p>

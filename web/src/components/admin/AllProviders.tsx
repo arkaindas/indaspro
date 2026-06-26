@@ -68,7 +68,7 @@ export function AllProviders() {
             style={
               filter === s
                 ? { background: "var(--neu-accent)", color: "#ffffff", borderRadius: "12px", boxShadow: "4px 4px 8px #3d6be0, -2px -2px 6px #5789ff" }
-                : { background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px #c8cdd2, -4px -4px 8px #ffffff" }
+                : { background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px var(--neu-shadow-dark), -4px -4px 8px var(--neu-shadow-light)" }
             }
           >
             {s === "all" ? "All" : t(`admin.${s === "approved" ? "approved" : s === "rejected" ? "rejected" : "pending"}`)}
@@ -79,7 +79,7 @@ export function AllProviders() {
 
       <div className="space-y-2">
         {filtered.map((p) => (
-          <div key={p.uid} className="neu-subtle p-3 flex items-center gap-3 transition-all" style={{ background: "#E8EDF2", borderRadius: "12px" }}>
+          <div key={p.uid} className="neu-subtle p-3 flex items-center gap-3 transition-all" style={{ background: "var(--neu-bg)", borderRadius: "12px" }}>
             <AvatarWithFallback photoURL={p.photoURL} name={p.displayName} size="sm" />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">

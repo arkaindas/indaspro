@@ -40,7 +40,7 @@ export function AvailabilityToggle({ current, onUpdate }: AvailabilityToggleProp
   }
 
   return (
-    <div className="neu-raised p-4" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+    <div className="neu-raised p-4" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
       <h3 className="text-sm font-medium mb-3" style={{ color: "var(--neu-text-muted)" }}>{t("dashboard.availability")}</h3>
       <div className="flex gap-2">
         {statuses.map((s) => (
@@ -52,7 +52,7 @@ export function AvailabilityToggle({ current, onUpdate }: AvailabilityToggleProp
             style={
               current === s.value
                 ? { background: s.activeColor, color: "#ffffff", borderRadius: "12px", boxShadow: s.activeShadow }
-                : { background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px #c8cdd2, -4px -4px 8px #ffffff" }
+                : { background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px var(--neu-shadow-dark), -4px -4px 8px var(--neu-shadow-light)" }
             }
           >
             {s.icon} {t(s.label)}

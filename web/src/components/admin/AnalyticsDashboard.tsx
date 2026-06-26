@@ -37,7 +37,7 @@ function Skeleton({ className }: { className: string }) {
 
 function ChartSkeleton() {
   return (
-    <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+    <div className="neu-raised p-5" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
       <Skeleton className="h-5 w-40 mb-4" />
       <Skeleton className="h-48 w-full" />
     </div>
@@ -47,7 +47,7 @@ function ChartSkeleton() {
 // ── summary card ──────────────────────────────────────────────────────────────
 function SummaryCard({ label, value, icon, color }: { label: string; value: number; icon: string; color: string }) {
   return (
-    <div className="neu-raised p-5 flex items-center gap-4" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+    <div className="neu-raised p-5 flex items-center gap-4" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
       <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style={{ background: `${color}18` }}>
         {icon}
       </div>
@@ -88,7 +88,7 @@ export function AnalyticsDashboard() {
   if (state === "idle") {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
-        <div className="neu-subtle w-16 h-16 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#E8EDF2" }}>📊</div>
+        <div className="neu-subtle w-16 h-16 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "var(--neu-bg)" }}>📊</div>
         <div className="text-center">
           <p className="text-sm mb-4" style={{ color: "var(--neu-text-muted)" }}>Click to load analytics data</p>
           <button
@@ -180,7 +180,7 @@ export function AnalyticsDashboard() {
         <button
           onClick={loadData}
           className="neu-subtle flex items-center gap-2 px-4 py-2 text-sm transition-all active:neu-pressed"
-          style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px" }}
+          style={{ background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px" }}
         >
           🔄 Refresh
         </button>
@@ -198,7 +198,7 @@ export function AnalyticsDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         {/* 1. services by category */}
-        <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+        <div className="neu-raised p-5" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
           <p className="font-semibold mb-4" style={{ color: "var(--neu-text)" }}>Services by Category</p>
           {categoryData.length === 0 ? (
             <p className="text-sm text-center py-12" style={{ color: "var(--neu-text-muted)" }}>No services yet</p>
@@ -220,7 +220,7 @@ export function AnalyticsDashboard() {
         </div>
 
         {/* 2. providers by status */}
-        <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+        <div className="neu-raised p-5" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
           <p className="font-semibold mb-4" style={{ color: "var(--neu-text)" }}>Providers by Status</p>
           {statusData.length === 0 ? (
             <p className="text-sm text-center py-12" style={{ color: "var(--neu-text-muted)" }}>No providers yet</p>
@@ -238,7 +238,7 @@ export function AnalyticsDashboard() {
         </div>
 
         {/* 3. providers by area */}
-        <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+        <div className="neu-raised p-5" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
           <p className="font-semibold mb-4" style={{ color: "var(--neu-text)" }}>Providers by Area</p>
           {areaData.length === 0 ? (
             <p className="text-sm text-center py-12" style={{ color: "var(--neu-text-muted)" }}>No area data yet</p>
@@ -257,7 +257,7 @@ export function AnalyticsDashboard() {
         </div>
 
         {/* 4. availability (approved only) */}
-        <div className="neu-raised p-5" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+        <div className="neu-raised p-5" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
           <p className="font-semibold mb-1" style={{ color: "var(--neu-text)" }}>Availability Status</p>
           <p className="text-xs mb-3" style={{ color: "var(--neu-text-muted)" }}>Approved providers only</p>
           {availData.length === 0 ? (

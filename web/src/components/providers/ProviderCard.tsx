@@ -26,7 +26,7 @@ export function ProviderCard({ provider, services, categoryName, categorySlug }:
   const whatsappUrl = buildWhatsAppContactUrl(provider.whatsapp || provider.phone, whatsappMsg);
 
   return (
-    <div className="neu-raised transition-all duration-200" style={{ background: "#E8EDF2", borderRadius: "16px", overflow: "hidden" }}>
+    <div className="neu-raised transition-all duration-200" style={{ background: "var(--neu-bg)", borderRadius: "16px", overflow: "hidden" }}>
       <div className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
@@ -49,7 +49,7 @@ export function ProviderCard({ provider, services, categoryName, categorySlug }:
         )}
 
         {services.length > 0 && (
-          <div className="mb-3 space-y-1.5 pt-3" style={{ borderTop: "1px solid #d1d9e0" }}>
+          <div className="mb-3 space-y-1.5 pt-3" style={{ borderTop: "1px solid var(--neu-divider)" }}>
             {services.slice(0, 3).map((svc) => (
               <div key={svc.id} className="flex items-center justify-between text-sm">
                 <span className="truncate flex-1" style={{ color: "var(--neu-text)" }}>{svc.title}</span>
@@ -65,7 +65,7 @@ export function ProviderCard({ provider, services, categoryName, categorySlug }:
           </div>
         )}
 
-        <div className="flex gap-2 pt-3" style={{ borderTop: "1px solid #d1d9e0" }}>
+        <div className="flex gap-2 pt-3" style={{ borderTop: "1px solid var(--neu-divider)" }}>
           <a
             href={`tel:${provider.phone}`}
             onClick={() => trackEvent({ name: "call_tapped", params: { providerId: provider.uid } })}

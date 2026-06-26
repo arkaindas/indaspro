@@ -44,7 +44,7 @@ export function ProviderDetailClient({ provider, services }: Props) {
       </Link>
 
       {/* main card */}
-      <div className="neu-raised" style={{ background: "#E8EDF2", borderRadius: "20px", overflow: "hidden" }}>
+      <div className="neu-raised" style={{ background: "var(--neu-bg)", borderRadius: "20px", overflow: "hidden" }}>
         <div className="p-6">
           <div className="flex items-start gap-4 mb-6">
             <AvatarWithFallback photoURL={provider.photoURL} name={provider.displayName} size="lg" />
@@ -93,19 +93,19 @@ export function ProviderDetailClient({ provider, services }: Props) {
         </div>
 
         {services.length > 0 && (
-          <div style={{ borderTop: "1px solid #d1d9e0" }}>
+          <div style={{ borderTop: "1px solid var(--neu-divider)" }}>
             <div className="px-6 py-4">
               <h2 className="font-semibold mb-3" style={{ color: "var(--neu-text)" }}>{t("provider.services")}</h2>
               <div className="space-y-3">
                 {services.map((svc) => (
-                  <div key={svc.id} className="flex items-start justify-between gap-4 py-3" style={{ borderBottom: "1px solid #d1d9e0" }}>
+                  <div key={svc.id} className="flex items-start justify-between gap-4 py-3" style={{ borderBottom: "1px solid var(--neu-divider)" }}>
                     <div className="flex-1">
                       <p className="font-medium" style={{ color: "var(--neu-text)" }}>{svc.title}</p>
                       {svc.description && <p className="text-sm mt-0.5" style={{ color: "var(--neu-text-muted)" }}>{svc.description}</p>}
                       {svc.subcategory && (
                         <span
                           className="text-xs px-2 py-0.5 rounded-full mt-1 inline-block"
-                          style={{ background: "#eff6ff", color: "var(--neu-accent)" }}
+                          style={{ background: "color-mix(in srgb, var(--neu-accent) 12%, var(--neu-bg))", color: "var(--neu-accent)" }}
                         >
                           {svc.subcategory}
                         </span>

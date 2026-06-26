@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer
       className="mt-auto"
-      style={{ background: "#E8EDF2", boxShadow: "0 -4px 8px #c8cdd2" }}
+      style={{ background: "var(--neu-bg)", boxShadow: "0 -4px 8px var(--neu-shadow-dark)" }}
     >
       <div className="max-w-5xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm" style={{ color: "var(--neu-text-muted)" }}>
         <p>© {new Date().getFullYear()} Indaspro. All rights reserved.</p>

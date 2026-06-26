@@ -33,7 +33,7 @@ export function ShareMenu({ providerId, providerName, category, address }: Share
       <button
         onClick={() => setOpen(true)}
         className="neu-subtle flex items-center justify-center gap-1.5 flex-1 text-sm font-medium py-2 transition-all active:neu-pressed"
-        style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "50px" }}
+        style={{ background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "50px" }}
       >
         <Share2 size={14} />
         {t("provider.share")}
@@ -43,7 +43,7 @@ export function ShareMenu({ providerId, providerName, category, address }: Share
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/30" onClick={() => setOpen(false)}>
           <div
             className="neu-raised w-full sm:w-80 p-5"
-            style={{ background: "#E8EDF2", borderRadius: "20px 20px 0 0" }}
+            style={{ background: "var(--neu-bg)", borderRadius: "20px 20px 0 0" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-5">

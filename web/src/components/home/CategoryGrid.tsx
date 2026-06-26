@@ -16,7 +16,7 @@ export function CategoryGrid() {
           href={`/services/${cat.slug}`}
           onClick={() => trackEvent({ name: "category_tapped", params: { categorySlug: cat.slug } })}
           className="neu-subtle flex flex-col items-center gap-2 p-3 transition-all duration-200 group hover:neu-raised"
-          style={{ background: "#E8EDF2", borderRadius: "16px" }}
+          style={{ background: "var(--neu-bg)", borderRadius: "16px" }}
         >
           <span className="text-3xl">{cat.icon}</span>
           <span

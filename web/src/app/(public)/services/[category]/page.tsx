@@ -20,10 +20,10 @@ export default function CategoryPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
       <div className="flex items-center gap-3 mb-6">
-        <Link href="/" className="text-slate-400 hover:text-slate-600">
+        <Link href="/" className="hover:opacity-70 transition-opacity" style={{ color: "var(--neu-text-muted)" }}>
           <ArrowLeft size={20} />
         </Link>
-        <h1 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <h1 className="text-xl font-bold flex items-center gap-2" style={{ color: "var(--neu-text)" }}>
           <span>{cat?.icon}</span>
           {categoryName}
         </h1>

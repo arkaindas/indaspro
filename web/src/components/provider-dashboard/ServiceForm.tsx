@@ -21,7 +21,7 @@ interface ServiceFormProps {
 }
 
 const inputCls = "neu-pressed w-full px-3 py-2.5 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#4A7CFF]";
-const inputStyle = { background: "#E8EDF2", borderRadius: "12px", border: "none", color: "var(--neu-text)" };
+const inputStyle = { background: "var(--neu-bg)", borderRadius: "12px", border: "none", color: "var(--neu-text)" };
 
 export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: ServiceFormProps) {
   const { user } = useAuth();
@@ -95,7 +95,7 @@ export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: 
       <div className="flex gap-2 pt-2">
         <button onClick={onCancel}
           className="neu-subtle flex-1 py-2.5 text-sm transition-all active:neu-pressed"
-          style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
+          style={{ background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
           {t("common.cancel")}
         </button>
         <button onClick={handleSave} disabled={!title.trim() || saving}

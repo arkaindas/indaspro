@@ -54,7 +54,7 @@ export function PendingProviders() {
   return (
     <div className="space-y-3">
       {providers.map((p) => (
-        <div key={p.uid} className="neu-raised p-4" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+        <div key={p.uid} className="neu-raised p-4" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
           <div className="flex items-start gap-3 mb-4">
             <AvatarWithFallback photoURL={p.photoURL} name={p.displayName} size="sm" />
             <div className="flex-1 min-w-0">

@@ -105,7 +105,7 @@ export function PwaInstallBanner() {
         className="neu-raised w-full"
         style={{
           maxWidth: "480px",
-          background: "#E8EDF2",
+          background: "var(--neu-bg)",
           borderRadius: "16px 16px 0 0",
           padding: "20px 20px 28px",
           transform: slideIn ? "translateY(0)" : "translateY(100%)",
@@ -120,7 +120,7 @@ export function PwaInstallBanner() {
             {/* App icon */}
             <div
               className="neu-subtle w-11 h-11 rounded-xl flex items-center justify-center text-xl font-bold"
-              style={{ background: "#E8EDF2", color: "var(--neu-accent)", flexShrink: 0 }}
+              style={{ background: "var(--neu-bg)", color: "var(--neu-accent)", flexShrink: 0 }}
             >
               In
             </div>
@@ -144,7 +144,7 @@ export function PwaInstallBanner() {
           <button
             onClick={() => hideBanner(true)}
             className="neu-subtle flex-1 py-2.5 text-sm font-medium transition-all active:neu-pressed"
-            style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px" }}
+            style={{ background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px" }}
           >
             {t.notNow}
           </button>

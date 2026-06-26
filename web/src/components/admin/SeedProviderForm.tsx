@@ -7,7 +7,7 @@ import { CATEGORIES } from "@/shared/constants/categories";
 import { normalizePhone } from "@/shared/utils/phone";
 
 const inputCls = "neu-pressed w-full px-3 py-2.5 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#4A7CFF]";
-const inputStyle = { background: "#E8EDF2", borderRadius: "12px", border: "none", color: "var(--neu-text)" };
+const inputStyle = { background: "var(--neu-bg)", borderRadius: "12px", border: "none", color: "var(--neu-text)" };
 
 export function SeedProviderForm() {
   const { user } = useAuth();
@@ -52,11 +52,11 @@ export function SeedProviderForm() {
   }
 
   return (
-    <div className="neu-raised p-5 max-w-lg" style={{ background: "#E8EDF2", borderRadius: "20px" }}>
+    <div className="neu-raised p-5 max-w-lg" style={{ background: "var(--neu-bg)", borderRadius: "20px" }}>
       <h3 className="font-semibold mb-4" style={{ color: "var(--neu-text)" }}>{t("admin.seedForm")}</h3>
 
       {success && (
-        <div className="neu-pressed mb-4 p-3 text-sm rounded-xl" style={{ color: "var(--neu-success)", background: "#E8EDF2" }}>
+        <div className="neu-pressed mb-4 p-3 text-sm rounded-xl" style={{ color: "var(--neu-success)", background: "var(--neu-bg)" }}>
           ✅ Provider seeded successfully!
         </div>
       )}
@@ -76,7 +76,7 @@ export function SeedProviderForm() {
         </select>
 
         {/* services */}
-        <div className="neu-pressed p-3" style={{ background: "#E8EDF2", borderRadius: "12px" }}>
+        <div className="neu-pressed p-3" style={{ background: "var(--neu-bg)", borderRadius: "12px" }}>
           <p className="text-sm font-medium mb-2" style={{ color: "var(--neu-text)" }}>Services</p>
           <div className="space-y-2">
             {services.map((s, i) => (
@@ -84,15 +84,15 @@ export function SeedProviderForm() {
                 <input type="text" value={s.title}
                   onChange={(e) => setServices((sv) => sv.map((ss, ii) => ii === i ? { ...ss, title: e.target.value } : ss))}
                   placeholder="Service title" className="neu-pressed flex-1 px-2 py-2 text-sm focus:outline-none"
-                  style={{ background: "#E8EDF2", borderRadius: "10px", border: "none", color: "var(--neu-text)" }} />
+                  style={{ background: "var(--neu-bg)", borderRadius: "10px", border: "none", color: "var(--neu-text)" }} />
                 <input type="number" value={s.price}
                   onChange={(e) => setServices((sv) => sv.map((ss, ii) => ii === i ? { ...ss, price: e.target.value } : ss))}
                   placeholder="₹" className="neu-pressed w-20 px-2 py-2 text-sm focus:outline-none"
-                  style={{ background: "#E8EDF2", borderRadius: "10px", border: "none", color: "var(--neu-text)" }} />
+                  style={{ background: "var(--neu-bg)", borderRadius: "10px", border: "none", color: "var(--neu-text)" }} />
                 <select value={s.priceType}
                   onChange={(e) => setServices((sv) => sv.map((ss, ii) => ii === i ? { ...ss, priceType: e.target.value as "fixed"|"hourly"|"negotiable" } : ss))}
                   className="neu-pressed px-2 py-2 text-sm focus:outline-none"
-                  style={{ background: "#E8EDF2", borderRadius: "10px", border: "none", color: "var(--neu-text)" }}>
+                  style={{ background: "var(--neu-bg)", borderRadius: "10px", border: "none", color: "var(--neu-text)" }}>
                   <option value="fixed">Fixed</option>
                   <option value="hourly">Hourly</option>
                   <option value="negotiable">Negotiable</option>

@@ -17,7 +17,7 @@ interface ServiceInput {
 }
 
 const inputCls = "neu-pressed w-full px-3 py-2.5 transition-all focus:outline-none focus:ring-2 focus:ring-[#4A7CFF]";
-const inputStyle = { background: "#E8EDF2", borderRadius: "12px", border: "none", color: "var(--neu-text)" } as React.CSSProperties;
+const inputStyle = { background: "var(--neu-bg)", borderRadius: "12px", border: "none", color: "var(--neu-text)" } as React.CSSProperties;
 
 export function OnboardingWizard() {
   const { user, signInWithGoogle } = useAuth();
@@ -95,7 +95,7 @@ export function OnboardingWizard() {
   return (
     <div className="max-w-lg mx-auto px-4 py-8">
       {/* wizard container */}
-      <div className="neu-raised p-8" style={{ background: "#E8EDF2", borderRadius: "20px" }}>
+      <div className="neu-raised p-8" style={{ background: "var(--neu-bg)", borderRadius: "20px" }}>
 
         {/* progress bar */}
         <div className="mb-7">
@@ -103,7 +103,7 @@ export function OnboardingWizard() {
             <span>{t("onboarding.step")} {step} {t("onboarding.of")} {totalSteps}</span>
             <span>{Math.round((step / totalSteps) * 100)}%</span>
           </div>
-          <div className="neu-pressed w-full rounded-full h-3" style={{ background: "#E8EDF2" }}>
+          <div className="neu-pressed w-full rounded-full h-3" style={{ background: "var(--neu-bg)" }}>
             <div
               className="h-3 rounded-full transition-all duration-500"
               style={{
@@ -124,7 +124,7 @@ export function OnboardingWizard() {
               <button
                 onClick={signInWithGoogle}
                 className="neu-subtle w-full font-medium py-3 px-4 flex items-center justify-center gap-3 transition-all active:neu-pressed"
-                style={{ background: "#E8EDF2", color: "var(--neu-text)", borderRadius: "12px" }}
+                style={{ background: "var(--neu-bg)", color: "var(--neu-text)", borderRadius: "12px" }}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -136,7 +136,7 @@ export function OnboardingWizard() {
               </button>
             ) : (
               <>
-                <div className="neu-pressed mb-4 p-3 text-sm rounded-xl" style={{ color: "var(--neu-success)", background: "#E8EDF2" }}>
+                <div className="neu-pressed mb-4 p-3 text-sm rounded-xl" style={{ color: "var(--neu-success)", background: "var(--neu-bg)" }}>
                   Signed in as <strong>{user.displayName}</strong>
                 </div>
                 <label className="flex items-start gap-2 text-sm cursor-pointer" style={{ color: "var(--neu-text-muted)" }}>
@@ -191,7 +191,7 @@ export function OnboardingWizard() {
             <div className="flex gap-3 mt-6">
               <button onClick={() => setStep(1)}
                 className="neu-subtle flex-1 py-2.5 transition-all active:neu-pressed"
-                style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
+                style={{ background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
                 {t("common.back")}
               </button>
               <button onClick={() => setStep(3)} disabled={!name.trim() || !validateIndianPhone(phone)}
@@ -219,8 +219,8 @@ export function OnboardingWizard() {
                     className="flex flex-col items-center p-2 text-xs font-medium transition-all duration-200"
                     style={
                       selectedCategory === cat.slug
-                        ? { background: "#E8EDF2", color: "var(--neu-accent)", borderRadius: "12px", boxShadow: "inset 3px 3px 6px #c8cdd2, inset -3px -3px 6px #ffffff" }
-                        : { background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px #c8cdd2, -4px -4px 8px #ffffff" }
+                        ? { background: "var(--neu-bg)", color: "var(--neu-accent)", borderRadius: "12px", boxShadow: "inset 3px 3px 6px var(--neu-shadow-dark), inset -3px -3px 6px var(--neu-shadow-light)" }
+                        : { background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px var(--neu-shadow-dark), -4px -4px 8px var(--neu-shadow-light)" }
                     }
                   >
                     <span className="text-2xl mb-1">{cat.icon}</span>
@@ -233,7 +233,7 @@ export function OnboardingWizard() {
             {selectedCategory && (
               <div className="space-y-3 mb-4">
                 {services.map((svc, i) => (
-                  <div key={i} className="neu-pressed relative p-3 space-y-2" style={{ background: "#E8EDF2", borderRadius: "12px" }}>
+                  <div key={i} className="neu-pressed relative p-3 space-y-2" style={{ background: "var(--neu-bg)", borderRadius: "12px" }}>
                     {i > 0 && (
                       <button type="button"
                         onClick={() => setServices((prev) => prev.filter((_, idx) => idx !== i))}
@@ -264,7 +264,7 @@ export function OnboardingWizard() {
                 ))}
                 <button onClick={addService}
                   className="neu-subtle w-full text-sm py-2 transition-all active:neu-pressed"
-                  style={{ background: "#E8EDF2", color: "var(--neu-accent)", borderRadius: "12px" }}>
+                  style={{ background: "var(--neu-bg)", color: "var(--neu-accent)", borderRadius: "12px" }}>
                   + {t("onboarding.addAnother")}
                 </button>
               </div>
@@ -273,7 +273,7 @@ export function OnboardingWizard() {
             <div className="flex gap-3 mt-4">
               <button onClick={() => setStep(2)}
                 className="neu-subtle flex-1 py-2.5 transition-all active:neu-pressed"
-                style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
+                style={{ background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
                 {t("common.back")}
               </button>
               <button onClick={() => setStep(4)} disabled={!selectedCategory || services.every((s) => !s.title.trim())}
@@ -310,7 +310,7 @@ export function OnboardingWizard() {
             <div className="flex gap-3 mt-6">
               <button onClick={() => setStep(3)}
                 className="neu-subtle flex-1 py-2.5 transition-all active:neu-pressed"
-                style={{ background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
+                style={{ background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
                 {t("common.back")}
               </button>
               <button onClick={handleSubmit} disabled={!address.trim() || submitting}

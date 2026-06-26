@@ -39,7 +39,7 @@ export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
   if (loading) return <div className="text-center py-8" style={{ color: "var(--neu-text-muted)" }}>{t("common.loading")}</div>;
 
   return (
-    <div className="neu-raised p-4" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+    <div className="neu-raised p-4" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold" style={{ color: "var(--neu-text)" }}>{t("dashboard.myServices")}</h3>
         <button
@@ -53,7 +53,7 @@ export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
       </div>
 
       {(showAddForm && !editingService) && (
-        <div className="neu-pressed mb-4 p-4" style={{ background: "#E8EDF2", borderRadius: "12px" }}>
+        <div className="neu-pressed mb-4 p-4" style={{ background: "var(--neu-bg)", borderRadius: "12px" }}>
           <ServiceForm
             categorySlug={categorySlug}
             onSuccess={() => setShowAddForm(false)}
@@ -68,7 +68,7 @@ export function MyServicesList({ categorySlug = "" }: MyServicesListProps) {
 
       <div className="space-y-3">
         {services.map((svc) => (
-          <div key={svc.id} className="neu-subtle p-3" style={{ background: "#E8EDF2", borderRadius: "12px" }}>
+          <div key={svc.id} className="neu-subtle p-3" style={{ background: "var(--neu-bg)", borderRadius: "12px" }}>
             {editingService?.id === svc.id ? (
               <ServiceForm
                 categorySlug={categorySlug}

@@ -1,6 +1,6 @@
 export function SkeletonCard() {
   return (
-    <div className="neu-raised p-4" style={{ background: "#E8EDF2", borderRadius: "16px" }}>
+    <div className="neu-raised p-4" style={{ background: "var(--neu-bg)", borderRadius: "16px" }}>
       <div className="flex items-center gap-3 mb-4">
         <div className="neu-skeleton w-12 h-12 rounded-full flex-shrink-0" />
         <div className="flex-1 space-y-2">

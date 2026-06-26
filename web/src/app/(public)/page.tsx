@@ -16,10 +16,10 @@ export default function HomePage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">
+        <h1 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: "var(--neu-text)" }}>
           {t("app.tagline")}
         </h1>
-        <p className="text-slate-500 text-sm sm:text-base">{t("app.taglineLong")}</p>
+        <p className="text-sm sm:text-base" style={{ color: "var(--neu-text-muted)" }}>{t("app.taglineLong")}</p>
       </div>
 
       <div className="mb-8 max-w-xl mx-auto">

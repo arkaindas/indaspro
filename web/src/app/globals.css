@@ -2,43 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── design tokens ─────────────────────────────────────────────────────────── */
+/* ── design tokens — light (default) ────────────────────────────────────────── */
 :root {
-  --neu-bg:          #E8EDF2;
-  --neu-text:        #2D3748;
-  --neu-text-muted:  #718096;
-  --neu-accent:      #4A7CFF;
-  --neu-success:     #48BB78;
-  --neu-warning:     #ECC94B;
-  --neu-danger:      #F56565;
+  --neu-bg:           #E8EDF2;
+  --neu-shadow-dark:  #c8cdd2;
+  --neu-shadow-light: #ffffff;
+  --neu-text:         #2D3748;
+  --neu-text-muted:   #718096;
+  --neu-accent:       #4A7CFF;
+  --neu-success:      #48BB78;
+  --neu-warning:      #ECC94B;
+  --neu-danger:       #F56565;
+  --neu-divider:      #d1d9e0;
+}
 
-  /* legacy — keep for any unreached usages */
-  --color-primary:        #4A7CFF;
-  --color-primary-dark:   #3d6be0;
-  --color-secondary:      #48BB78;
-  --color-warning:        #ECC94B;
-  --color-danger:         #F56565;
-  --color-background:     #E8EDF2;
-  --color-text-primary:   #2D3748;
-  --color-text-secondary: #718096;
+/* system prefers dark (no forced class on html) */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --neu-bg:           #1E2328;
+    --neu-shadow-dark:  #16191d;
+    --neu-shadow-light: #262d34;
+    --neu-text:         #E2E8F0;
+    --neu-text-muted:   #94A3B8;
+    --neu-accent:       #4A7CFF;
+    --neu-success:      #48BB78;
+    --neu-warning:      #ECC94B;
+    --neu-danger:       #F56565;
+    --neu-divider:      #2a3038;
+  }
+}
+
+/* forced dark */
+html.dark {
+  --neu-bg:           #1E2328;
+  --neu-shadow-dark:  #16191d;
+  --neu-shadow-light: #262d34;
+  --neu-text:         #E2E8F0;
+  --neu-text-muted:   #94A3B8;
+  --neu-accent:       #4A7CFF;
+  --neu-success:      #48BB78;
+  --neu-warning:      #ECC94B;
+  --neu-danger:       #F56565;
+  --neu-divider:      #2a3038;
+}
+
+/* forced light (overrides dark media query) */
+html.light {
+  --neu-bg:           #E8EDF2;
+  --neu-shadow-dark:  #c8cdd2;
+  --neu-shadow-light: #ffffff;
+  --neu-text:         #2D3748;
+  --neu-text-muted:   #718096;
+  --neu-accent:       #4A7CFF;
+  --neu-success:      #48BB78;
+  --neu-warning:      #ECC94B;
+  --neu-danger:       #F56565;
+  --neu-divider:      #d1d9e0;
 }
 
 /* ── neumorphic shadow utilities ────────────────────────────────────────────── */
 .neu-raised {
-  box-shadow: 8px 8px 16px #c8cdd2, -8px -8px 16px #ffffff;
+  box-shadow: 8px 8px 16px var(--neu-shadow-dark), -8px -8px 16px var(--neu-shadow-light);
 }
 .neu-pressed {
-  box-shadow: inset 4px 4px 8px #c8cdd2, inset -4px -4px 8px #ffffff;
+  box-shadow: inset 4px 4px 8px var(--neu-shadow-dark), inset -4px -4px 8px var(--neu-shadow-light);
 }
 .neu-subtle {
-  box-shadow: 4px 4px 8px #c8cdd2, -4px -4px 8px #ffffff;
+  box-shadow: 4px 4px 8px var(--neu-shadow-dark), -4px -4px 8px var(--neu-shadow-light);
 }
 
 /* mobile — halve shadow values */
 @media (max-width: 768px) {
-  .neu-raised  { box-shadow: 4px 4px 8px #c8cdd2,  -4px -4px 8px #ffffff; }
-  .neu-pressed { box-shadow: inset 2px 2px 4px #c8cdd2, inset -2px -2px 4px #ffffff; }
-  .neu-subtle  { box-shadow: 2px 2px 6px #c8cdd2,  -2px -2px 6px #ffffff; }
+  .neu-raised  { box-shadow: 4px 4px 8px var(--neu-shadow-dark),         -4px -4px 8px var(--neu-shadow-light); }
+  .neu-pressed { box-shadow: inset 2px 2px 4px var(--neu-shadow-dark),   inset -2px -2px 4px var(--neu-shadow-light); }
+  .neu-subtle  { box-shadow: 2px 2px 6px var(--neu-shadow-dark),         -2px -2px 6px var(--neu-shadow-light); }
 }
 
 /* ── skeleton shimmer ───────────────────────────────────────────────────────── */
@@ -48,10 +85,15 @@
 }
 
 .neu-skeleton {
-  background: linear-gradient(90deg, #d1d9e0 0%, #e8edf2 50%, #d1d9e0 100%);
+  background: linear-gradient(
+    90deg,
+    var(--neu-shadow-dark) 0%,
+    var(--neu-bg)          50%,
+    var(--neu-shadow-dark) 100%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
-  box-shadow: 2px 2px 6px #c8cdd2, -2px -2px 6px #ffffff;
+  box-shadow: 2px 2px 6px var(--neu-shadow-dark), -2px -2px 6px var(--neu-shadow-light);
 }
 
 /* ── base ────────────────────────────────────────────────────────────────────── */
@@ -60,9 +102,10 @@ html {
 }
 
 body {
-  background: #E8EDF2;
-  color: #2D3748;
+  background: var(--neu-bg);
+  color: var(--neu-text);
   font-family: Inter, system-ui, -apple-system, sans-serif;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 @layer utilities {

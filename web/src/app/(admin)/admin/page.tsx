@@ -45,8 +45,8 @@ export default function AdminPage() {
             className="px-4 py-2 text-sm font-medium transition-all duration-200"
             style={
               tab === tabItem.key
-                ? { background: "#E8EDF2", color: "var(--neu-text)", borderRadius: "12px", boxShadow: "inset 4px 4px 8px #c8cdd2, inset -4px -4px 8px #ffffff" }
-                : { background: "#E8EDF2", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px #c8cdd2, -4px -4px 8px #ffffff" }
+                ? { background: "var(--neu-bg)", color: "var(--neu-text)", borderRadius: "12px", boxShadow: "inset 4px 4px 8px var(--neu-shadow-dark), inset -4px -4px 8px var(--neu-shadow-light)" }
+                : { background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px", boxShadow: "4px 4px 8px var(--neu-shadow-dark), -4px -4px 8px var(--neu-shadow-light)" }
             }
           >
             {tabItem.label}
