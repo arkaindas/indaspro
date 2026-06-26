@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
 import { cleanData } from "@/lib/cleanData";
+import { generateUniqueSlug } from "@/lib/slugUtils";
 import { FieldValue } from "firebase-admin/firestore";
 
 async function requireAdmin(req: NextRequest) {
@@ -24,10 +25,12 @@ export async function POST(req: NextRequest) {
 
     const db = adminDb();
     const providerRef = db.collection("providers").doc();
+    const slug = await generateUniqueSlug(db, displayName, categorySlug ?? "provider");
     const batch = db.batch();
 
     batch.set(providerRef, cleanData({
       uid: providerRef.id,
+      slug,
       displayName,
       phone,
       whatsapp: whatsapp || phone,

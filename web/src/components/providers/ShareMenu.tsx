@@ -6,25 +6,29 @@ import { useLang } from "@/lib/lang-context";
 import { buildWhatsAppShareUrl, buildFacebookShareUrl } from "@/shared/utils/share";
 import { trackEvent } from "@/lib/analytics";
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://indaspro.vercel.app";
+
 interface ShareMenuProps {
-  providerId: string;
+  providerSlug: string;
   providerName: string;
   category: string;
   address: string;
 }
 
-export function ShareMenu({ providerId, providerName, category, address }: ShareMenuProps) {
+export function ShareMenu({ providerSlug, providerName, category, address }: ShareMenuProps) {
   const [open, setOpen] = useState(false);
   const { t } = useLang();
 
-  const providerUrl = `${process.env.NEXT_PUBLIC_APP_URL}/provider/${providerId}`;
+  if (!providerSlug) return null;
+
+  const providerUrl = `${BASE_URL}/provider/${providerSlug}`;
   const tagline = "Find home services on Indaspro";
 
   const whatsappUrl = buildWhatsAppShareUrl(providerName, category, address, tagline, providerUrl);
   const facebookUrl = buildFacebookShareUrl(providerUrl);
 
   const handleShare = (platform: "whatsapp" | "facebook") => {
-    trackEvent({ name: "share_tapped", params: { providerId, platform } });
+    trackEvent({ name: "share_tapped", params: { providerId: providerSlug, platform } });
     setOpen(false);
   };
 

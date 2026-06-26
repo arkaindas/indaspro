@@ -32,7 +32,7 @@ export function ProviderCard({ provider, services, categoryName, categorySlug }:
           <div className="flex items-center gap-3">
             <AvatarWithFallback photoURL={provider.photoURL} name={provider.displayName} size="md" />
             <div>
-              <Link href={`/provider/${provider.uid}`} className="font-semibold hover:opacity-75 transition-opacity" style={{ color: "var(--neu-text)" }}>
+              <Link href={`/provider/${provider.slug ?? provider.uid}`} className="font-semibold hover:opacity-75 transition-opacity" style={{ color: "var(--neu-text)" }}>
                 {provider.displayName}
               </Link>
               <div className="text-sm" style={{ color: "var(--neu-text-muted)" }}>{categoryName}</div>
@@ -98,7 +98,7 @@ export function ProviderCard({ provider, services, categoryName, categorySlug }:
           </a>
 
           <ShareMenu
-            providerId={provider.uid}
+            providerSlug={provider.slug ?? provider.uid}
             providerName={provider.displayName}
             category={categoryName}
             address={provider.address}

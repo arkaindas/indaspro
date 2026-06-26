@@ -2,6 +2,7 @@ import { Timestamp } from "firebase/firestore";
 
 export interface Provider {
   uid: string;
+  slug?: string;
   displayName: string;
   phone: string;
   whatsapp: string;

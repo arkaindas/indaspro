@@ -84,7 +84,7 @@ export function ProviderDetailClient({ provider, services }: Props) {
               💬 {t("provider.whatsapp")}
             </a>
             <ShareMenu
-              providerId={provider.uid}
+              providerSlug={provider.slug ?? provider.uid}
               providerName={provider.displayName}
               category={categoryName}
               address={provider.address}
