@@ -1,0 +1,942 @@
+[
+  {
+    "displayName": "Ramesh Shaw",
+    "phone": "+919832101001",
+    "whatsapp": "+919832101001",
+    "address": "Ward 7, near Town Station, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "electrician",
+    "services": [
+      {
+        "subcategory": "Wiring",
+        "title": "Full House Wiring",
+        "description": "Complete electrical wiring for new homes and flats",
+        "price": 3500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Installation",
+        "title": "Fan & Light Installation",
+        "description": "Install ceiling fans, tube lights, LED panels and switches",
+        "price": 150,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Repair",
+        "title": "Electrical Fault Repair",
+        "description": "Diagnose and fix short circuits, MCB tripping and wiring faults",
+        "price": 250,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Suresh Mandal",
+    "phone": "+919832101002",
+    "whatsapp": "+919832101002",
+    "address": "near Bishnupur Temple, Bishnupur, Bankura - 722122",
+    "area": "bishnupur",
+    "pinCode": "722122",
+    "categorySlug": "electrician",
+    "services": [
+      {
+        "subcategory": "Wiring",
+        "title": "Inverter & UPS Wiring",
+        "description": "Home inverter installation and battery wiring",
+        "price": 1500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Installation",
+        "title": "MCB & Distribution Board Setup",
+        "description": "Install and configure MCB boards for homes and shops",
+        "price": 800,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Bimal Das",
+    "phone": "+919832101003",
+    "whatsapp": "+919832101003",
+    "address": "Ward 12, near Bankura Sammilani College, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "plumber",
+    "services": [
+      {
+        "subcategory": "Leak Repair",
+        "title": "Pipe Leak Repair",
+        "description": "Fix leaking pipes, joints and fittings in kitchen and bathroom",
+        "price": 400,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Fitting",
+        "title": "Bathroom Fitting & Installation",
+        "description": "Full bathroom fitting including commode, basin, shower and taps",
+        "price": 2500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Installation",
+        "title": "Motor Pump Installation",
+        "description": "Install and configure submersible and surface water pumps",
+        "price": 1200,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Kartik Roy",
+    "phone": "+919832101004",
+    "whatsapp": "+919832101004",
+    "address": "Burnpur Road, Asansol - 713325",
+    "area": "asansol",
+    "pinCode": "713325",
+    "categorySlug": "plumber",
+    "services": [
+      {
+        "subcategory": "Cleaning",
+        "title": "Water Tank Cleaning",
+        "description": "Clean and disinfect overhead and underground water storage tanks",
+        "price": 600,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Repair",
+        "title": "Tap & Valve Replacement",
+        "description": "Replace old or broken taps, ball valves and angle valves",
+        "price": 300,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Nimai Ghosh",
+    "phone": "+919832101005",
+    "whatsapp": "+919832101005",
+    "address": "Ward 4, near Christian Mission Hospital, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "carpenter",
+    "services": [
+      {
+        "subcategory": "Furniture",
+        "title": "Custom Almira & Wardrobe",
+        "description": "Build made-to-measure wooden wardrobes and storage units",
+        "price": 8000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Repair",
+        "title": "Door & Window Repair",
+        "description": "Repair and refitting of wooden doors, windows and frames",
+        "price": 500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Furniture",
+        "title": "Wooden Bed & Cot Making",
+        "description": "Custom wooden double and single bed frames",
+        "price": 6000,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Biswajit Pal",
+    "phone": "+919832101006",
+    "whatsapp": "+919832101006",
+    "address": "near Curzon Gate, Bardhaman - 713101",
+    "area": "bardhaman",
+    "pinCode": "713101",
+    "categorySlug": "carpenter",
+    "services": [
+      {
+        "subcategory": "Kitchen",
+        "title": "Modular Kitchen Cabinet",
+        "description": "Design and install modular kitchen cabinets with shutters",
+        "price": 12000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Polish",
+        "title": "Wood Polish & Melamine Finish",
+        "description": "Polish existing furniture to restore shine and durability",
+        "price": 150,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Tapan Saha",
+    "phone": "+919832101007",
+    "whatsapp": "+919832101007",
+    "address": "Sector 2B, City Centre, Durgapur - 713216",
+    "area": "durgapur",
+    "pinCode": "713216",
+    "categorySlug": "painter",
+    "services": [
+      {
+        "subcategory": "Interior Painting",
+        "title": "Room Interior Painting",
+        "description": "Wall putty, primer and final paint coat for one room",
+        "price": 2500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Exterior",
+        "title": "Exterior & Terrace Painting",
+        "description": "Weather-proof exterior paint for outside walls and terrace parapet",
+        "price": 0,
+        "priceType": "negotiable"
+      },
+      {
+        "subcategory": "Wall Prep",
+        "title": "Wall Putty & Primer Application",
+        "description": "Smooth wall preparation before final painting",
+        "price": 1500,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Dilip Mondal",
+    "phone": "+919832101026",
+    "whatsapp": "+919832101026",
+    "address": "Ward 9, near Bankura Municipality, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "painter",
+    "services": [
+      {
+        "subcategory": "Interior Painting",
+        "title": "Full House Interior Painting",
+        "description": "Complete interior painting for 2BHK or 3BHK homes",
+        "price": 0,
+        "priceType": "negotiable"
+      },
+      {
+        "subcategory": "Texture",
+        "title": "Texture & Designer Wall Painting",
+        "description": "Sponge, stencil and designer texture paint for feature walls",
+        "price": 300,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Sunita Devi",
+    "phone": "+919832101008",
+    "whatsapp": "+919832101008",
+    "address": "Lake Gardens, Kolkata - 700045",
+    "area": "kolkata",
+    "pinCode": "700045",
+    "categorySlug": "cleaner",
+    "services": [
+      {
+        "subcategory": "Home Cleaning",
+        "title": "Full Home Deep Cleaning",
+        "description": "Top-to-bottom cleaning of all rooms, kitchen and bathrooms",
+        "price": 800,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Kitchen Cleaning",
+        "title": "Kitchen Deep Cleaning",
+        "description": "Degrease stove, chimney, tiles and kitchen cabinets",
+        "price": 600,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Post Construction",
+        "title": "Post-Construction Cleaning",
+        "description": "Remove cement, paint and construction debris from new homes",
+        "price": 1500,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Rekha Roy",
+    "phone": "+919832101027",
+    "whatsapp": "+919832101027",
+    "address": "Shibpur, Howrah - 711102",
+    "area": "howrah",
+    "pinCode": "711102",
+    "categorySlug": "cleaner",
+    "services": [
+      {
+        "subcategory": "Upholstery",
+        "title": "Sofa & Carpet Dry Cleaning",
+        "description": "Professional dry-cleaning for sofas, chairs and carpets",
+        "price": 500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Bathroom",
+        "title": "Bathroom Sanitisation",
+        "description": "Deep clean and disinfect bathroom tiles, commode and basin",
+        "price": 300,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Arun Kumar",
+    "phone": "+919832101009",
+    "whatsapp": "+919832101009",
+    "address": "Sector 4, Durgapur - 713208",
+    "area": "durgapur",
+    "pinCode": "713208",
+    "categorySlug": "ac-repair",
+    "services": [
+      {
+        "subcategory": "Service",
+        "title": "AC Service & Deep Cleaning",
+        "description": "Full service with filter wash, coil cleaning and gas pressure check",
+        "price": 500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Gas Refill",
+        "title": "AC Gas Recharge (R22 / R32 / R410A)",
+        "description": "Top-up or full gas refill for all AC brands and models",
+        "price": 1200,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Installation",
+        "title": "Split AC Installation",
+        "description": "Install wall-mounted split AC with outdoor unit mounting",
+        "price": 1000,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Gopal Sarkar",
+    "phone": "+919832101010",
+    "whatsapp": "+919832101010",
+    "address": "Ward 3, near Bankura Zilla School, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "pest-control",
+    "services": [
+      {
+        "subcategory": "Cockroach",
+        "title": "Cockroach Treatment",
+        "description": "Gel-based cockroach control for kitchen and bathrooms",
+        "price": 800,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Termite",
+        "title": "Anti-Termite Treatment",
+        "description": "Chemical barrier and soil treatment for termite prevention",
+        "price": 2500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "General",
+        "title": "General Pest Control Spray",
+        "description": "Spray treatment for mosquitoes, ants and common household pests",
+        "price": 600,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Pradip Chatterjee",
+    "phone": "+919832101011",
+    "whatsapp": "+919832101011",
+    "address": "Benachity, Durgapur - 713213",
+    "area": "durgapur",
+    "pinCode": "713213",
+    "categorySlug": "appliance",
+    "services": [
+      {
+        "subcategory": "Washing Machine",
+        "title": "Washing Machine Repair",
+        "description": "Repair all types of washing machines — front load, top load, semi-auto",
+        "price": 400,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Refrigerator",
+        "title": "Refrigerator Repair & Gas Refill",
+        "description": "Diagnose and repair fridge cooling, compressor and electrical faults",
+        "price": 500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Microwave",
+        "title": "Microwave Oven Repair",
+        "description": "Repair heating issues, door problems and electrical faults in microwaves",
+        "price": 350,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Santosh Malik",
+    "phone": "+919832101028",
+    "whatsapp": "+919832101028",
+    "address": "GT Road, Asansol - 713301",
+    "area": "asansol",
+    "pinCode": "713301",
+    "categorySlug": "appliance",
+    "services": [
+      {
+        "subcategory": "Geyser",
+        "title": "Geyser Repair & Installation",
+        "description": "Repair and install electric and gas geysers of all brands",
+        "price": 450,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Television",
+        "title": "LED & Smart TV Repair",
+        "description": "Screen, panel, power board and software repair for all TV brands",
+        "price": 0,
+        "priceType": "negotiable"
+      }
+    ]
+  },
+  {
+    "displayName": "Nabin Paul",
+    "phone": "+919832101012",
+    "whatsapp": "+919832101012",
+    "address": "Ward 11, near Bankura Bus Stand, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "mason",
+    "services": [
+      {
+        "subcategory": "Construction",
+        "title": "Room Construction",
+        "description": "Brick-and-mortar room construction for residential buildings",
+        "price": 0,
+        "priceType": "negotiable"
+      },
+      {
+        "subcategory": "Tiling",
+        "title": "Floor & Wall Tiling",
+        "description": "Lay ceramic, vitrified and mosaic tiles for floors and bathroom walls",
+        "price": 400,
+        "priceType": "hourly"
+      },
+      {
+        "subcategory": "Plastering",
+        "title": "Wall Plastering & Levelling",
+        "description": "Cement plaster for interior and exterior walls",
+        "price": 300,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Sukumar Ghosh",
+    "phone": "+919832101013",
+    "whatsapp": "+919832101013",
+    "address": "near Bardhaman Medical College, Bardhaman - 713101",
+    "area": "bardhaman",
+    "pinCode": "713101",
+    "categorySlug": "welder",
+    "services": [
+      {
+        "subcategory": "Fabrication",
+        "title": "Gate & Grille Fabrication",
+        "description": "Custom iron and MS steel gates, window grilles and door frames",
+        "price": 0,
+        "priceType": "negotiable"
+      },
+      {
+        "subcategory": "Welding",
+        "title": "Iron & Steel Welding",
+        "description": "Arc and MIG welding for structural and fabrication work",
+        "price": 400,
+        "priceType": "hourly"
+      },
+      {
+        "subcategory": "SS Work",
+        "title": "Stainless Steel Railing & Work",
+        "description": "Staircase railing, kitchen stand and SS furniture fabrication",
+        "price": 500,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Mrinal Chakraborty",
+    "phone": "+919832101014",
+    "whatsapp": "+919832101014",
+    "address": "Ward 5, near Bankura University, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "tutor",
+    "services": [
+      {
+        "subcategory": "School Tuition",
+        "title": "Class 6–10 All Subjects",
+        "description": "Home tuition for WBBSE students in all subjects including Bengali, English, Maths and Science",
+        "price": 200,
+        "priceType": "hourly"
+      },
+      {
+        "subcategory": "Higher Secondary",
+        "title": "Class 11–12 Science Tuition",
+        "description": "Physics, Chemistry and Mathematics tuition for HS students",
+        "price": 300,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Ananya Sen",
+    "phone": "+919832101029",
+    "whatsapp": "+919832101029",
+    "address": "Salt Lake Sector V, Kolkata - 700091",
+    "area": "kolkata",
+    "pinCode": "700091",
+    "categorySlug": "tutor",
+    "services": [
+      {
+        "subcategory": "Primary",
+        "title": "Class 1–5 Home Tuition",
+        "description": "Fun and engaging home tuition for primary school kids",
+        "price": 150,
+        "priceType": "hourly"
+      },
+      {
+        "subcategory": "English Speaking",
+        "title": "Spoken English Classes",
+        "description": "Conversational English for students and working professionals",
+        "price": 250,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Puja Sharma",
+    "phone": "+919832101015",
+    "whatsapp": "+919832101015",
+    "address": "Gariahat Road, Kolkata - 700019",
+    "area": "kolkata",
+    "pinCode": "700019",
+    "categorySlug": "salon",
+    "services": [
+      {
+        "subcategory": "Hair",
+        "title": "Hair Cut & Styling at Home",
+        "description": "Haircut, blow-dry and styling for women and kids at your doorstep",
+        "price": 500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Facial",
+        "title": "Facial & Skin Care",
+        "description": "O3+ and Lotus facial for glowing skin at home",
+        "price": 700,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Threading",
+        "title": "Eyebrow Threading & Waxing",
+        "description": "Full body or arms & legs waxing with eyebrow shaping",
+        "price": 300,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Bhola Nath",
+    "phone": "+919832101016",
+    "whatsapp": "+919832101016",
+    "address": "near Bankura Circuit House, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "gardener",
+    "services": [
+      {
+        "subcategory": "Maintenance",
+        "title": "Garden Maintenance",
+        "description": "Regular watering, weeding and pruning for home gardens",
+        "price": 300,
+        "priceType": "hourly"
+      },
+      {
+        "subcategory": "Mowing",
+        "title": "Lawn Mowing & Trimming",
+        "description": "Mow grass and trim lawn edges for a neat garden",
+        "price": 500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Landscaping",
+        "title": "Plant Buying & Installation",
+        "description": "Source and install indoor and outdoor plants with soil preparation",
+        "price": 0,
+        "priceType": "negotiable"
+      }
+    ]
+  },
+  {
+    "displayName": "Shyamal Das",
+    "phone": "+919832101017",
+    "whatsapp": "+919832101017",
+    "address": "Muchipara, Durgapur - 713203",
+    "area": "durgapur",
+    "pinCode": "713203",
+    "categorySlug": "driver",
+    "services": [
+      {
+        "subcategory": "Full Day",
+        "title": "Full Day Driver (8 hrs)",
+        "description": "Personal car driver for 8 hours within city and outskirts",
+        "price": 1200,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Half Day",
+        "title": "Half Day Driver (4 hrs)",
+        "description": "Driver for short trips, shopping or hospital visits",
+        "price": 700,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Transfer",
+        "title": "Airport / Station Transfer",
+        "description": "One-way drop or pickup from Durgapur / Asansol station",
+        "price": 500,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Malati Saha",
+    "phone": "+919832101018",
+    "whatsapp": "+919832101018",
+    "address": "Ward 2, near Bankura Police Station, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "tailor",
+    "services": [
+      {
+        "subcategory": "Stitching",
+        "title": "Ladies Blouse Stitching",
+        "description": "Custom blouse stitching in silk, cotton and designer fabric",
+        "price": 200,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Stitching",
+        "title": "Salwar Kameez Stitching",
+        "description": "Full salwar suit stitching with all measurements",
+        "price": 400,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Alteration",
+        "title": "Garment Alteration & Repair",
+        "description": "Alter or repair any readymade garment to your size",
+        "price": 100,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Suresh Mondal",
+    "phone": "+919832101019",
+    "whatsapp": "+919832101019",
+    "address": "Ward 6, Boro Bazaar, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "house-rent",
+    "services": [
+      {
+        "subcategory": "Flat",
+        "title": "2BHK Furnished Flat",
+        "description": "2-bedroom furnished flat with attached bathroom near market",
+        "price": 5000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Room",
+        "title": "Single Room for Bachelors",
+        "description": "Clean single room with fan and electricity for working professionals",
+        "price": 2500,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Tarak Das",
+    "phone": "+919832101020",
+    "whatsapp": "+919832101020",
+    "address": "near Bankura Bus Terminal, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "car-rent",
+    "services": [
+      {
+        "subcategory": "Hatchback",
+        "title": "Alto / WagonR Daily Rental",
+        "description": "Small car for local use within Bankura district",
+        "price": 1000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "SUV",
+        "title": "Bolero / Scorpio for Outstation",
+        "description": "SUV rental for outstation trips and family travel",
+        "price": 1800,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Wedding",
+        "title": "Decorated Wedding Car",
+        "description": "Car decorated with flowers and ribbons for wedding functions",
+        "price": 2500,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Durga Lohar",
+    "phone": "+919832101021",
+    "whatsapp": "+919832101021",
+    "address": "Ward 8, near Bankura General Hospital, Bankura - 722101",
+    "area": "bankura",
+    "pinCode": "722101",
+    "categorySlug": "tree-pruner",
+    "services": [
+      {
+        "subcategory": "Trimming",
+        "title": "Tree & Branch Trimming",
+        "description": "Shape and trim overgrown trees and hedges safely",
+        "price": 500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Removal",
+        "title": "Dead Tree Removal",
+        "description": "Safely remove dead or dangerous trees from your property",
+        "price": 1500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Cutting",
+        "title": "Coconut & Tall Tree Cutting",
+        "description": "Expert cutting of coconut palms and tall trees",
+        "price": 300,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Soumen Ghosh",
+    "phone": "+919832101022",
+    "whatsapp": "+919832101022",
+    "address": "City Centre, Durgapur - 713216",
+    "area": "durgapur",
+    "pinCode": "713216",
+    "categorySlug": "water-purifier",
+    "services": [
+      {
+        "subcategory": "Installation",
+        "title": "RO Water Purifier Installation",
+        "description": "Install Kent, Aquaguard, Pureit and all other RO brands",
+        "price": 500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "AMC",
+        "title": "Annual Maintenance Contract",
+        "description": "Yearly AMC with 2 free services and filter replacement",
+        "price": 1200,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Filter",
+        "title": "Filter & Membrane Replacement",
+        "description": "Replace sediment filter, carbon filter and RO membrane",
+        "price": 800,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Priya Saha",
+    "phone": "+919832101023",
+    "whatsapp": "+919832101023",
+    "address": "Ballygunge, Kolkata - 700019",
+    "area": "kolkata",
+    "pinCode": "700019",
+    "categorySlug": "makeup-artist",
+    "services": [
+      {
+        "subcategory": "Bridal",
+        "title": "Bridal Makeup & Draping",
+        "description": "Full HD bridal makeup with saree draping for wedding day",
+        "price": 5000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Engagement",
+        "title": "Engagement & Reception Makeup",
+        "description": "Airbrush or HD makeup for engagement and reception functions",
+        "price": 3000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Party",
+        "title": "Party & Event Makeup",
+        "description": "Festive and party makeup for pujas, birthdays and occasions",
+        "price": 1500,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Debarati Roy",
+    "phone": "+919832101030",
+    "whatsapp": "+919832101030",
+    "address": "near Bardhaman Rajbari, Bardhaman - 713101",
+    "area": "bardhaman",
+    "pinCode": "713101",
+    "categorySlug": "makeup-artist",
+    "services": [
+      {
+        "subcategory": "Bridal",
+        "title": "Bengali Bridal Makeup",
+        "description": "Traditional Bengali bridal look with alta, sindoor and complete draping",
+        "price": 4000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Party",
+        "title": "Puja & Festive Makeup",
+        "description": "Makeup for Durga Puja and other festive occasions",
+        "price": 1200,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Amit Bose",
+    "phone": "+919832101024",
+    "whatsapp": "+919832101024",
+    "address": "Park Circus, Kolkata - 700017",
+    "area": "kolkata",
+    "pinCode": "700017",
+    "categorySlug": "photography",
+    "services": [
+      {
+        "subcategory": "Wedding",
+        "title": "Wedding Photography & Videography",
+        "description": "Full day wedding coverage with candid and traditional photos plus edited video",
+        "price": 15000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Event",
+        "title": "Birthday & Event Photography",
+        "description": "Photo and video coverage for birthdays, anniversaries and parties",
+        "price": 5000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Product",
+        "title": "Product & Business Photography",
+        "description": "Clean product photos for e-commerce and business listings",
+        "price": 200,
+        "priceType": "hourly"
+      }
+    ]
+  },
+  {
+    "displayName": "Rajesh Sharma",
+    "phone": "+919832101031",
+    "whatsapp": "+919832101031",
+    "address": "Bidhannagar, Durgapur - 713212",
+    "area": "durgapur",
+    "pinCode": "713212",
+    "categorySlug": "photography",
+    "services": [
+      {
+        "subcategory": "Wedding",
+        "title": "Pre-Wedding & Wedding Shoot",
+        "description": "Outdoor pre-wedding shoot and full wedding day photography",
+        "price": 12000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Portrait",
+        "title": "Portrait & Family Photography",
+        "description": "Studio and outdoor portrait sessions for families and individuals",
+        "price": 3000,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Sudipta Dey",
+    "phone": "+919832101025",
+    "whatsapp": "+919832101025",
+    "address": "Steel Township, Durgapur - 713205",
+    "area": "durgapur",
+    "pinCode": "713205",
+    "categorySlug": "cctv",
+    "services": [
+      {
+        "subcategory": "Installation",
+        "title": "CCTV Camera Installation",
+        "description": "Install Hikvision, CP Plus and Dahua cameras for homes and shops",
+        "price": 2500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "DVR",
+        "title": "DVR / NVR Setup & Configuration",
+        "description": "Configure digital video recorder with remote mobile viewing",
+        "price": 1000,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Maintenance",
+        "title": "CCTV Repair & Maintenance",
+        "description": "Repair faulty cameras, replace cables and troubleshoot DVR issues",
+        "price": 500,
+        "priceType": "fixed"
+      }
+    ]
+  },
+  {
+    "displayName": "Bhaskar Paul",
+    "phone": "+919832101032",
+    "whatsapp": "+919832101032",
+    "address": "Burnpur Road, Asansol - 713325",
+    "area": "asansol",
+    "pinCode": "713325",
+    "categorySlug": "cctv",
+    "services": [
+      {
+        "subcategory": "Installation",
+        "title": "Indoor / Outdoor Camera Setup",
+        "description": "4-channel or 8-channel CCTV setup for residential and commercial properties",
+        "price": 3500,
+        "priceType": "fixed"
+      },
+      {
+        "subcategory": "Networking",
+        "title": "IP Camera & Network Setup",
+        "description": "IP camera installation with PoE switch and cloud storage configuration",
+        "price": 0,
+        "priceType": "negotiable"
+      }
+    ]
+  }
+]
