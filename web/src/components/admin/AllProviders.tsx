@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase-client";
+import { useAuth } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
 import { AvatarWithFallback } from "@/components/providers/AvatarWithFallback";
 import { AvailabilityBadge } from "@/components/providers/AvailabilityBadge";
@@ -16,10 +17,12 @@ const statusColors: Record<string, string> = {
 };
 
 export function AllProviders() {
+  const { user } = useAuth();
   const { t } = useLang();
   const [providers, setProviders] = useState<Provider[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>("all");
+  const [removing, setRemoving] = useState<string | null>(null);
 
   useEffect(() => {
     const q = query(collection(db, "providers"), orderBy("createdAt", "desc"));
@@ -29,6 +32,26 @@ export function AllProviders() {
     });
     return unsub;
   }, []);
+
+  async function handleRemove(provider: Provider) {
+    if (!confirm(`Are you sure you want to remove ${provider.displayName}? This will also delete all their services.`)) return;
+    setRemoving(provider.uid);
+    try {
+      const token = await user!.getIdToken();
+      const res = await fetch("/api/providers/remove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ providerId: provider.uid }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error ?? "Failed");
+      // Optimistic removal — real-time listener will also update
+      setProviders((prev) => prev.filter((p) => p.uid !== provider.uid));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to remove provider");
+    } finally {
+      setRemoving(null);
+    }
+  }
 
   const filtered = filter === "all" ? providers : providers.filter((p) => p.status === filter);
 
@@ -68,6 +91,13 @@ export function AllProviders() {
               <p className="text-xs text-slate-500">{p.phone} • {p.area}</p>
             </div>
             {p.status === "approved" && <AvailabilityBadge status={p.availability} />}
+            <button
+              onClick={() => handleRemove(p)}
+              disabled={removing === p.uid}
+              className="ml-2 px-3 py-1.5 text-xs font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 disabled:opacity-50 transition-colors flex-shrink-0"
+            >
+              {removing === p.uid ? "Removing…" : "Remove"}
+            </button>
           </div>
         ))}
       </div>
