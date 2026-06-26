@@ -8,8 +8,9 @@ import { useLang } from "@/lib/lang-context";
 import { PendingProviders } from "@/components/admin/PendingProviders";
 import { AllProviders } from "@/components/admin/AllProviders";
 import { SeedProviderForm } from "@/components/admin/SeedProviderForm";
+import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
 
-type Tab = "pending" | "all" | "seed";
+type Tab = "pending" | "all" | "seed" | "analytics";
 
 export default function AdminPage() {
   const { isAdmin, loading } = useAuth();
@@ -28,6 +29,7 @@ export default function AdminPage() {
     { key: "pending", label: t("admin.pending") },
     { key: "all", label: t("admin.allProviders") },
     { key: "seed", label: t("admin.seedProvider") },
+    { key: "analytics", label: "Analytics" },
   ];
 
   return (
@@ -51,6 +53,7 @@ export default function AdminPage() {
       {tab === "pending" && <PendingProviders />}
       {tab === "all" && <AllProviders />}
       {tab === "seed" && <SeedProviderForm />}
+      {tab === "analytics" && <AnalyticsDashboard />}
     </div>
   );
 }
