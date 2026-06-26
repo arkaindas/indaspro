@@ -231,7 +231,17 @@ export function OnboardingWizard() {
           {selectedCategory && (
             <div className="space-y-3 mb-4">
               {services.map((svc, i) => (
-                <div key={i} className="border border-slate-200 rounded-xl p-3 space-y-2">
+                <div key={i} className="border border-slate-200 rounded-xl p-3 space-y-2 relative">
+                  {i > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setServices((prev) => prev.filter((_, idx) => idx !== i))}
+                      className="absolute top-2 right-2 text-slate-400 hover:text-red-500 transition-colors"
+                      aria-label="Remove service"
+                    >
+                      ✕
+                    </button>
+                  )}
                   <input
                     type="text"
                     value={svc.title}

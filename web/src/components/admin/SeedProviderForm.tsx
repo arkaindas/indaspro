@@ -74,7 +74,7 @@ export function SeedProviderForm() {
         <div className="border border-slate-200 rounded-xl p-3 space-y-2">
           <p className="text-sm font-medium text-slate-700 mb-2">Services</p>
           {services.map((s, i) => (
-            <div key={i} className="flex gap-2">
+            <div key={i} className="flex gap-2 items-center">
               <input type="text" value={s.title} onChange={(e) => setServices((sv) => sv.map((ss, ii) => ii === i ? { ...ss, title: e.target.value } : ss))} placeholder="Service title" className="flex-1 px-2 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               <input type="number" value={s.price} onChange={(e) => setServices((sv) => sv.map((ss, ii) => ii === i ? { ...ss, price: e.target.value } : ss))} placeholder="₹" className="w-20 px-2 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               <select value={s.priceType} onChange={(e) => setServices((sv) => sv.map((ss, ii) => ii === i ? { ...ss, priceType: e.target.value as "fixed"|"hourly"|"negotiable" } : ss))} className="px-2 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -82,6 +82,16 @@ export function SeedProviderForm() {
                 <option value="hourly">Hourly</option>
                 <option value="negotiable">Negotiable</option>
               </select>
+              {i > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setServices((sv) => sv.filter((_, idx) => idx !== i))}
+                  className="text-slate-400 hover:text-red-500 transition-colors flex-shrink-0"
+                  aria-label="Remove service"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           ))}
           <button onClick={() => setServices((sv) => [...sv, { title: "", price: "", priceType: "fixed" }])} className="text-sm text-blue-600 hover:text-blue-700">+ Add service</button>
