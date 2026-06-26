@@ -119,7 +119,9 @@ export function SearchBar({ onSearch }: SearchBarProps) {
             };
           });
 
-        const combined = [...categorySugs, ...providerSugs, ...serviceSugs].slice(0, 8);
+        const seenHrefs = new Set(providerSugs.map((s) => s.href));
+        const deduplicatedServiceSugs = serviceSugs.filter((s) => !seenHrefs.has(s.href));
+        const combined = [...categorySugs, ...providerSugs, ...deduplicatedServiceSugs].slice(0, 8);
         setSuggestions(combined);
         setShowDropdown(combined.length > 0);
       } catch {
