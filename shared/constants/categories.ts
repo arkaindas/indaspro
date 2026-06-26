@@ -19,4 +19,8 @@ export const CATEGORIES: Category[] = [
   { slug: "house-rent", name: "House Rent", nameBn: "বাড়ি ভাড়া", icon: "🏠", order: 16, serviceCount: 0, searchTerms: ["house rent", "room", "flat", "apartment", "বাড়ি", "ভাড়া", "ফ্ল্যাট", "রুম"] },
   { slug: "car-rent", name: "Car Rent", nameBn: "গাড়ি ভাড়া", icon: "🚗", order: 17, serviceCount: 0, searchTerms: ["car rent", "car hire", "rental", "গাড়ি ভাড়া", "গাড়ি"] },
   { slug: "tree-pruner", name: "Tree Pruner", nameBn: "গাছ ছাঁটাই", icon: "🌳", order: 18, serviceCount: 0, searchTerms: ["tree", "pruner", "trimming", "cutting", "branches", "গাছ", "ছাঁটাই", "কাটা"] },
+  { slug: "water-purifier", name: "Water Purifier", nameBn: "ওয়াটার পিউরিফায়ার", icon: "💧", order: 22, serviceCount: 0, searchTerms: ["water purifier", "ro", "filter", "water filter", "ওয়াটার পিউরিফায়ার", "জল পরিশোধক", "আরও"] },
+  { slug: "makeup-artist", name: "Makeup Artist", nameBn: "মেকআপ আর্টিস্ট", icon: "💄", order: 23, serviceCount: 0, searchTerms: ["makeup", "makeup artist", "bridal makeup", "beauty", "মেকআপ", "সাজসজ্জা", "বিউটি"] },
+  { slug: "photography", name: "Photography", nameBn: "ফটোগ্রাফি", icon: "📸", order: 24, serviceCount: 0, searchTerms: ["photography", "photographer", "photo", "wedding photography", "ফটোগ্রাফি", "ফটোগ্রাফার", "ছবি"] },
+  { slug: "cctv", name: "CCTV", nameBn: "সিসিটিভি", icon: "📹", order: 25, serviceCount: 0, searchTerms: ["cctv", "camera", "security camera", "surveillance", "সিসিটিভি", "ক্যামেরা", "নিরাপত্তা ক্যামেরা"] },
 ];
