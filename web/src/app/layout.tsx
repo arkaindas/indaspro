@@ -16,11 +16,15 @@ export const metadata: Metadata = {
   title: "Indaspro — Home services at your doorstep",
   description: "Find trusted electricians, plumbers & more near you",
   manifest: "/manifest.json",
-  themeColor: "#4A7CFF",
+  themeColor: "#0D1B4B",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "Indaspro",
+  },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/icons/icon-192x192.png",
   },
   openGraph: {
     title: "Indaspro — Home services at your doorstep",

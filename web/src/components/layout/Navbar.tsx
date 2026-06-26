@@ -39,8 +39,13 @@ export function Navbar() {
       style={{ background: "var(--neu-bg)", boxShadow: "0 4px 8px var(--neu-shadow-dark)" }}
     >
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold" style={{ color: "var(--neu-accent)" }}>
-          Indaspro
+        <Link href="/" style={{ display: "flex", alignItems: "center", height: 32, overflow: "hidden", flexShrink: 0 }}>
+          <img
+            src="/images/logo.png"
+            alt="Indaspro"
+            className="logo-img"
+            style={{ height: 52, marginTop: -10, width: "auto" }}
+          />
         </Link>
 
         <div className="flex items-center gap-2">

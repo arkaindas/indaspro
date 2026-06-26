@@ -118,11 +118,14 @@ export function PwaInstallBanner() {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
             {/* App icon */}
-            <div
-              className="neu-subtle w-11 h-11 rounded-xl flex items-center justify-center text-xl font-bold"
-              style={{ background: "var(--neu-bg)", color: "var(--neu-accent)", flexShrink: 0 }}
-            >
-              In
+            <div className="neu-subtle rounded-xl flex-shrink-0" style={{ width: 44, height: 44, overflow: "hidden" }}>
+              <img
+                src="/icons/icon-96x96.png"
+                alt="Indaspro"
+                width={44}
+                height={44}
+                style={{ borderRadius: 12, display: "block" }}
+              />
             </div>
             <div>
               <p className="font-semibold text-sm leading-tight" style={{ color: "var(--neu-text)" }}>{t.title}</p>

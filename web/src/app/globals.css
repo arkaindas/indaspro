@@ -111,3 +111,20 @@ body {
 @layer utilities {
   .text-balance { text-wrap: balance; }
 }
+
+/* ── logo theming ────────────────────────────────────────────────────────────── */
+/* Light mode: multiply blend makes white background invisible */
+.logo-img {
+  mix-blend-mode: multiply;
+}
+/* Dark mode: convert to white silhouette */
+html.dark .logo-img {
+  mix-blend-mode: normal;
+  filter: brightness(0) invert(1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .logo-img {
+    mix-blend-mode: normal;
+    filter: brightness(0) invert(1);
+  }
+}
