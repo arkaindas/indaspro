@@ -6,40 +6,26 @@ import { useLang } from "@/lib/lang-context";
 import { useTheme, type Theme } from "@/hooks/useTheme";
 import { trackEvent } from "@/lib/analytics";
 
-const THEME_OPTIONS: { mode: Theme; icon: string; label: string }[] = [
-  { mode: "light",  icon: "🌞", label: "Light"  },
-  { mode: "system", icon: "💻", label: "System" },
-  { mode: "dark",   icon: "🌙", label: "Dark"   },
+const CYCLE: { mode: Theme; icon: string; nextLabel: string }[] = [
+  { mode: "system", icon: "💻", nextLabel: "Switch to Light"  },
+  { mode: "light",  icon: "🌞", nextLabel: "Switch to Dark"   },
+  { mode: "dark",   icon: "🌙", nextLabel: "Switch to System" },
 ];
 
 function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
+  const current = CYCLE.find((c) => c.mode === theme) ?? CYCLE[0];
+  const next = CYCLE[(CYCLE.indexOf(current) + 1) % CYCLE.length];
 
   return (
-    <div
-      className="neu-subtle flex items-center"
-      style={{ background: "var(--neu-bg)", borderRadius: "50px", padding: "2px", gap: "1px" }}
+    <button
+      onClick={() => setTheme(next.mode)}
+      title={current.nextLabel}
+      className="neu-subtle flex items-center justify-center transition-all active:neu-pressed"
+      style={{ background: "var(--neu-bg)", borderRadius: "50%", width: 36, height: 36, fontSize: 16, flexShrink: 0 }}
     >
-      {THEME_OPTIONS.map(({ mode, icon, label }) => (
-        <button
-          key={mode}
-          onClick={() => setTheme(mode)}
-          title={label}
-          className="flex items-center gap-1 text-xs font-medium transition-all duration-150"
-          style={{
-            borderRadius: "50px",
-            padding: "4px 8px",
-            color: theme === mode ? "var(--neu-text)" : "var(--neu-text-muted)",
-            ...(theme === mode
-              ? { boxShadow: "inset 2px 2px 4px var(--neu-shadow-dark), inset -2px -2px 4px var(--neu-shadow-light)" }
-              : {}),
-          }}
-        >
-          <span style={{ fontSize: "13px", lineHeight: 1 }}>{icon}</span>
-          <span className="hidden sm:inline">{label}</span>
-        </button>
-      ))}
-    </div>
+      {current.icon}
+    </button>
   );
 }
 
