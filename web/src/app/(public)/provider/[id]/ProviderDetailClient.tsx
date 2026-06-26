@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Phone } from "lucide-react";
 import { AvatarWithFallback } from "@/components/providers/AvatarWithFallback";
@@ -22,6 +23,10 @@ export function ProviderDetailClient({ provider, services }: Props) {
   const { lang, t } = useLang();
 
   const categorySlug = services[0]?.categorySlug ?? "";
+  useEffect(() => {
+    trackEvent({ name: "provider_viewed", params: { providerId: provider.uid, categorySlug } });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [provider.uid]);
   const cat = CATEGORIES.find((c) => c.slug === categorySlug);
   const categoryName = cat ? (lang === "bn" ? cat.nameBn : cat.name) : "";
 

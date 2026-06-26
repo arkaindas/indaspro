@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
+import { trackEvent } from "@/lib/analytics";
 
 export function Navbar() {
   const { user, isAdmin, isProvider, signInWithGoogle, logout } = useAuth();
@@ -17,7 +18,11 @@ export function Navbar() {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setLang(lang === "en" ? "bn" : "en")}
+            onClick={() => {
+              const next = lang === "en" ? "bn" : "en";
+              trackEvent({ name: "language_switched", params: { from: lang, to: next } });
+              setLang(next);
+            }}
             className="text-sm font-medium text-slate-600 hover:text-blue-600 border border-slate-200 rounded px-2 py-1"
           >
             {lang === "en" ? "বাং" : "EN"}

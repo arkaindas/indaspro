@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
@@ -36,6 +36,11 @@ export function OnboardingWizard() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    trackEvent({ name: "provider_signup_started", params: { step: 1 } });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const addService = () =>
     setServices((prev) => [...prev, { title: "", description: "", price: "", priceType: "fixed", subcategory: "" }]);
