@@ -7,6 +7,7 @@ import { LangProvider } from "@/lib/lang-context";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { NetworkBanner } from "@/components/layout/NetworkBanner";
+import { PwaInstallBanner } from "@/components/layout/PwaInstallBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +16,12 @@ export const metadata: Metadata = {
   title: "Indaspro — Home services at your doorstep",
   description: "Find trusted electricians, plumbers & more near you",
   manifest: "/manifest.json",
+  themeColor: "#4A7CFF",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Indaspro",
+  },
   openGraph: {
     title: "Indaspro — Home services at your doorstep",
     description: "Find trusted electricians, plumbers & more near you",
@@ -35,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
+            <PwaInstallBanner />
           </AuthProvider>
         </LangProvider>
         <Analytics />

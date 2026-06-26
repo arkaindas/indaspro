@@ -4,8 +4,8 @@
   "description": "Home services at your doorstep — find trusted electricians, plumbers & more near you",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#2563EB",
-  "theme_color": "#2563EB",
+  "background_color": "#E8EDF2",
+  "theme_color": "#4A7CFF",
   "orientation": "portrait",
   "icons": [
     {
