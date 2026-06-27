@@ -21,7 +21,8 @@ export function AreaSelector({ value, onChange }: AreaSelectorProps) {
     <select
       value={value}
       onChange={(e) => handleChange(e.target.value)}
-      className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--neu-accent)]"
+      style={{ border: "1px solid var(--neu-divider)", background: "var(--neu-bg)", color: "var(--neu-text)" }}
     >
       <option value="">{t("search.allAreas")}</option>
       {PILOT_AREAS.map((area) => (

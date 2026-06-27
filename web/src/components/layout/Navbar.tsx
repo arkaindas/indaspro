@@ -32,6 +32,7 @@ function ThemeSwitcher() {
 export function Navbar() {
   const { user, isAdmin, isProvider, signInWithGoogle, logout } = useAuth();
   const { lang, setLang, t } = useLang();
+  const { resolvedTheme } = useTheme();
 
   return (
     <header
@@ -41,10 +42,10 @@ export function Navbar() {
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" style={{ display: "flex", alignItems: "center", height: 32, overflow: "hidden", flexShrink: 0 }}>
           <img
-            src="/images/logo.png"
+            src={resolvedTheme === "dark" ? "/images/logo-wide-white.png" : "/images/logo-wide.png"}
             alt="Indaspro"
             className="logo-img"
-            style={{ height: 52, marginTop: -10, width: "auto" }}
+            style={{ height: 32, width: "auto" }}
           />
         </Link>
 

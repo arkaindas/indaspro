@@ -74,10 +74,10 @@ export function SearchResults() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
       <div className="flex items-center gap-3 mb-6">
-        <Link href="/" className="text-slate-400 hover:text-slate-600">
+        <Link href="/" style={{ color: "var(--neu-text-muted)" }}>
           <ArrowLeft size={20} />
         </Link>
-        <h1 className="text-xl font-bold text-slate-900">
+        <h1 className="text-xl font-bold" style={{ color: "var(--neu-text)" }}>
           {providers.length > 0 ? `${providers.length} results for "${query_}"` : `Search: "${query_}"`}
         </h1>
       </div>

@@ -29,20 +29,20 @@ export default function DashboardPage() {
   }, [user, loading, router]);
 
   if (loading || !provider) {
-    return <div className="flex items-center justify-center min-h-64 text-slate-400">{t("common.loading")}</div>;
+    return <div className="flex items-center justify-center min-h-64" style={{ color: "var(--neu-text-muted)" }}>{t("common.loading")}</div>;
   }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-slate-900 mb-4">{t("dashboard.title")}</h1>
+      <h1 className="text-2xl font-bold mb-4" style={{ color: "var(--neu-text)" }}>{t("dashboard.title")}</h1>
 
       {provider.status === "pending_approval" && (
-        <div className="bg-amber-50 border border-amber-200 text-amber-700 text-sm rounded-xl px-4 py-3 mb-4">
+        <div className="text-sm rounded-xl px-4 py-3 mb-4" style={{ background: "rgba(236,201,75,0.12)", border: "1px solid var(--neu-warning)", color: "var(--neu-warning)" }}>
           {t("dashboard.pendingApproval")}
         </div>
       )}
       {provider.status === "rejected" && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3 mb-4">
+        <div className="text-sm rounded-xl px-4 py-3 mb-4" style={{ background: "rgba(245,101,101,0.12)", border: "1px solid var(--neu-danger)", color: "var(--neu-danger)" }}>
           {t("dashboard.rejected")}
         </div>
       )}

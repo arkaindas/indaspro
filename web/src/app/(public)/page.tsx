@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { SearchBar } from "@/components/home/SearchBar";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
+import { EmergencyContacts } from "@/components/home/EmergencyContacts";
 import { useLang } from "@/lib/lang-context";
 
 export default function HomePage() {
@@ -27,6 +28,7 @@ export default function HomePage() {
       </div>
 
       <CategoryGrid />
+      <EmergencyContacts />
     </div>
   );
 }

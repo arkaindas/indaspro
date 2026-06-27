@@ -35,6 +35,28 @@ async function main() {
     .toFile(favicon);
   console.log(`✅ 32×32  → public/favicon.png`);
 
+  // White-on-transparent logo for dark mode navbar
+  const logoWideSrc = path.join(process.cwd(), "public", "images", "logo-wide.png");
+  const logoWideWhite = path.join(process.cwd(), "public", "images", "logo-wide-white.png");
+  if (fs.existsSync(logoWideSrc)) {
+    const { data: rawData, info } = await sharp(logoWideSrc)
+      .greyscale()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    const { width, height } = info;
+    const rgba = Buffer.alloc(width * height * 4);
+    for (let i = 0; i < width * height; i++) {
+      rgba[i * 4]     = 255;               // R — white
+      rgba[i * 4 + 1] = 255;               // G — white
+      rgba[i * 4 + 2] = 255;               // B — white
+      rgba[i * 4 + 3] = 255 - rawData[i];  // A — opaque where logo is dark
+    }
+    await sharp(rgba, { raw: { width, height, channels: 4 } })
+      .png()
+      .toFile(logoWideWhite);
+    console.log(`✅ dark logo → public/images/logo-wide-white.png`);
+  }
+
   console.log("\n🎉 All icons generated!");
 }
 

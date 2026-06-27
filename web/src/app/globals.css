@@ -113,18 +113,16 @@ body {
 }
 
 /* ── logo theming ────────────────────────────────────────────────────────────── */
-/* Light mode: multiply blend makes white background invisible */
+/* Light mode: multiply blend makes the white PNG background invisible */
 .logo-img {
   mix-blend-mode: multiply;
 }
-/* Dark mode: convert to white silhouette */
+/* Dark mode: transparent-bg white logo is served directly — no filter needed */
 html.dark .logo-img {
   mix-blend-mode: normal;
-  filter: brightness(0) invert(1);
 }
 @media (prefers-color-scheme: dark) {
   :root:not(.light) .logo-img {
     mix-blend-mode: normal;
-    filter: brightness(0) invert(1);
   }
 }
