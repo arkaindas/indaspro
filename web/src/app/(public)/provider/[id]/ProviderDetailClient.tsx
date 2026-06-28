@@ -22,14 +22,19 @@ interface Props {
 export function ProviderDetailClient({ provider, services }: Props) {
   const { lang, t } = useLang();
 
-  const categorySlug = services[0]?.categorySlug ?? "";
+  const primaryCategorySlug = services[0]?.categorySlug ?? "";
   useEffect(() => {
-    trackEvent({ name: "provider_viewed", params: { providerId: provider.uid, categorySlug } });
+    trackEvent({ name: "provider_viewed", params: { providerId: provider.uid, categorySlug: primaryCategorySlug } });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provider.uid]);
 
-  const cat = CATEGORIES.find((c) => c.slug === categorySlug);
-  const categoryName = cat ? (lang === "bn" ? cat.nameBn : cat.name) : "";
+  // Derive all categories from the provider's services
+  const categoryChips = [...new Set(services.map((s) => s.categorySlug))]
+    .map((slug) => CATEGORIES.find((c) => c.slug === slug))
+    .filter(Boolean) as typeof CATEGORIES;
+
+  const primaryCat = CATEGORIES.find((c) => c.slug === primaryCategorySlug);
+  const categoryName = primaryCat ? (lang === "bn" ? primaryCat.nameBn : primaryCat.name) : "";
 
   const whatsappUrl = buildWhatsAppContactUrl(
     provider.whatsapp || provider.phone,
@@ -50,7 +55,19 @@ export function ProviderDetailClient({ provider, services }: Props) {
             <AvatarWithFallback photoURL={provider.photoURL} name={provider.displayName} size="lg" />
             <div className="flex-1">
               <h1 className="text-2xl font-bold" style={{ color: "var(--neu-text)" }}>{provider.displayName}</h1>
-              {categoryName && <p className="mt-0.5" style={{ color: "var(--neu-text-muted)" }}>{categoryName}</p>}
+              {categoryChips.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-1.5">
+                  {categoryChips.map((cat) => (
+                    <span
+                      key={cat.slug}
+                      className="text-xs px-2 py-0.5 rounded-full"
+                      style={{ background: "color-mix(in srgb, var(--neu-accent) 10%, var(--neu-bg))", color: "var(--neu-accent)" }}
+                    >
+                      {cat.icon} {lang === "bn" ? cat.nameBn : cat.name}
+                    </span>
+                  ))}
+                </div>
+              )}
               <div className="mt-2">
                 <AvailabilityBadge status={provider.availability} />
               </div>
@@ -96,8 +113,17 @@ export function ProviderDetailClient({ provider, services }: Props) {
           <div style={{ borderTop: "1px solid var(--neu-divider)" }}>
             <div className="px-6 py-4">
               <h2 className="font-semibold mb-3" style={{ color: "var(--neu-text)" }}>{t("provider.services")}</h2>
-              <div className="space-y-3">
-                {services.map((svc) => (
+              <div className="space-y-5">
+                {categoryChips.map((cat) => {
+                  const catServices = services.filter((s) => s.categorySlug === cat.slug);
+                  if (catServices.length === 0) return null;
+                  return (
+                    <div key={cat.slug}>
+                      <p className="text-xs font-semibold mb-2 flex items-center gap-1.5" style={{ color: "var(--neu-text-muted)" }}>
+                        {cat.icon} {lang === "bn" ? cat.nameBn : cat.name}
+                      </p>
+                      <div className="space-y-0" style={{ borderLeft: "2px solid var(--neu-divider)", paddingLeft: "12px" }}>
+                        {catServices.map((svc) => (
                   <div key={svc.id} className="flex items-start justify-between gap-4 py-3" style={{ borderBottom: "1px solid var(--neu-divider)" }}>
                     <div className="flex-1">
                       <p className="font-medium" style={{ color: "var(--neu-text)" }}>{svc.title}</p>
@@ -124,7 +150,11 @@ export function ProviderDetailClient({ provider, services }: Props) {
                       )}
                     </div>
                   </div>
-                ))}
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

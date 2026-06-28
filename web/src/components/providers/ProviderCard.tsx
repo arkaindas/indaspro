@@ -9,6 +9,7 @@ import { useLang } from "@/lib/lang-context";
 import { formatPrice } from "@/shared/utils/price";
 import { buildWhatsAppContactUrl } from "@/shared/utils/share";
 import { trackEvent } from "@/lib/analytics";
+import { CATEGORIES } from "@/shared/constants/categories";
 import type { Provider } from "@/shared/types/provider";
 import type { Service } from "@/shared/types/service";
 
@@ -19,11 +20,16 @@ interface ProviderCardProps {
   categorySlug: string;
 }
 
-export function ProviderCard({ provider, services, categoryName, categorySlug }: ProviderCardProps) {
+export function ProviderCard({ provider, services, categoryName }: ProviderCardProps) {
   const { t } = useLang();
 
   const whatsappMsg = `Hi, I found you on Indaspro. I need ${categoryName} services.`;
   const whatsappUrl = buildWhatsAppContactUrl(provider.whatsapp || provider.phone, whatsappMsg);
+
+  // Derive unique categories from the provider's actual services
+  const categoryChips = [...new Set(services.map((s) => s.categorySlug))]
+    .map((slug) => CATEGORIES.find((c) => c.slug === slug))
+    .filter(Boolean) as typeof CATEGORIES;
 
   return (
     <div className="neu-raised transition-all duration-200" style={{ background: "var(--neu-bg)", borderRadius: "16px", overflow: "hidden" }}>
@@ -35,7 +41,19 @@ export function ProviderCard({ provider, services, categoryName, categorySlug }:
               <Link href={`/provider/${provider.slug ?? provider.uid}`} className="font-semibold hover:opacity-75 transition-opacity" style={{ color: "var(--neu-text)" }}>
                 {provider.displayName}
               </Link>
-              <div className="text-sm" style={{ color: "var(--neu-text-muted)" }}>{categoryName}</div>
+              {categoryChips.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {categoryChips.map((cat) => (
+                    <span
+                      key={cat.slug}
+                      className="text-xs px-1.5 py-0.5 rounded-full"
+                      style={{ background: "color-mix(in srgb, var(--neu-accent) 10%, var(--neu-bg))", color: "var(--neu-accent)" }}
+                    >
+                      {cat.icon} {cat.name}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <AvailabilityBadge status={provider.availability} />

@@ -7,9 +7,9 @@ import { CATEGORIES } from "@/shared/constants/categories";
 import { trackEvent } from "@/lib/analytics";
 
 interface ServiceFormProps {
-  categorySlug: string;
   initialData?: {
     id?: string;
+    categorySlug?: string;
     title: string;
     subcategory: string;
     description: string;
@@ -23,10 +23,11 @@ interface ServiceFormProps {
 const inputCls = "neu-pressed w-full px-3 py-2.5 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#4A7CFF]";
 const inputStyle = { background: "var(--neu-bg)", borderRadius: "12px", border: "none", color: "var(--neu-text)" };
 
-export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: ServiceFormProps) {
+export function ServiceForm({ initialData, onSuccess, onCancel }: ServiceFormProps) {
   const { user } = useAuth();
   const { t } = useLang();
 
+  const [categorySlug, setCategorySlug] = useState(initialData?.categorySlug ?? "");
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [subcategory, setSubcategory] = useState(initialData?.subcategory ?? "");
   const [description, setDescription] = useState(initialData?.description ?? "");
@@ -38,6 +39,7 @@ export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: 
   const isEdit = Boolean(initialData?.id);
 
   async function handleSave() {
+    if (!categorySlug) { setError("Please select a category"); return; }
     setSaving(true);
     setError("");
     try {
@@ -63,15 +65,19 @@ export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: 
     }
   }
 
-  const cat = CATEGORIES.find((c) => c.slug === categorySlug);
-
   return (
     <div className="space-y-3">
-      {cat && (
-        <div className="flex items-center gap-2 text-sm font-medium mb-2" style={{ color: "var(--neu-text-muted)" }}>
-          <span>{cat.icon}</span> {cat.name}
-        </div>
-      )}
+      <select
+        value={categorySlug}
+        onChange={(e) => setCategorySlug(e.target.value)}
+        className={inputCls}
+        style={inputStyle}
+      >
+        <option value="">Select category…</option>
+        {CATEGORIES.map((c) => (
+          <option key={c.slug} value={c.slug}>{c.icon} {c.name}</option>
+        ))}
+      </select>
       <input type="text" value={subcategory} onChange={(e) => setSubcategory(e.target.value)}
         placeholder="Subcategory (e.g. Wiring, Plumbing)" className={inputCls} style={inputStyle} />
       <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
@@ -98,7 +104,7 @@ export function ServiceForm({ categorySlug, initialData, onSuccess, onCancel }: 
           style={{ background: "var(--neu-bg)", color: "var(--neu-text-muted)", borderRadius: "12px" }}>
           {t("common.cancel")}
         </button>
-        <button onClick={handleSave} disabled={!title.trim() || saving}
+        <button onClick={handleSave} disabled={!title.trim() || !categorySlug || saving}
           className="flex-1 py-2.5 text-sm font-semibold text-white transition-all active:scale-95 disabled:opacity-50"
           style={{ background: "var(--neu-accent)", borderRadius: "12px", boxShadow: "4px 4px 8px #3d6be0, -2px -2px 6px #5789ff" }}>
           {saving ? t("common.loading") : t("common.save")}
